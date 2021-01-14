@@ -4,10 +4,9 @@
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "@/*":["src/*"]
-    }
+      "@/*": ["src/*"]
+    },
+    "downlevelIteration": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

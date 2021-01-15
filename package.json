@@ -20,10 +20,13 @@
     "core-js": "^3.6.5",
     "draft-js": "^0.11.7",
     "express": "^4.17.1",
+    "rc-tooltip": "^5.0.2",
     "react": "^16.12.0",
     "react-alert-confirm": "^2.0.3",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.21",
+    "react-spring": "^8.0.27",
+    "react-use-gesture": "^9.0.0",
     "socket.io": "^3.0.5"
   },
   "devDependencies": {

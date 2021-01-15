@@ -1,0 +1,18 @@
+.icon {
+  img {
+    width: 100%;
+  }
+}
+
+.container {
+  .box {
+    width: 304px;
+
+    :global {
+      .emoji {
+        width: 26px;
+        margin: 6px;
+      }
+    }
+  }
+}

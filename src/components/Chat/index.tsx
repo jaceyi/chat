@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useState, useCallback, useRef } from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
+import Emoji from './Emoji';
+import Icon from './Icon';
 
 import { decorator, keyBindingFn, KeyTypes, KeyCommands } from './utils';
 
@@ -50,6 +52,9 @@ const Chat = () => {
           keyBindingFn={keyBindingFn}
         />
       </div>
+      <Icon>
+        <Emoji />
+      </Icon>
     </div>
   );
 };

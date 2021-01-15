@@ -2,9 +2,7 @@ import * as React from 'react';
 import { useState, useCallback, useRef } from 'react';
 import { Editor, EditorState } from 'draft-js';
 
-import decorator from './utils/decorator';
-import keyBindingFn from './utils/keyBindingFn';
-import bindKeyCommand from './utils/bindKeyCommand';
+import { decorator, keyBindingFn, bindKeyCommand } from './utils';
 
 import 'draft-js/dist/Draft.css';
 import * as styles from './style.scss';

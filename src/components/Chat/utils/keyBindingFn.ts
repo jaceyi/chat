@@ -9,12 +9,13 @@ export type KeyTypes = 'enter' | 'prompt-link';
  * @param e
  */
 export default (e: any): KeyTypes => {
-  if (e.keyCode === 13 && hasCommandModifier(e)) {
-    return 'enter';
-  }
-
-  if (e.keyCode === 76 && hasCommandModifier(e)) {
-    return 'prompt-link';
+  if (hasCommandModifier(e)) {
+    switch (e.keyCode) {
+      case 13:
+        return 'enter';
+      case 76:
+        return 'prompt-link';
+    }
   }
 
   return getDefaultKeyBinding(e);

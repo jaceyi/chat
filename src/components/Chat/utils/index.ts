@@ -1,4 +1,7 @@
-export { default as decorator } from './decorator';
-export { default as bindKeyCommand } from './bindKeyCommand';
-export { default as keyBindingFn } from './keyBindingFn';
-export { default as RichUtils } from './RichUtils';
+export * from './decorator';
+export * from './keyBindingFn';
+
+export * from './RichUtils/toggleLink';
+export * from './RichUtils/insertLink';
+
+export * as KeyCommands from './KeyCommands';

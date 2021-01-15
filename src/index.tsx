@@ -1,3 +1,4 @@
+import 'react-alert-confirm/dist/index.css';
 import '@/base.less';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

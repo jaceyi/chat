@@ -11,7 +11,7 @@ const findLinkEntities = (contentBlock, callback, contentState) => {
   }, callback);
 };
 
-export default new CompositeDecorator([
+export const decorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
     component: Link

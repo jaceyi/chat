@@ -8,12 +8,12 @@ export type KeyTypes = 'enter' | 'prompt-link';
  * @description 扩展快捷键
  * @param e
  */
-export default (e: any): KeyTypes => {
+export const keyBindingFn = (e: any): KeyTypes => {
   if (hasCommandModifier(e)) {
     switch (e.keyCode) {
-      case 13:
+      case 13: // 回车
         return 'enter';
-      case 76:
+      case 76: // ctrl/command + l
         return 'prompt-link';
     }
   }

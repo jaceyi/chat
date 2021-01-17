@@ -1,27 +1,54 @@
 import * as React from 'react';
 import RCTooltip from 'rc-tooltip';
 import * as styles from './style.scss';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import emojis from './emojis';
 
-declare const twemoji: any;
+export interface EmojiInfo {
+  src: string;
+  alt: string;
+}
 
-const Emoji = () => {
-  const imgBoxRef = useRef(null);
+interface EmojiProps {
+  onSelect: (src: EmojiInfo) => void;
+}
+
+const Emoji = ({ onSelect }: EmojiProps) => {
+  const [contentHTML, setContentHTML] = useState('');
 
   useEffect(() => {
-    imgBoxRef.current && twemoji.parse(imgBoxRef.current);
+    const box = document.createElement('div');
+    emojis.forEach(emoji => {
+      const div = document.createElement('div');
+      div.textContent = emoji;
+      div.className = styles.emoji;
+      box.appendChild(div);
+    });
+    twemoji.parse(box);
+    setContentHTML(box.innerHTML);
   }, []);
+
+  const handleClickBox = e => {
+    const { nodeName, src, alt } = e.target;
+    if (nodeName === 'IMG') {
+      onSelect({
+        src,
+        alt
+      });
+    }
+  };
 
   return (
     <RCTooltip
       overlayClassName={styles.container}
       placement="topRight"
       trigger={['click']}
-      defaultVisible={true}
       overlay={
-        <div ref={imgBoxRef} className={styles.box}>
-          😀😁🤣😂😄😅😆😉😊☺️😋😍😘😜😝🤓😎🤗🤡😑😒🙄🤔😳😠😡😣😖😫😤😱😨😰😥😪😓🤤😭🤥🤢🤧🤐😷🤒🤕😴😵😬💩😈💀👻👄👅👀👦👧👩👱👴👵👮🐶🐭🐻🐯🦁🐮🐷🐸🐵🐔
-        </div>
+        <div
+          onClick={handleClickBox}
+          className={styles.box}
+          dangerouslySetInnerHTML={{ __html: contentHTML }}
+        />
       }
     >
       <div className={styles.icon}>

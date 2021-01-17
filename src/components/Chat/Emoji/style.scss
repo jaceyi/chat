@@ -6,12 +6,26 @@
 
 .container {
   .box {
-    width: 304px;
+    width: 288px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .emoji {
+      padding: 2px;
+      cursor: pointer;
+      display: flex;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #f3f3f3;
+      }
+    }
 
     :global {
       .emoji {
-        width: 26px;
-        margin: 6px;
+        width: 24px;
+        margin: 4px;
       }
     }
   }

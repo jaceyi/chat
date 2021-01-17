@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { useState, useCallback, useRef } from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
-import Emoji from './Emoji';
+import Emoji, { EmojiInfo } from './Emoji';
 import Icon from './Icon';
 
-import { decorator, keyBindingFn, KeyTypes, KeyCommands } from './utils';
+import {
+  decorator,
+  keyBindingFn,
+  KeyTypes,
+  KeyCommands,
+  insertEmoji
+} from './utils';
 
 import 'draft-js/dist/Draft.css';
 import * as styles from './style.scss';
@@ -14,6 +20,13 @@ const Chat = () => {
 
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty(decorator)
+  );
+
+  const handleSelectEmoji = useCallback(
+    (emoji: EmojiInfo) => {
+      setEditorState(insertEmoji(editorState, emoji));
+    },
+    [editorState]
   );
 
   const focusEditor = useCallback(() => {
@@ -53,7 +66,7 @@ const Chat = () => {
         />
       </div>
       <Icon>
-        <Emoji />
+        <Emoji onSelect={handleSelectEmoji} />
       </Icon>
     </div>
   );

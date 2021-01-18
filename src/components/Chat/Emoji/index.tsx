@@ -3,39 +3,36 @@ import RCTooltip from 'rc-tooltip';
 import * as styles from './style.scss';
 import { useEffect, useState } from 'react';
 import emojis from './emojis';
-
-export interface EmojiInfo {
-  src: string;
-  alt: string;
-}
+import { getEmojiSrc, connector } from '@/utils';
 
 interface EmojiProps {
   onSelect: (src: EmojiInfo) => void;
 }
 
+export interface EmojiInfo {
+  src: string;
+  emoji: string;
+}
+
 const Emoji = ({ onSelect }: EmojiProps) => {
-  const [contentHTML, setContentHTML] = useState('');
+  const [emojiList, setEmojiList] = useState<EmojiInfo[]>([]);
 
   useEffect(() => {
-    const box = document.createElement('div');
+    const emojiList = [];
     emojis.forEach(emoji => {
-      const div = document.createElement('div');
-      div.textContent = emoji;
-      div.className = styles.emoji;
-      box.appendChild(div);
+      const src = getEmojiSrc(emoji);
+      const img = document.createElement('img');
+      img.src = src;
+      emojiList.push({
+        src,
+        emoji
+      });
     });
-    twemoji.parse(box);
-    setContentHTML(box.innerHTML);
+    setEmojiList(emojiList);
   }, []);
 
-  const handleClickBox = e => {
-    const { nodeName, src, alt } = e.target;
-    if (nodeName === 'IMG') {
-      onSelect({
-        src,
-        alt
-      });
-    }
+  const handleClickEmoji = ([item]) => {
+    onSelect(item);
   };
 
   return (
@@ -44,11 +41,17 @@ const Emoji = ({ onSelect }: EmojiProps) => {
       placement="topRight"
       trigger={['click']}
       overlay={
-        <div
-          onClick={handleClickBox}
-          className={styles.box}
-          dangerouslySetInnerHTML={{ __html: contentHTML }}
-        />
+        <div className={styles.box}>
+          {emojiList.map(item => (
+            <div
+              onClick={connector(handleClickEmoji)(item)}
+              key={item.src}
+              className={styles.emoji}
+            >
+              <img src={item.src} alt={item.emoji} />
+            </div>
+          ))}
+        </div>
       }
     >
       <div className={styles.icon}>

@@ -1,17 +1,21 @@
 import { CompositeDecorator } from 'draft-js';
 import Link from './components/Link';
-import Index from './components/Emoji';
+import Emoji from './components/Emoji';
 
-const findEntities = (type: string) => (
+type Mutability = 'MUTABLE' | 'IMMUTABLE' | 'SEGMENTED';
+
+const findEntities = (type: string, mutability: Mutability = 'MUTABLE') => (
   contentBlock,
   callback,
   contentState
 ) => {
   contentBlock.findEntityRanges(character => {
     const entityKey = character.getEntity();
-    return (
-      entityKey !== null && contentState.getEntity(entityKey).getType() === type
-    );
+
+    if (entityKey !== null) {
+      const entity = contentState.getEntity(entityKey);
+      return entity.getType() === type && entity.getMutability() === mutability;
+    }
   }, callback);
 };
 
@@ -21,7 +25,7 @@ export const decorator = new CompositeDecorator([
     component: Link
   },
   {
-    strategy: findEntities('EMOJI'),
-    component: Index
+    strategy: findEntities('EMOJI', 'IMMUTABLE'),
+    component: Emoji
   }
 ]);

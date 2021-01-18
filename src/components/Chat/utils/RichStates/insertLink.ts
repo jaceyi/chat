@@ -6,8 +6,8 @@ interface InsertLinkOption {
 }
 
 export const insertLink = (editorState, options: InsertLinkOption) => {
-  let contentState = editorState.getCurrentContent();
-  let selection = editorState.getSelection();
+  const contentState = editorState.getCurrentContent();
+  const selection = editorState.getSelection();
   const contentStateWithEntity = contentState.createEntity(
     'LINK',
     'MUTABLE',
@@ -15,7 +15,7 @@ export const insertLink = (editorState, options: InsertLinkOption) => {
   );
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 
-  let newContentState = Modifier.insertText(
+  const newContentState = Modifier.insertText(
     contentState,
     selection,
     options.text,

@@ -5,8 +5,8 @@ interface ToggleLinkOption {
 }
 
 export const toggleLink = (editorState, options: ToggleLinkOption) => {
-  let contentState = editorState.getCurrentContent();
-  let selection = editorState.getSelection();
+  const contentState = editorState.getCurrentContent();
+  const selection = editorState.getSelection();
   const contentStateWithEntity = contentState.createEntity(
     'LINK',
     'MUTABLE',

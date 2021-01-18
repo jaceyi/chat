@@ -9,7 +9,8 @@ import {
   keyBindingFn,
   KeyTypes,
   KeyCommands,
-  insertEmoji
+  RichStates,
+  AttachUtils
 } from './utils';
 
 import 'draft-js/dist/Draft.css';
@@ -24,7 +25,7 @@ const Chat = () => {
 
   const handleSelectEmoji = useCallback(
     (emoji: EmojiInfo) => {
-      setEditorState(insertEmoji(editorState, emoji));
+      handleChangeEditorState(RichStates.insertEmoji(editorState, emoji));
     },
     [editorState]
   );
@@ -53,6 +54,19 @@ const Chat = () => {
     return 'not-handled';
   }, []);
 
+  const handleChangeEditorState = useCallback(editorState => {
+    let newEditorState = AttachUtils.entitiesToEmojis(editorState);
+    if (
+      !newEditorState
+        .getCurrentContent()
+        .equals(editorState.getCurrentContent())
+    ) {
+      const selection = editorState.getSelection();
+      newEditorState = EditorState.forceSelection(newEditorState, selection);
+    }
+    setEditorState(newEditorState);
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.handle}>
@@ -66,7 +80,7 @@ const Chat = () => {
           placeholder="请输入内容"
           editorState={editorState}
           handleKeyCommand={handleKeyCommand}
-          onChange={setEditorState}
+          onChange={handleChangeEditorState}
           keyBindingFn={keyBindingFn}
         />
       </div>

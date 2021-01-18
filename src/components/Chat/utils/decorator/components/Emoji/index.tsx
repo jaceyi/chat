@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import * as styles from './style.scss';
+import { getEmojiSrc } from '@/utils';
 
 interface EmojiProps {
   contentState: any;
@@ -15,7 +16,11 @@ const Emoji = ({
   offsetKey,
   children
 }: EmojiProps) => {
-  const { src } = contentState.getEntity(entityKey).getData();
+  const src = useMemo(() => {
+    const { emojiText } = contentState.getEntity(entityKey).getData();
+    return getEmojiSrc(emojiText);
+  }, [contentState]);
+
   return (
     <span
       data-offset-key={offsetKey}

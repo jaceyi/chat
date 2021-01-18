@@ -1,8 +1,6 @@
 export * from './decorator';
 export * from './keyBindingFn';
 
-export * from './RichUtils/toggleLink';
-export * from './RichUtils/insertLink';
-export * from './RichUtils/insertEmoji';
-
+export * as RichStates from './RichStates';
+export * as AttachUtils from './AttachUtils';
 export * as KeyCommands from './KeyCommands';

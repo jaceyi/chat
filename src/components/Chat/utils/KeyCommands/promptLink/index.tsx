@@ -1,11 +1,11 @@
 import * as React from 'react';
 import alertConfirm from 'react-alert-confirm';
-import * as RichUtils from '../..';
+import { RichStates } from '../..';
 import * as styles from './style.scss';
-import { REG_EXP_INTERNET } from '@/utils/consts';
+import { REGEX_INTERNET } from '@/utils/consts';
 
 export default async (setEditorState, editorState) => {
-  let selection = editorState.getSelection();
+  const selection = editorState.getSelection();
 
   let value = '';
   try {
@@ -21,20 +21,20 @@ export default async (setEditorState, editorState) => {
 
   if (!value) return;
 
-  let isCollapsed = selection.isCollapsed();
+  const isCollapsed = selection.isCollapsed();
 
-  if (!REG_EXP_INTERNET.test(value)) return;
+  if (!REGEX_INTERNET.test(value)) return;
 
   if (isCollapsed) {
     setEditorState(
-      RichUtils.insertLink(editorState, {
+      RichStates.insertLink(editorState, {
         url: value,
         text: value
       })
     );
   } else {
     setEditorState(
-      RichUtils.toggleLink(editorState, {
+      RichStates.toggleLink(editorState, {
         url: value
       })
     );

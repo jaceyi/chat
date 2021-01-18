@@ -55,6 +55,11 @@ const Chat = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.handle}>
+        <Icon>
+          <Emoji onSelect={handleSelectEmoji} />
+        </Icon>
+      </div>
       <div onClick={focusEditor} className={styles.chat}>
         <Editor
           ref={editor}
@@ -65,11 +70,8 @@ const Chat = () => {
           keyBindingFn={keyBindingFn}
         />
       </div>
-      <Icon>
-        <Emoji onSelect={handleSelectEmoji} />
-      </Icon>
     </div>
   );
 };
 
-export default Chat;
+export default React.memo(Chat);

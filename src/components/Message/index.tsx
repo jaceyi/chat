@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MESSAGE_LIST, CURRENT_USER_ID } from './mock';
+import { CURRENT_USER_ID } from './mock';
 import * as styles from './style.scss';
 
 interface MessageProps {
@@ -17,16 +17,16 @@ interface MessageWrapperProps {
 }
 
 interface MessageAreaProps {
-  messageList?: [MessageProps];
+  messageList: MessageProps[];
 }
 
 const Message = ({ message }: MessageWrapperProps) => {
   const { userInfo, content, timeStamp } = message;
   const { id, name } = userInfo;
-  const positon = id === CURRENT_USER_ID ? 'right' : 'left';
+  const position = id === CURRENT_USER_ID ? 'right' : 'left';
   return (
     <div className={styles['msg-row']}>
-      <div className={styles[`msg-wrapper-${positon}`]}>
+      <div className={styles[`msg-wrapper-${position}`]}>
         <div>
           <div className={styles['name']}>{name}</div>
           <div className={styles['bubble']}>{content}</div>
@@ -37,8 +37,6 @@ const Message = ({ message }: MessageWrapperProps) => {
 };
 
 const MessageArea = ({ messageList }: MessageAreaProps) => {
-  messageList = messageList || MESSAGE_LIST;
-
   return (
     <div className={styles['message-area']}>
       {messageList.map(message => (

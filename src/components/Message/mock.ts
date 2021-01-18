@@ -20,7 +20,7 @@ export const MESSAGE_LIST = [
   {
     timeStamp: '2021-1-16',
     content: 'chounizadi',
-    msgId: 'msg_id_2',
+    msgId: 'msg_id_3',
     userInfo: {
       id: '001',
       name: 'John'

@@ -1,0 +1,46 @@
+.message-area {
+  padding: 20px;
+  height: 300px;
+}
+
+.msg-row {
+  margin-bottom: 16px;
+}
+
+%msg-bubble {
+  max-width: 200px;
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+%msg-name {
+  color: darkgray;
+  font-size: 12px;
+}
+
+.msg-wrapper {
+  &-right {
+    display: flex;
+    justify-content: flex-end;
+    .name {
+      @extend %msg-name;
+      text-align: right;
+    }
+    .bubble {
+      @extend %msg-bubble;
+      background-color: cornflowerblue;
+      color: #fff;
+    }
+  }
+  &-left {
+    display: flex;
+    justify-content: flex-start;
+    .name {
+      @extend %msg-name;
+    }
+    .bubble {
+      @extend %msg-bubble;
+      background-color: gainsboro;
+    }
+  }
+}

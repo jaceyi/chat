@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useSpring, animated } from 'react-spring';
+import { useDrag } from 'react-use-gesture';
+
 import { CURRENT_USER_ID } from './mock';
 import * as styles from './style.scss';
 
@@ -37,12 +40,32 @@ const Message = ({ message }: MessageWrapperProps) => {
 };
 
 const MessageArea = ({ messageList }: MessageAreaProps) => {
+  const [{ y }, set] = useSpring(() => ({ y: 0 }));
+
+  const bind = useDrag(
+    ({ last, movement: [, my] }) => {
+      set({ y: last ? 0 : my, immediate: true });
+    },
+    {
+      initial: () => [0, 0],
+      filterTaps: true,
+      bounds: { top: 0 },
+      rubberband: true
+    }
+  );
+
   return (
-    <div className={styles['message-area']}>
+    <animated.div
+      className={styles['message-area']}
+      {...bind()}
+      style={{
+        transform: y.interpolate(y => `translate3d(0px, ${y}px, 0px)`)
+      }}
+    >
       {messageList.map(message => (
         <Message key={message.msgId} message={message} />
       ))}
-    </div>
+    </animated.div>
   );
 };
 

@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
+export const LinkName = 'LINK';
+export const LinkMutability = 'MUTABLE';
+
 interface LinkProps {
   contentState: any;
   entityKey: string;

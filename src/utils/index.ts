@@ -28,3 +28,7 @@ export const connector = <P extends any[], V extends any[]>(
     func && func([...params], [...eventValues]);
   };
 };
+
+export const compose = <T = any>(...functions: Function[]) => (arg: any): T => {
+  return functions.reduce((val, f) => f(val), arg);
+};

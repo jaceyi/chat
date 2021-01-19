@@ -1,9 +1,9 @@
 import { EditorState, SelectionState, Modifier } from 'draft-js';
-import { REGEX_EMOJI } from '@/utils/consts';
+import { REGEX_INTERNET } from '@/utils/consts';
 import { findWithRegex } from './findWithRegex';
-import { EmojiName, EmojiMutability } from '../decorator/components/Emoji';
+import { LinkName, LinkMutability } from '../decorator/components/Link';
 
-export const entitiesToEmojis = editorState => {
+export const entitiesToLinks = editorState => {
   const contentState = editorState.getCurrentContent();
   const blocks = contentState.getBlockMap();
   let newContentState = contentState;
@@ -11,11 +11,11 @@ export const entitiesToEmojis = editorState => {
   blocks.forEach(block => {
     if (block) {
       const plainText = block.getText();
-      const addEntityToEmoji = (start: number, end: number): void => {
+      const addEntityToLink = (start: number, end: number): void => {
         const existingEntityKey = block.getEntityAt(start);
         if (existingEntityKey) {
           const entity = newContentState.getEntity(existingEntityKey);
-          if (entity && entity.getType() === EmojiName) {
+          if (entity && entity.getType() === LinkName) {
             return;
           }
         }
@@ -24,25 +24,25 @@ export const entitiesToEmojis = editorState => {
           .set('anchorOffset', start)
           .set('focusOffset', end);
 
-        const emojiText = plainText.substring(start, end);
+        const url = plainText.substring(start, end);
 
         const contentStateWithEntity = newContentState.createEntity(
-          EmojiName,
-          EmojiMutability,
-          { emojiText }
+          LinkName,
+          LinkMutability,
+          { url }
         );
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 
         newContentState = Modifier.replaceText(
           newContentState,
           selection,
-          emojiText,
+          url,
           null,
           entityKey
         );
       };
 
-      findWithRegex(REGEX_EMOJI, block, addEntityToEmoji);
+      findWithRegex(REGEX_INTERNET, block, addEntityToLink);
     }
   });
 

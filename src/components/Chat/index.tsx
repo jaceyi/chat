@@ -3,6 +3,7 @@ import { useState, useCallback, useRef } from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 import Emoji, { EmojiInfo } from './Emoji';
 import Icon from './Icon';
+import { compose } from '@/utils';
 
 import {
   decorator,
@@ -58,7 +59,11 @@ const Chat = () => {
   }, []);
 
   const handleChangeEditorState = useCallback(editorState => {
-    let newEditorState = AttachUtils.entitiesToEmojis(editorState);
+    let newEditorState = compose(
+      AttachUtils.entitiesToEmojis,
+      AttachUtils.entitiesToLinks
+    )(editorState);
+
     if (
       !newEditorState
         .getCurrentContent()

@@ -3,6 +3,9 @@ import { ReactNode, useMemo } from 'react';
 import * as styles from './style.scss';
 import { getEmojiSrc } from '@/utils';
 
+export const EmojiName = 'EMOJI';
+export const EmojiMutability = 'IMMUTABLE';
+
 interface EmojiProps {
   contentState: any;
   entityKey: string;

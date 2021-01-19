@@ -44,10 +44,13 @@ const Chat = () => {
 
     switch (command) {
       case 'enter':
-        console.log('Ctrl+回车');
+        setEditorState(RichStates.insertInline(editorState, '\n'));
         return 'handled';
       case 'prompt-link':
         KeyCommands.promptLink(setEditorState, editorState);
+        return 'handled';
+      case 'submit':
+        console.log('submit');
         return 'handled';
     }
 

@@ -5,13 +5,13 @@ import { useEffect, useState } from 'react';
 import emojis from './emojis';
 import { getEmojiSrc, connector } from '@/utils';
 
-interface EmojiProps {
-  onSelect: (src: EmojiInfo) => void;
-}
-
 export interface EmojiInfo {
   src: string;
   emoji: string;
+}
+
+interface EmojiProps {
+  onSelect: (emoji: EmojiInfo) => void;
 }
 
 const Emoji = ({ onSelect }: EmojiProps) => {
@@ -54,11 +54,9 @@ const Emoji = ({ onSelect }: EmojiProps) => {
         </div>
       }
     >
-      <div className={styles.icon}>
-        <img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f60b.png" alt="" />
-      </div>
+      <img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f60b.png" alt="" />
     </RCTooltip>
   );
 };
 
-export default Emoji;
+export default React.memo(Emoji);

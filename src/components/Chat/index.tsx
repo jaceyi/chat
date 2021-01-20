@@ -3,6 +3,7 @@ import { useState, useCallback, useRef } from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 import Emoji, { EmojiInfo } from './Emoji';
 import Icon from './Icon';
+import Image from './Image';
 import { compose } from '@/utils';
 
 import {
@@ -11,7 +12,8 @@ import {
   KeyTypes,
   KeyCommands,
   RichStates,
-  AttachUtils
+  AttachUtils,
+  blockRendererFn
 } from 'chatUtils';
 
 import 'draft-js/dist/Draft.css';
@@ -41,15 +43,6 @@ const Chat = () => {
     setEditorState(newEditorState);
   }, []);
 
-  const handleSelectEmoji = useCallback(
-    (emoji: EmojiInfo) => {
-      changeEditorState(
-        RichStates.insertInline(editorState, emoji.emoji, 'insert-emoji')
-      );
-    },
-    [editorState]
-  );
-
   const focusEditor = useCallback(() => {
     editor.current.focus();
   }, []);
@@ -77,11 +70,34 @@ const Chat = () => {
     return 'not-handled';
   }, []);
 
+  const handleSelectEmoji = useCallback(
+    (emoji: EmojiInfo) => {
+      changeEditorState(
+        RichStates.insertInline(editorState, emoji.emoji, 'insert-emoji')
+      );
+    },
+    [editorState]
+  );
+
+  const handleUploadImage = useCallback(
+    (src: string) => {
+      changeEditorState(
+        RichStates.insertAtomic(editorState, 'image', {
+          src
+        })
+      );
+    },
+    [editorState]
+  );
+
   return (
     <div className={styles.container}>
       <div className={styles.handle}>
         <Icon>
           <Emoji onSelect={handleSelectEmoji} />
+        </Icon>
+        <Icon>
+          <Image onUpload={handleUploadImage} />
         </Icon>
       </div>
       <div onClick={focusEditor} className={styles.chat}>
@@ -92,6 +108,7 @@ const Chat = () => {
           handleKeyCommand={handleKeyCommand}
           onChange={changeEditorState}
           keyBindingFn={keyBindingFn}
+          blockRendererFn={blockRendererFn}
         />
       </div>
     </div>

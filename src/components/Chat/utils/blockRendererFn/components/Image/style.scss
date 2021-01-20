@@ -1,0 +1,18 @@
+.box {
+  float: left;
+  position: relative;
+  z-index: 1;
+  margin: 0 4px;
+  transition: box-shadow 0.3s;
+  border-radius: 6px;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 0 0 3px var(--primary-color-4);
+  }
+}
+
+.img {
+  max-width: 120px;
+  display: block;
+}

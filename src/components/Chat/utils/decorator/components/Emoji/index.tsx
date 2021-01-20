@@ -33,7 +33,7 @@ const Emoji = ({
       }}
       className={`editor-emoji ${styles.emoji}`}
     >
-      {children}
+      <span className={styles.inner}>{children}</span>
     </span>
   );
 };

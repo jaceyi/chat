@@ -1,16 +1,13 @@
 import { EditorState, RichUtils } from 'draft-js';
+import { LinkName, LinkMutability } from 'chatUtils/decorator/components/Link';
 
-interface ToggleLinkOption {
-  url: string;
-}
-
-export const toggleLink = (editorState, options: ToggleLinkOption) => {
+export const toggleLink = (editorState, url: string) => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
   const contentStateWithEntity = contentState.createEntity(
-    'LINK',
-    'MUTABLE',
-    options
+    LinkName,
+    LinkMutability,
+    { url }
   );
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 

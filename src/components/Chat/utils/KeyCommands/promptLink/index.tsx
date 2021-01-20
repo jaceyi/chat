@@ -28,10 +28,6 @@ export default async (setEditorState, editorState) => {
   if (isCollapsed) {
     setEditorState(RichStates.insertInline(editorState, value, 'insert-link'));
   } else {
-    setEditorState(
-      RichStates.toggleLink(editorState, {
-        url: value
-      })
-    );
+    setEditorState(RichStates.toggleLink(editorState, value));
   }
 };

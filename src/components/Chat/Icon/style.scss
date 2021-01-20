@@ -3,4 +3,13 @@
   height: 30px;
   border-radius: 4px;
   cursor: pointer;
+  margin-right: 26px;
+
+  & > * {
+    cursor: pointer;
+  }
+
+  img {
+    width: 100%;
+  }
 }

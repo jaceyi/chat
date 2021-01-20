@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
+import { Mutability } from 'chatUtils/types';
 
 export const LinkName = 'LINK';
-export const LinkMutability = 'MUTABLE';
+export const LinkMutability: Mutability = 'MUTABLE';
 
 interface LinkProps {
   contentState: any;

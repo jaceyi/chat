@@ -1,8 +1,7 @@
 import { CompositeDecorator } from 'draft-js';
 import Link, { LinkName, LinkMutability } from './components/Link';
 import Emoji, { EmojiName, EmojiMutability } from './components/Emoji';
-
-type Mutability = 'MUTABLE' | 'IMMUTABLE' | 'SEGMENTED';
+import { Mutability } from 'chatUtils/types';
 
 const findEntities = (type: string, mutability: Mutability) => (
   contentBlock,

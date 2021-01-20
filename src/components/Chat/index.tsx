@@ -12,7 +12,7 @@ import {
   KeyCommands,
   RichStates,
   AttachUtils
-} from './utils';
+} from 'chatUtils';
 
 import 'draft-js/dist/Draft.css';
 import * as styles from './style.scss';
@@ -24,41 +24,7 @@ const Chat = () => {
     EditorState.createEmpty(decorator)
   );
 
-  const handleSelectEmoji = useCallback(
-    (emoji: EmojiInfo) => {
-      handleChangeEditorState(RichStates.insertEmoji(editorState, emoji));
-    },
-    [editorState]
-  );
-
-  const focusEditor = useCallback(() => {
-    editor.current.focus();
-  }, []);
-
-  const handleKeyCommand = useCallback((command: KeyTypes, editorState) => {
-    const newState = RichUtils.handleKeyCommand(editorState, command as string);
-
-    if (newState) {
-      setEditorState(newState);
-      return 'handled';
-    }
-
-    switch (command) {
-      case 'enter':
-        setEditorState(RichStates.insertInline(editorState, '\n'));
-        return 'handled';
-      case 'prompt-link':
-        KeyCommands.promptLink(setEditorState, editorState);
-        return 'handled';
-      case 'submit':
-        console.log('submit');
-        return 'handled';
-    }
-
-    return 'not-handled';
-  }, []);
-
-  const handleChangeEditorState = useCallback(editorState => {
+  const changeEditorState = useCallback(editorState => {
     let newEditorState = compose(
       AttachUtils.entitiesToEmojis,
       AttachUtils.entitiesToLinks
@@ -75,6 +41,42 @@ const Chat = () => {
     setEditorState(newEditorState);
   }, []);
 
+  const handleSelectEmoji = useCallback(
+    (emoji: EmojiInfo) => {
+      changeEditorState(
+        RichStates.insertInline(editorState, emoji.emoji, 'insert-emoji')
+      );
+    },
+    [editorState]
+  );
+
+  const focusEditor = useCallback(() => {
+    editor.current.focus();
+  }, []);
+
+  const handleKeyCommand = useCallback((command: KeyTypes, editorState) => {
+    const newState = RichUtils.handleKeyCommand(editorState, command as string);
+
+    if (newState) {
+      changeEditorState(newState);
+      return 'handled';
+    }
+
+    switch (command) {
+      case 'enter':
+        changeEditorState(RichStates.insertInline(editorState, '\n'));
+        return 'handled';
+      case 'prompt-link':
+        KeyCommands.promptLink(changeEditorState, editorState);
+        return 'handled';
+      case 'submit':
+        console.log('submit');
+        return 'handled';
+    }
+
+    return 'not-handled';
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.handle}>
@@ -88,7 +90,7 @@ const Chat = () => {
           placeholder="请输入内容"
           editorState={editorState}
           handleKeyCommand={handleKeyCommand}
-          onChange={handleChangeEditorState}
+          onChange={changeEditorState}
           keyBindingFn={keyBindingFn}
         />
       </div>

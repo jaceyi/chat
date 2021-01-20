@@ -4,7 +4,9 @@
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "chatUtils": ["src/components/Chat/utils"],
+      "chatUtils/*": ["src/components/Chat/utils/*"]
     },
     "downlevelIteration": true
   },

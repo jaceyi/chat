@@ -1,7 +1,7 @@
 import { EditorState, SelectionState, Modifier } from 'draft-js';
 import { REGEX_INTERNET } from '@/utils/consts';
 import { findWithRegex } from './findWithRegex';
-import { LinkName, LinkMutability } from '../decorator/components/Link';
+import { LinkName, LinkMutability } from 'chatUtils/decorator/components/Link';
 
 export const entitiesToLinks = editorState => {
   const contentState = editorState.getCurrentContent();
@@ -42,7 +42,7 @@ export const entitiesToLinks = editorState => {
         );
       };
 
-      findWithRegex(REGEX_INTERNET, block, addEntityToLink);
+      findWithRegex(new RegExp(REGEX_INTERNET), block, addEntityToLink);
     }
   });
 

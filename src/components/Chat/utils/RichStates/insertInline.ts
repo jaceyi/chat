@@ -3,7 +3,7 @@ import { EditorState, Modifier } from 'draft-js';
 export const insertInline = (
   editorState,
   text: string,
-  type: string = 'insert-emoji'
+  type: string = 'insert-text'
 ) => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();

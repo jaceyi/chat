@@ -1,6 +1,6 @@
 import * as React from 'react';
 import alertConfirm from 'react-alert-confirm';
-import { RichStates } from '../..';
+import { RichStates } from 'chatUtils';
 import * as styles from './style.scss';
 import { REGEX_INTERNET } from '@/utils/consts';
 
@@ -23,15 +23,10 @@ export default async (setEditorState, editorState) => {
 
   const isCollapsed = selection.isCollapsed();
 
-  if (!REGEX_INTERNET.test(value)) return;
+  if (!new RegExp(REGEX_INTERNET).test(value)) return;
 
   if (isCollapsed) {
-    setEditorState(
-      RichStates.insertLink(editorState, {
-        url: value,
-        text: value
-      })
-    );
+    setEditorState(RichStates.insertInline(editorState, value, 'insert-link'));
   } else {
     setEditorState(
       RichStates.toggleLink(editorState, {

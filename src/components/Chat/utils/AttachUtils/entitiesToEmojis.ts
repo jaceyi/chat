@@ -1,7 +1,10 @@
 import { EditorState, SelectionState, Modifier } from 'draft-js';
 import { REGEX_EMOJI } from '@/utils/consts';
 import { findWithRegex } from './findWithRegex';
-import { EmojiName, EmojiMutability } from '../decorator/components/Emoji';
+import {
+  EmojiName,
+  EmojiMutability
+} from 'chatUtils/decorator/components/Emoji';
 
 export const entitiesToEmojis = editorState => {
   const contentState = editorState.getCurrentContent();
@@ -42,7 +45,7 @@ export const entitiesToEmojis = editorState => {
         );
       };
 
-      findWithRegex(REGEX_EMOJI, block, addEntityToEmoji);
+      findWithRegex(new RegExp(REGEX_EMOJI), block, addEntityToEmoji);
     }
   });
 

@@ -1,15 +1,26 @@
 import { getDefaultKeyBinding, KeyBindingUtil } from 'draft-js';
 
-const { hasCommandModifier } = KeyBindingUtil;
+const {
+  hasCommandModifier,
+  isCtrlKeyCommand,
+  isOptionKeyCommand
+} = KeyBindingUtil;
 
-export type KeyTypes = 'enter' | 'prompt-link' | 'submit';
+export type KeyTypes = 'enter' | 'enter-inner' | 'prompt-link' | 'submit';
 
 /**
  * @description 扩展快捷键
  * @param e
  */
 export const keyBindingFn = (e: any): KeyTypes => {
-  if (hasCommandModifier(e)) {
+  if (isOptionKeyCommand(e) && e.keyCode === 13) {
+    switch (e.keyCode) {
+      case 13: // alt/option + enter
+        return 'enter-inner';
+    }
+  }
+
+  if (hasCommandModifier(e) || isCtrlKeyCommand(e)) {
     switch (e.keyCode) {
       case 13: // ctrl/command + enter
         return 'enter';

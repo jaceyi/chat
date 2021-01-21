@@ -8,12 +8,7 @@ export const insertInline = (
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
 
-  const newContentState = Modifier.replaceText(
-    contentState,
-    selection,
-    text,
-    null
-  );
+  const newContentState = Modifier.replaceText(contentState, selection, text);
 
   return EditorState.push(editorState, newContentState, type);
 };

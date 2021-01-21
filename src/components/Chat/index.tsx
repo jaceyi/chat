@@ -13,7 +13,8 @@ import {
   KeyCommands,
   RichStates,
   AttachUtils,
-  blockRendererFn
+  blockRendererFn,
+  blockRenderMap
 } from 'chatUtils';
 
 import 'draft-js/dist/Draft.css';
@@ -57,7 +58,10 @@ const Chat = () => {
 
     switch (command) {
       case 'enter':
-        changeEditorState(RichStates.insertInline(editorState, '\n'));
+        changeEditorState(RichStates.insertBrRow(editorState));
+        return 'handled';
+      case 'enter-inner':
+        changeEditorState(RichUtils.insertSoftNewline(editorState));
         return 'handled';
       case 'prompt-link':
         KeyCommands.promptLink(changeEditorState, editorState);
@@ -81,7 +85,7 @@ const Chat = () => {
 
   const handleUploadImage = useCallback(
     (src: string) => {
-      changeEditorState(
+      setEditorState(
         RichStates.insertAtomic(editorState, 'image', {
           src
         })
@@ -109,6 +113,7 @@ const Chat = () => {
           onChange={changeEditorState}
           keyBindingFn={keyBindingFn}
           blockRendererFn={blockRendererFn}
+          blockRenderMap={blockRenderMap}
         />
       </div>
     </div>

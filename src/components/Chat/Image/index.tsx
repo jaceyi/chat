@@ -1,24 +1,20 @@
 import * as React from 'react';
 import * as styles from './style.scss';
-import { ChangeEventHandler, useCallback } from 'react';
 
 interface ImageProps {
   onUpload: (src: string) => void;
 }
 
 const Image = ({ onUpload }: ImageProps) => {
-  const handleUploadFile = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    e => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        onUpload(reader.result as string);
-      };
-    },
-    []
-  );
+  const handleUploadFile = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      onUpload(reader.result as string);
+    };
+  };
 
   return (
     <label>

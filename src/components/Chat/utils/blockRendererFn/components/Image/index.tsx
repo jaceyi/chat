@@ -12,7 +12,7 @@ const Image = ({ src }: ImageProps) => {
 
   const bind = useGesture({
     onPointerDown: () => {
-      set({ size: 0.9 });
+      set({ size: 0.95 });
     },
     onPointerUp: () => {
       set({ size: 1 });

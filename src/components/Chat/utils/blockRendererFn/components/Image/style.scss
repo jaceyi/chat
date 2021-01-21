@@ -1,10 +1,9 @@
 .box {
-  float: left;
   position: relative;
   z-index: 1;
-  margin: 0 4px;
+  margin: 0 3px;
   transition: box-shadow 0.3s;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
 
   &:hover {
@@ -13,6 +12,6 @@
 }
 
 .img {
-  max-width: 120px;
+  max-width: 150px;
   display: block;
 }

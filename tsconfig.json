@@ -6,7 +6,8 @@
     "paths": {
       "@/*": ["src/*"],
       "chatUtils": ["src/components/Chat/utils"],
-      "chatUtils/*": ["src/components/Chat/utils/*"]
+      "chatUtils/*": ["src/components/Chat/utils/*"],
+      "store": ["src/components/Chat/store"]
     },
     "downlevelIteration": true
   },

@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 import Emoji, { EmojiInfo } from './Emoji';
 import Icon from './Icon';
 import Image from './Image';
 import { compose } from '@/utils';
+import store from 'store';
 
 import {
   decorator,
@@ -22,6 +23,10 @@ import * as styles from './style.scss';
 
 const Chat = () => {
   const editor = useRef(null);
+
+  useEffect(() => {
+    store.initial(editor.current);
+  }, [editor]);
 
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty(decorator)

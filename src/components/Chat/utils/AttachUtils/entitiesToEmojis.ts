@@ -15,14 +15,6 @@ export const entitiesToEmojis = editorState => {
     if (block) {
       const plainText = block.getText();
       const addEntityToEmoji = (start: number, end: number): void => {
-        const existingEntityKey = block.getEntityAt(start);
-        if (existingEntityKey) {
-          const entity = newContentState.getEntity(existingEntityKey);
-          if (entity && entity.getType() === EmojiName) {
-            return;
-          }
-        }
-
         const selection = SelectionState.createEmpty(block.getKey())
           .set('anchorOffset', start)
           .set('focusOffset', end);

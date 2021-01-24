@@ -8,10 +8,11 @@
 
   &:hover {
     box-shadow: 0 0 0 3px var(--primary-color-4);
+    z-index: 2;
   }
 }
 
 .img {
-  max-width: 150px;
+  max-width: 100%;
   display: block;
 }

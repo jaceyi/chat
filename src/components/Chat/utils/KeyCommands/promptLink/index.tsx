@@ -4,7 +4,7 @@ import { RichStates } from 'chatUtils';
 import * as styles from './style.scss';
 import { REGEX_INTERNET } from '@/utils/consts';
 
-export default async (setEditorState, editorState) => {
+export default async (editorState, setEditorState) => {
   const selection = editorState.getSelection();
 
   let value = '';

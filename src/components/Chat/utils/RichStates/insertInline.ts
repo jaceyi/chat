@@ -1,5 +1,11 @@
 import { EditorState, Modifier } from 'draft-js';
 
+/**
+ * @description 插入文字 Emoji 等
+ * @param editorState
+ * @param text
+ * @param type
+ */
 export const insertInline = (
   editorState,
   text: string,

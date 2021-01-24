@@ -45,7 +45,12 @@ input {
 
     & > * {
       flex: 0 0 auto;
-      min-width: 1px; // 占个位置 可以让宽度 100% 的另起一行
+      min-width: 0.1px; // 占个位置 可以让宽度 100% 的另起一行
+    }
+
+    wrap-line {
+      width: 100%;
+      height: 0.1px;
     }
   }
 }

@@ -6,7 +6,12 @@ const {
   isOptionKeyCommand
 } = KeyBindingUtil;
 
-export type KeyTypes = 'enter' | 'enter-inner' | 'prompt-link' | 'submit';
+export type KeyTypes =
+  | 'enter'
+  | 'enter-inner'
+  | 'prompt-link'
+  | 'submit'
+  | 'backspace';
 
 /**
  * @description 扩展快捷键
@@ -30,6 +35,8 @@ export const keyBindingFn = (e: any): KeyTypes => {
   }
 
   switch (e.keyCode) {
+    case 8:
+      return 'backspace';
     case 13: // 回车
       return 'submit';
   }

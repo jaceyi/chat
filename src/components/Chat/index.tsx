@@ -54,26 +54,33 @@ const Chat = () => {
   }, []);
 
   const handleKeyCommand = useCallback((command: KeyTypes, editorState) => {
-    const newState = RichUtils.handleKeyCommand(editorState, command as string);
-
-    if (newState) {
-      changeEditorState(newState);
-      return 'handled';
-    }
-
     switch (command) {
       case 'enter':
-        changeEditorState(RichStates.insertBrRow(editorState));
+        changeEditorState(RichStates.insertWrap(editorState));
         return 'handled';
       case 'enter-inner':
         changeEditorState(RichUtils.insertSoftNewline(editorState));
         return 'handled';
       case 'prompt-link':
-        KeyCommands.promptLink(changeEditorState, editorState);
+        KeyCommands.promptLink(editorState, changeEditorState);
         return 'handled';
+      case 'backspace':
+        const handled = RichStates.tryDeleteEmptyBlock(
+          editorState,
+          changeEditorState
+        );
+        if (handled) return 'handled';
+        break;
       case 'submit':
         console.log('submit');
         return 'handled';
+    }
+
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+
+    if (newState) {
+      changeEditorState(newState);
+      return 'handled';
     }
 
     return 'not-handled';

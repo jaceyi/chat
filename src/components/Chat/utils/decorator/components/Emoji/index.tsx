@@ -60,7 +60,6 @@ const Emoji = ({
           )
         );
       }}
-      onBlur={() => console.log('blur')}
       data-offset-key={offsetKey}
       style={{
         backgroundImage: `url(${src})`

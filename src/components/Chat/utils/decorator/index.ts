@@ -1,6 +1,6 @@
 import { CompositeDecorator } from 'draft-js';
-import Link, { LinkName, LinkMutability } from './components/Link';
-import Emoji, { EmojiName, EmojiMutability } from './components/Emoji';
+import Link, { LinkType, LinkMutability } from './components/Link';
+import Emoji, { EmojiType, EmojiMutability } from './components/Emoji';
 import { Mutability } from 'chatUtils/types';
 
 const findEntities = (type: string, mutability: Mutability) => (
@@ -20,11 +20,11 @@ const findEntities = (type: string, mutability: Mutability) => (
 
 export const decorator = new CompositeDecorator([
   {
-    strategy: findEntities(LinkName, LinkMutability),
+    strategy: findEntities(LinkType, LinkMutability),
     component: Link
   },
   {
-    strategy: findEntities(EmojiName, EmojiMutability),
+    strategy: findEntities(EmojiType, EmojiMutability),
     component: Emoji
   }
 ]);

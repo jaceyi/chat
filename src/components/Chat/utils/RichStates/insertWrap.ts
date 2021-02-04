@@ -1,4 +1,5 @@
 import { EditorState, Modifier } from 'draft-js';
+import { WrapBlockType } from '@/components/Chat/utils';
 
 /**
  * @description 换行
@@ -7,7 +8,21 @@ import { EditorState, Modifier } from 'draft-js';
 export const insertWrap = editorState => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
-  const newContentState = Modifier.splitBlock(contentState, selection);
+  let newContentState = Modifier.splitBlock(contentState, selection);
+
+  const blockKey = selection.getFocusKey();
+  const blocks = newContentState.getBlockMap();
+  const block = newContentState.getBlockAfter(blockKey);
+
+  newContentState = newContentState.set(
+    'blockMap',
+    blocks.set(
+      block.getKey(),
+      block.merge({
+        type: WrapBlockType
+      })
+    )
+  );
 
   return EditorState.push(editorState, newContentState, 'insert-wrap');
 };

@@ -117,16 +117,18 @@ const Chat = () => {
         </Icon>
       </div>
       <div tabIndex={0} onFocus={focusEditor} className={styles.chat}>
-        <Editor
-          ref={editor}
-          placeholder="请输入内容"
-          editorState={editorState}
-          handleKeyCommand={handleKeyCommand}
-          onChange={changeEditorState}
-          keyBindingFn={keyBindingFn}
-          blockRendererFn={blockRendererFn}
-          blockRenderMap={blockRenderMap}
-        />
+        <div onFocus={e => e.stopPropagation()}>
+          <Editor
+            ref={editor}
+            placeholder="请输入内容"
+            editorState={editorState}
+            handleKeyCommand={handleKeyCommand}
+            onChange={changeEditorState}
+            keyBindingFn={keyBindingFn}
+            blockRendererFn={blockRendererFn}
+            blockRenderMap={blockRenderMap}
+          />
+        </div>
       </div>
     </div>
   );

@@ -14,7 +14,8 @@ const Focus = ({ children, block }: FocusProps) => {
 
   const focusBlock = () => {
     const node = ref.current;
-    ref.current.focus();
+    if (!node) return;
+    node.focus();
     const selection = window.getSelection()!;
     const range = document.createRange();
     range.setStart(node, 0);

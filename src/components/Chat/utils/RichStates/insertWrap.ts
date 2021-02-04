@@ -1,38 +1,13 @@
-import { EditorState, genKey, ContentBlock } from 'draft-js';
-import { WrapBlockType } from 'chatUtils';
+import { EditorState, Modifier } from 'draft-js';
 
 /**
- * @description 另起一行 插入块
+ * @description 换行
  * @param editorState
  */
 export const insertWrap = editorState => {
   const contentState = editorState.getCurrentContent();
-  const wrapKey = genKey();
-  const blockKey = genKey();
-  const newContentState = contentState.set(
-    'blockMap',
-    contentState
-      .getBlockMap()
-      .set(
-        wrapKey,
-        new ContentBlock({
-          type: WrapBlockType,
-          key: wrapKey
-        })
-      )
-      .set(
-        blockKey,
-        new ContentBlock({
-          key: blockKey
-        })
-      )
-  );
+  const selection = editorState.getSelection();
+  const newContentState = Modifier.splitBlock(contentState, selection);
 
-  const newEditorState = EditorState.push(
-    editorState,
-    newContentState,
-    'insert-nowrap'
-  );
-
-  return EditorState.moveFocusToEnd(newEditorState);
+  return EditorState.push(editorState, newContentState, 'insert-wrap');
 };

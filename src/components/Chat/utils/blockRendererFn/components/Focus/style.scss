@@ -1,0 +1,12 @@
+.focus {
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 0.3s;
+  border-radius: 4px;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-color);
+    z-index: 2;
+  }
+}

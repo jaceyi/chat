@@ -8,7 +8,7 @@ const {
 
 export type KeyTypes =
   | 'enter'
-  | 'enter-inner'
+  | 'enter-inline'
   | 'prompt-link'
   | 'submit'
   | 'backspace';
@@ -21,7 +21,7 @@ export const keyBindingFn = (e: any): KeyTypes => {
   if (isOptionKeyCommand(e) && e.keyCode === 13) {
     switch (e.keyCode) {
       case 13: // alt/option + enter
-        return 'enter-inner';
+        return 'enter-inline';
     }
   }
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Image from './Image';
+import Focus from './Focus';
 
 interface AtomicProps {
   contentState: any;
@@ -11,9 +12,14 @@ const Atomic = ({ contentState, block }: AtomicProps) => {
   const data = entity.getData();
   const type = entity.getType();
 
+  let render = null;
   switch (type) {
     case 'image':
-      return <Image {...data} />;
+      render = <Image {...data} />;
+  }
+
+  if (render) {
+    return <Focus block={block}>{render}</Focus>;
   }
 
   return null;

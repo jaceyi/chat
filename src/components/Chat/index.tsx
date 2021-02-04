@@ -49,23 +49,23 @@ const Chat = () => {
     setEditorState(newEditorState);
   }, []);
 
-  const focusEditor = useCallback(() => {
-    editor.current.focus();
-  }, []);
+  const focusEditor = () => {
+    setEditorState(EditorState.moveFocusToEnd(editorState));
+  };
 
   const handleKeyCommand = useCallback((command: KeyTypes, editorState) => {
     switch (command) {
       case 'enter':
         changeEditorState(RichStates.insertWrap(editorState));
         return 'handled';
-      case 'enter-inner':
+      case 'enter-inline':
         changeEditorState(RichUtils.insertSoftNewline(editorState));
         return 'handled';
       case 'prompt-link':
         KeyCommands.promptLink(editorState, changeEditorState);
         return 'handled';
       case 'backspace':
-        const handled = RichStates.tryDeleteEmptyBlock(
+        const handled = RichStates.tryDeleteAtomicBlock(
           editorState,
           changeEditorState
         );
@@ -116,7 +116,7 @@ const Chat = () => {
           <Image onUpload={handleUploadImage} />
         </Icon>
       </div>
-      <div onClick={focusEditor} className={styles.chat}>
+      <div tabIndex={0} onFocus={focusEditor} className={styles.chat}>
         <Editor
           ref={editor}
           placeholder="请输入内容"

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as styles from './style.scss';
+import { UploadFile } from 'chatUtils/types';
 
 interface ImageProps {
-  onUpload: (src: string) => void;
+  onUpload: (src: UploadFile) => void;
 }
 
 const Image = ({ onUpload }: ImageProps) => {
@@ -11,8 +12,13 @@ const Image = ({ onUpload }: ImageProps) => {
     if (!file) return;
     const reader = new FileReader();
     reader.readAsDataURL(file);
+
     reader.onload = () => {
-      onUpload(reader.result as string);
+      onUpload({
+        src: reader.result as string,
+        type: file.type,
+        name: file.name
+      });
     };
   };
 

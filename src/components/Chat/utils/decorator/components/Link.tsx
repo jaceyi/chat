@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import { Mutability } from 'chatUtils/types';
 
-export const LinkType = 'LINK';
+export const LinkEntityType = 'LINK';
 export const LinkMutability: Mutability = 'MUTABLE';
 
 interface LinkProps {

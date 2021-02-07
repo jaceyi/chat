@@ -5,7 +5,10 @@ import * as styles from './style.scss';
 
 interface ImageProps {
   src: string;
+  name: string;
 }
+
+export const ImageBlockType = 'image';
 
 const Image = ({ src }: ImageProps) => {
   const [{ size }, set] = useSpring(() => ({ size: 1 }));
@@ -27,7 +30,7 @@ const Image = ({ src }: ImageProps) => {
       }}
       className={styles.box}
     >
-      <img className={styles.img} src={src} alt="" />
+      <img title={name} className={styles.img} src={src} alt="" />
     </animated.div>
   );
 };

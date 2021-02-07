@@ -6,7 +6,7 @@ import { getEmojiSrc } from '@/utils';
 import { Mutability } from 'chatUtils/types';
 import store from 'store';
 
-export const EmojiType = 'EMOJI';
+export const EmojiEntityType = 'EMOJI';
 export const EmojiMutability: Mutability = 'IMMUTABLE';
 
 interface EmojiProps {

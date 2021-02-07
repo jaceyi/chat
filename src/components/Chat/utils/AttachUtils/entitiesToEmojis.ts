@@ -2,7 +2,7 @@ import { EditorState, SelectionState, Modifier } from 'draft-js';
 import { REGEX_EMOJI } from '@/utils/consts';
 import { findWithRegex } from './findWithRegex';
 import {
-  EmojiType,
+  EmojiEntityType,
   EmojiMutability
 } from 'chatUtils/decorator/components/Emoji';
 
@@ -18,7 +18,7 @@ export const entitiesToEmojis = editorState => {
         const existingEntityKey = block.getEntityAt(start);
         if (existingEntityKey) {
           const entity = newContentState.getEntity(existingEntityKey);
-          if (entity && entity.getType() === EmojiType) {
+          if (entity && entity.getType() === EmojiEntityType) {
             return;
           }
         }
@@ -30,7 +30,7 @@ export const entitiesToEmojis = editorState => {
         const emojiText = plainText.substring(start, end);
 
         const contentStateWithEntity = newContentState.createEntity(
-          EmojiType,
+          EmojiEntityType,
           EmojiMutability,
           { emojiText }
         );

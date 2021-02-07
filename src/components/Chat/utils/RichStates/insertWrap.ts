@@ -1,4 +1,4 @@
-import { EditorState, Modifier } from 'draft-js';
+import { EditorState, Modifier, SelectionState } from 'draft-js';
 import { WrapBlockType } from '@/components/Chat/utils';
 
 /**
@@ -12,17 +12,34 @@ export const insertWrap = editorState => {
 
   const blockKey = selection.getFocusKey();
   const blocks = newContentState.getBlockMap();
-  const block = newContentState.getBlockAfter(blockKey);
+  const afterBlock = newContentState.getBlockAfter(blockKey);
+  const afterBlockKey = afterBlock.getKey();
 
   newContentState = newContentState.set(
     'blockMap',
     blocks.set(
-      block.getKey(),
-      block.merge({
+      afterBlockKey,
+      afterBlock.merge({
         type: WrapBlockType
       })
     )
   );
 
-  return EditorState.push(editorState, newContentState, 'insert-wrap');
+  const newEditorState = EditorState.push(
+    editorState,
+    newContentState,
+    'insert-wrap'
+  );
+
+  // 强制将光标聚焦到换行后的DIV
+  return EditorState.forceSelection(
+    newEditorState,
+    new SelectionState({
+      anchorKey: afterBlockKey,
+      anchorOffset: 0,
+      focusKey: afterBlockKey,
+      focusOffset: 0,
+      isBackward: false
+    })
+  );
 };

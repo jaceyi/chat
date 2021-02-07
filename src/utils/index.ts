@@ -32,3 +32,11 @@ export const connector = <P extends any[], V extends any[]>(
 export const compose = <T = any>(...functions: Function[]) => (arg: any): T => {
   return functions.reduce((val, f) => f(val), arg);
 };
+
+/**
+ * @description 生成一个数字英文随机组成的字符串
+ * @returns {string}
+ */
+export const getRandomId = (): string => {
+  return new Date().getTime() + Math.random().toString(36).substr(2);
+};

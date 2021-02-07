@@ -1,5 +1,8 @@
 import { EditorState, RichUtils } from 'draft-js';
-import { LinkType, LinkMutability } from 'chatUtils/decorator/components/Link';
+import {
+  LinkEntityType,
+  LinkMutability
+} from 'chatUtils/decorator/components/Link';
 
 /**
  * @description 将选中内容转为链接
@@ -10,7 +13,7 @@ export const toggleLink = (editorState, url: string) => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
   const contentStateWithEntity = contentState.createEntity(
-    LinkType,
+    LinkEntityType,
     LinkMutability,
     { url, toggle: true }
   );

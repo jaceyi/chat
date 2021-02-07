@@ -17,7 +17,10 @@ export const tryDeleteAtomicBlock = (editorState, setEditorState): string => {
   const beforeBlockKey = beforeBlock?.getKey();
   const blockType = block.getType();
 
-  if (blockType === 'atomic' || blockType === WrapBlockType) {
+  if (
+    blockType === 'atomic' ||
+    (blockType === WrapBlockType && !block.getLength())
+  ) {
     const blocks = contentState.getBlockMap();
     if (blocks.length === 1) return;
     const newContentState = contentState.set(

@@ -6,7 +6,10 @@ import {
 } from 'draft-js';
 import { REGEX_INTERNET } from '@/utils/consts';
 import { findWithRegex } from './findWithRegex';
-import { LinkType, LinkMutability } from 'chatUtils/decorator/components/Link';
+import {
+  LinkEntityType,
+  LinkMutability
+} from 'chatUtils/decorator/components/Link';
 
 export const entitiesToLinks = editorState => {
   const contentState = editorState.getCurrentContent();
@@ -23,7 +26,11 @@ export const entitiesToLinks = editorState => {
             if (!entityKey) return item;
             const entity = contentState.getEntity(entityKey);
             // toggle 表示是 文字链，而不是链接文本
-            if (entity && entity.type === LinkType && !entity.data.toggle) {
+            if (
+              entity &&
+              entity.type === LinkEntityType &&
+              !entity.data.toggle
+            ) {
               return CharacterMetadata.applyEntity(item, null);
             }
             return item;
@@ -50,7 +57,7 @@ export const entitiesToLinks = editorState => {
         const url = plainText.substring(start, end);
 
         const contentStateWithEntity = newContentState.createEntity(
-          LinkType,
+          LinkEntityType,
           LinkMutability,
           { url }
         );

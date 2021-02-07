@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Image from './Image';
+import Image, { ImageBlockType } from './Image';
 import Focus from './Focus';
 
 interface AtomicProps {
@@ -14,7 +14,7 @@ const Atomic = ({ contentState, block }: AtomicProps) => {
 
   let render = null;
   switch (type) {
-    case 'image':
+    case ImageBlockType:
       render = <Image {...data} />;
   }
 

@@ -17,17 +17,18 @@ import {
   blockRendererFn,
   blockRenderMap
 } from 'chatUtils';
-import { UploadFile } from 'chatUtils/types';
-
-import { ImageBlockType } from 'chatUtils/blockRendererFn/components/Image';
+import { UploadFile, Raw } from 'chatUtils/types';
 
 import 'draft-js/dist/Draft.css';
 import * as styles from './style.scss';
-import { uploadFile } from '@/services/uploadFile';
 
 const emptyEditorState = EditorState.createEmpty(decorator);
 
-const Chat = () => {
+interface ChatProps {
+  onCommit: (raw: Raw) => void;
+}
+
+const Chat = ({ onCommit }: ChatProps) => {
   const editor = useRef(null);
 
   useEffect(() => {
@@ -35,7 +36,6 @@ const Chat = () => {
   }, [editor]);
 
   const [editorState, setEditorState] = useState(emptyEditorState);
-  const [loading, setLoading] = useState(false);
 
   const changeEditorState = useCallback(editorState => {
     let newEditorState = compose(
@@ -54,29 +54,11 @@ const Chat = () => {
     setEditorState(newEditorState);
   }, []);
 
-  const handleSubmit = useCallback(async editorState => {
-    if (loading) return;
-    setLoading(false);
+  const handleSubmit = useCallback(editorState => {
     const contentState = editorState.getCurrentContent();
-    const { entityMap } = convertToRaw(contentState);
-    const reqs = [];
-    for (const key in entityMap) {
-      if (!entityMap.hasOwnProperty(key)) continue;
-      const entity = entityMap[key];
-      if (entity.type === ImageBlockType) {
-        reqs.push({
-          key,
-          req: uploadFile(entity.data)
-        });
-      }
-    }
-    const newFileEntityList = await Promise.allSettled(reqs);
-    for (const res of newFileEntityList) {
-      console.log(res);
-    }
+    onCommit(convertToRaw(contentState));
 
     setEditorState(emptyEditorState);
-    setLoading(true);
   }, []);
 
   const handleKeyCommand = useCallback(

@@ -9,6 +9,5 @@ export const uploadFile = async (file: UploadFile) => {
   const res = await fileRef
     .child(`editor-file/${getRandomId()}.${suffix}`)
     .putString(file.src, 'data_url');
-  console.log(res);
-  return res;
+  return await res.ref.getDownloadURL();
 };

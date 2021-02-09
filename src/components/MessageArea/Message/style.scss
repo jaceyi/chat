@@ -1,13 +1,4 @@
-.message-area {
-  padding: 20px;
-  height: 100%;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.msg-row {
+.message {
   margin-bottom: 16px;
 }
 
@@ -26,22 +17,27 @@
   &-right {
     display: flex;
     justify-content: flex-end;
+
     .name {
       @extend %msg-name;
       text-align: right;
     }
+
     .bubble {
       @extend %msg-bubble;
       background-color: cornflowerblue;
       color: #fff;
     }
   }
+
   &-left {
     display: flex;
     justify-content: flex-start;
+
     .name {
       @extend %msg-name;
     }
+
     .bubble {
       @extend %msg-bubble;
       background-color: gainsboro;

@@ -5,3 +5,8 @@ export interface UploadFile {
   type: string;
   name: string;
 }
+
+export interface Raw {
+  blocks: any[];
+  entityMap: object;
+}

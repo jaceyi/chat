@@ -1,4 +1,8 @@
 export default {
+  editor: null,
+
+  focusBlockKey: null,
+
   initial(editor) {
     this.editor = editor;
   },

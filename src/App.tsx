@@ -7,6 +7,7 @@ import * as styles from './App.scss';
 import { ImageBlockType } from 'chatUtils/blockRendererFn/components/Image';
 import { uploadFile } from '@/services/uploadFile';
 import { getRandomId } from '@/utils';
+import * as day from 'dayjs';
 
 export interface UserInfo {
   name: string;
@@ -65,7 +66,7 @@ const App = () => {
       ...messageList,
       {
         ...message,
-        timeStamp: '123'
+        timeStamp: day().format('hh:mm:ss')
       }
     ]);
     isCommitRef.current = false;

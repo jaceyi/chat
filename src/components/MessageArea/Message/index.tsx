@@ -2,9 +2,10 @@ import * as React from 'react';
 import { convertFromRaw, Editor, EditorState } from 'draft-js';
 import { Raw } from 'chatUtils/types';
 import { UserInfo } from '@/App';
+import { blockRenderMap, decorator } from 'chatUtils';
+import { blockRendererFn } from './libs';
 
 import * as styles from './style.scss';
-import { blockRendererFn, blockRenderMap, decorator } from 'chatUtils';
 
 export interface MessageInfo {
   raw: Raw;
@@ -34,16 +35,20 @@ const Message = ({
     <div className={styles.message}>
       <div className={styles[`msg-wrapper-${position}`]}>
         <div>
-          <div className={styles.name}>{name}</div>
-          <div className={styles.bubble}>
-            <Editor
-              blockRendererFn={blockRendererFn}
-              blockRenderMap={blockRenderMap}
-              readOnly
-              editorState={editorState}
-            />
+          <div className={styles.header}>
+            <div className={styles.time}>{timeStamp}</div>
+            <div className={styles.name}>{name}</div>
           </div>
-          <div>{timeStamp}</div>
+          <div className={styles.main}>
+            <div className={styles.bubble}>
+              <Editor
+                readOnly
+                blockRendererFn={blockRendererFn}
+                blockRenderMap={blockRenderMap}
+                editorState={editorState}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

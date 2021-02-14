@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactNode, useRef } from 'react';
+import { ReactNode } from 'react';
 import * as styles from './style.scss';
 import store from 'store';
 import { EditorState, SelectionState } from 'draft-js';
@@ -10,12 +10,13 @@ interface FocusProps {
 }
 
 const Focus = ({ children, block }: FocusProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const handleFocus = e => {
+    e.stopPropagation();
+    const blockKey = block.getKey();
 
-  const focusBlock = () => {
-    const node = ref.current;
-    if (!node) return;
-    node.focus();
+    store.focusBlockKey = blockKey;
+
+    const node: HTMLInputElement = e.target;
     const selection = window.getSelection()!;
     const range = document.createRange();
     range.setStart(node, 0);
@@ -27,9 +28,9 @@ const Focus = ({ children, block }: FocusProps) => {
       EditorState.forceSelection(
         store.getEditorState(),
         new SelectionState({
-          anchorKey: block.getKey(),
+          anchorKey: blockKey,
           anchorOffset: 0,
-          focusKey: block.getKey(),
+          focusKey: blockKey,
           focusOffset: 0,
           isBackward: false
         })
@@ -37,22 +38,16 @@ const Focus = ({ children, block }: FocusProps) => {
     );
   };
 
-  const handleFocus = () => {
-    // 这里延迟从 editor 上抢回 focus
-    setTimeout(focusBlock);
-  };
-
   return (
     <div
       className={styles.focus}
-      ref={ref}
       tabIndex={1}
-      onClick={handleFocus}
       onFocus={handleFocus}
+      onBlur={() => (store.focusBlockKey = null)}
     >
       {children}
     </div>
   );
 };
 
-export default Focus;
+export default React.memo(Focus);

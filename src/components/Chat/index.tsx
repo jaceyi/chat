@@ -97,6 +97,24 @@ const Chat = ({ onCommit }: ChatProps) => {
     [handleSubmit]
   );
 
+  const handleBeforeInput = useCallback(() => {
+    if (store.focusBlockKey) {
+      return 'handled';
+    }
+  }, []);
+
+  const handlePastedText = useCallback(() => {
+    if (store.focusBlockKey) {
+      return 'handled';
+    }
+  }, []);
+
+  const handlePastedFiles = useCallback(() => {
+    if (store.focusBlockKey) {
+      return 'handled';
+    }
+  }, []);
+
   const handleSelectEmoji = useCallback(
     (emoji: EmojiInfo) => {
       changeEditorState(
@@ -128,18 +146,19 @@ const Chat = ({ onCommit }: ChatProps) => {
         </Icon>
       </div>
       <div tabIndex={0} onFocus={focusEditor} className={styles.chat}>
-        <div onFocus={e => e.stopPropagation()}>
-          <Editor
-            ref={editor}
-            placeholder="请输入内容"
-            editorState={editorState}
-            handleKeyCommand={handleKeyCommand}
-            onChange={changeEditorState}
-            keyBindingFn={keyBindingFn}
-            blockRendererFn={blockRendererFn}
-            blockRenderMap={blockRenderMap}
-          />
-        </div>
+        <Editor
+          ref={editor}
+          placeholder="请输入内容"
+          editorState={editorState}
+          handleKeyCommand={handleKeyCommand}
+          onChange={changeEditorState}
+          keyBindingFn={keyBindingFn}
+          blockRendererFn={blockRendererFn}
+          blockRenderMap={blockRenderMap}
+          handleBeforeInput={handleBeforeInput}
+          handlePastedText={handlePastedText}
+          handlePastedFiles={handlePastedFiles}
+        />
       </div>
     </div>
   );

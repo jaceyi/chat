@@ -1,6 +1,6 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -21,8 +21,8 @@ module.exports = merge(common, {
       ]
     }),
     new MiniCssExtractPlugin({
-      filename: 'static/styles/[name].[hash:8].css',
-      chunkFilename: 'static/styles/[id].[hash:8].css',
+      filename: 'static/styles/[name].[contenthash].css',
+      chunkFilename: 'static/styles/[id].[chunkhash].css',
       ignoreOrder: false
     })
   ],
@@ -69,52 +69,15 @@ module.exports = merge(common, {
   },
 
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserJSPlugin({
-        cache: true,
         parallel: true,
         sourceMap: true
       }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessor: require('cssnano'),
-        cssProcessorPluginOptions: {
-          preset: [
-            'default',
-            {
-              discardComments: {
-                removeAll: true
-              }
-            }
-          ]
-        },
-        canPrint: true
+      new CssMinimizerPlugin({
+        include: /\/src/
       })
-    ],
-    mangleWasmImports: true,
-    removeAvailableModules: true,
-    removeEmptyChunks: true,
-    mergeDuplicateChunks: true,
-    splitChunks: {
-      chunks: 'all',
-      minSize: 30000,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      automaticNameMaxLength: 30,
-      name: true,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        }
-      }
-    }
+    ]
   }
 });

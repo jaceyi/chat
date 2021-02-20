@@ -10,7 +10,7 @@ module.exports = {
   ],
 
   output: {
-    filename: 'static/scripts/[name].[hash:8].bundle.js',
+    filename: 'static/scripts/[name].[contenthash].bundle.js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
@@ -39,21 +39,9 @@ module.exports = {
         loader: 'ts-loader'
       },
       {
-        test: /\.tsx?$/,
-        include: /src/,
-        enforce: 'pre',
-        loader: 'eslint-loader'
-      },
-      {
         test: /\.jsx?/,
         exclude: /node_modules/,
         loader: 'babel-loader'
-      },
-      {
-        test: /\.jsx?$/,
-        include: /src/,
-        enforce: 'pre',
-        loader: 'eslint-loader'
       },
       {
         type: 'javascript/auto',
@@ -65,14 +53,14 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 1000,
-          name: 'static/images/[name].[hash:8].[ext]'
+          name: 'static/images/[name].[contenthash].[ext]'
         }
       },
       {
         test: /\.(eot|ttf|woff)$/,
         loader: 'file-loader',
         options: {
-          name: 'static/fonts/[name].[hash:8].[ext]'
+          name: 'static/fonts/[name].[contenthash].[ext]'
         }
       }
     ]

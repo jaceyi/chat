@@ -2,7 +2,6 @@
 
 /dist
 /build
-yarn.lock
 
 # dependencies
 /node_modules

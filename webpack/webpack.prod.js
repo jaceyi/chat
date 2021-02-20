@@ -1,3 +1,4 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -16,13 +17,20 @@ module.exports = merge(common, {
     new CopyPlugin({
       patterns: [
         {
-          from: 'public'
+          from: '**/*',
+          context: path.resolve(__dirname, '../public'),
+          filter: resourcePath => {
+            // 手动过滤 index.html
+            return (
+              resourcePath !== path.resolve(__dirname, '../public/index.html')
+            );
+          }
         }
       ]
     }),
     new MiniCssExtractPlugin({
       filename: 'static/styles/[name].[contenthash].css',
-      chunkFilename: 'static/styles/[id].[chunkhash].css',
+      chunkFilename: 'static/styles/[id].[contenthash].css',
       ignoreOrder: false
     })
   ],
@@ -69,7 +77,6 @@ module.exports = merge(common, {
   },
 
   optimization: {
-    minimize: true,
     minimizer: [
       new TerserJSPlugin({
         parallel: true,
@@ -78,6 +85,24 @@ module.exports = merge(common, {
       new CssMinimizerPlugin({
         include: /\/src/
       })
-    ]
+    ],
+    splitChunks: {
+      chunks: 'all',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          priority: -10
+        },
+        default: {
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
   }
 });

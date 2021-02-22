@@ -1,0 +1,53 @@
+:global {
+  :root {
+    --primary-color: cornflowerblue;
+    --primary-color-2: rgba(cornflowerblue, 0.2);
+    --primary-color-4: rgba(cornflowerblue, 0.4);
+    --primary-color-6: rgba(cornflowerblue, 0.6);
+    --primary-color-8: rgba(cornflowerblue, 0.8);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #f9f9f9;
+    font-size: 16px;
+  }
+
+  input {
+    outline: none;
+  }
+
+  .alert-confirm-header-close {
+    display: none;
+  }
+
+  .rc-tooltip {
+    background-color: unset;
+
+    .rc-tooltip-arrow {
+      display: none;
+    }
+
+    .rc-tooltip-inner {
+      box-shadow: 0 0 6px #ddd;
+      border-radius: 6px;
+      border: none;
+    }
+  }
+
+  .public-DraftEditor-content {
+    figure {
+      float: left;
+    }
+
+    wrap-line {
+      display: block;
+      clear: both;
+    }
+  }
+
+}

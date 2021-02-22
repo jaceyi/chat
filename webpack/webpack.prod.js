@@ -41,7 +41,12 @@ module.exports = merge(common, {
         test: /\.scss$/,
         include: /src/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: false
+            }
+          },
           {
             loader: 'css-loader',
             options: {
@@ -53,24 +58,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.less$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          {
-            loader: 'less-loader',
-            options: {
-              lessOptions: {
-                javascriptEnabled: true
-              }
-            }
-          }
-        ]
-      },
-      {
         test: /\.(css)$/,
-        include: /node_modules/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
       }
     ]
@@ -82,9 +70,7 @@ module.exports = merge(common, {
         parallel: true,
         sourceMap: true
       }),
-      new CssMinimizerPlugin({
-        include: /\/src/
-      })
+      new CssMinimizerPlugin()
     ],
     splitChunks: {
       chunks: 'all',

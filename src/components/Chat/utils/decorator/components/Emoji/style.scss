@@ -5,15 +5,15 @@
   vertical-align: middle;
   display: inline-block;
   max-height: 1em;
-  margin: -0.2ex 1px 0.2ex;
-  font-size: 20px;
+  margin: -0.2ex 0.5px 0.2ex;
   line-height: 1;
-  width: 1.7ch;
+  width: 1.75ch;
   white-space: nowrap;
+  font-size: 24px;
+  overflow: hidden;
 
   .inner {
-    position: relative;
-    z-index: -1;
+    color: transparent;
   }
 
   img {

@@ -32,24 +32,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-          {
-            loader: 'less-loader',
-            options: {
-              lessOptions: {
-                javascriptEnabled: true
-              }
-            }
-          }
-        ]
-      },
-      {
         test: /\.(css)$/,
-        include: /node_modules/,
         use: ['style-loader', 'css-loader', 'postcss-loader']
       }
     ]
@@ -64,6 +47,6 @@ module.exports = merge(common, {
       warnings: true,
       errors: true
     },
-    port: 8080
+    port: 2020
   }
 });

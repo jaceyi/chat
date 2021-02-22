@@ -3,6 +3,7 @@
   transition: box-shadow 0.3s;
   border-radius: 4px;
   overflow: hidden;
+  z-index: 1;
 
   &:hover {
     box-shadow: 0 0 0 1px var(--primary-color-4);

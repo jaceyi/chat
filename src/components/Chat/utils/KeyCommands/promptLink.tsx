@@ -1,7 +1,7 @@
 import * as React from 'react';
 import alertConfirm from 'react-alert-confirm';
 import { RichStates } from 'chatUtils';
-import * as styles from './style.scss';
+import Input from '@/components/Input';
 import { REGEX_INTERNET } from '@/utils/consts';
 
 export default async (editorState, setEditorState) => {
@@ -10,11 +10,9 @@ export default async (editorState, setEditorState) => {
   let value = '';
   try {
     await alertConfirm(
-      <input
-        autoFocus
+      <Input
         placeholder="请输入链接 https://xx.com"
-        onChange={e => (value = e.target.value)}
-        className={styles.input}
+        onChange={_val => (value = _val)}
       />
     );
   } catch (e) {}

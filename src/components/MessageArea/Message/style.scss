@@ -17,13 +17,13 @@
   max-width: 100%;
   border-radius: 4px;
   padding: 8px 10px;
-  display: inline-block;
 }
 
 .msg-wrapper {
   &-right {
     display: flex;
     justify-content: flex-end;
+    width: 100%;
 
     .name {
       color: darkgray;
@@ -37,6 +37,7 @@
     .main {
       display: flex;
       justify-content: flex-end;
+      width: 100%;
     }
 
     .bubble {
@@ -49,6 +50,7 @@
   &-left {
     display: flex;
     justify-content: flex-start;
+    width: 100%;
 
     .main {
       display: flex;

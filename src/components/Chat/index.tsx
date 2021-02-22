@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
-import Emoji, { EmojiInfo } from './Emoji';
-import Icon from './Icon';
-import Image from './Image';
+import Emoji, { EmojiInfo } from './handle/Emoji';
+import Icon from './handle/Icon';
+import Image from './handle/Image';
 import { compose } from '@/utils';
 import store from 'store';
 
@@ -54,12 +54,15 @@ const Chat = ({ onCommit }: ChatProps) => {
     setEditorState(newEditorState);
   }, []);
 
-  const handleSubmit = useCallback(editorState => {
-    const contentState = editorState.getCurrentContent();
-    onCommit(convertToRaw(contentState));
+  const handleSubmit = useCallback(
+    editorState => {
+      const contentState = editorState.getCurrentContent();
+      onCommit(convertToRaw(contentState));
 
-    setEditorState(emptyEditorState);
-  }, []);
+      setEditorState(emptyEditorState);
+    },
+    [onCommit]
+  );
 
   const handleKeyCommand = useCallback(
     (command: KeyTypes, editorState) => {

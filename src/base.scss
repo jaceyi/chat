@@ -40,14 +40,19 @@
   }
 
   .public-DraftEditor-content {
-    figure {
-      float: left;
-    }
+    &>div {
 
-    wrap-line {
-      display: block;
-      clear: both;
+      &>* {
+        display: inline-block;
+
+        &>div {
+          min-width: 1px;
+        }
+      }
+
+      wrap-line {
+        display: block;
+      }
     }
   }
-
 }

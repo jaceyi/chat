@@ -10,6 +10,8 @@ import * as day from 'dayjs';
 import alertConfirm, { Button } from 'react-alert-confirm';
 import Input from '@/components/Input';
 import { useDidUpdate } from '@/hooks';
+import { database } from '@/utils/firebase';
+import { MessageInfo } from '@/components/MessageArea/Message';
 
 export interface UserInfo {
   name: string;
@@ -69,6 +71,15 @@ const App = () => {
   const [commitMessageList, setCommitMessageList] = useState<MessageList>([]);
 
   useEffect(() => {
+    if (userInfo) {
+      database.ref('messages/').on('value', snapshot => {
+        const data: { [key: string]: MessageInfo } = snapshot.val();
+        data && setMessageList(Object.values(data).reverse());
+      });
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
     commitMessages(commitMessageList);
   }, [commitMessageList]);
 
@@ -83,13 +94,10 @@ const App = () => {
     await loadFileForEntityMap(entityMap);
 
     setCommitMessageList(commitMessageList.slice(1));
-    setMessageList([
-      ...messageList,
-      {
-        ...message,
-        timeStamp: day().format('hh:mm:ss')
-      }
-    ]);
+    await database.ref('messages/' + message.id).set({
+      ...message,
+      timeStamp: day().format('hh:mm:ss')
+    });
 
     isCommitRef.current = false;
   };
@@ -100,13 +108,13 @@ const App = () => {
         return initialUserInfo();
       }
       setCommitMessageList([
-        ...commitMessageList,
         {
-          id: userInfo.id + '_' + new Date(),
+          id: new Date().getTime() + '_' + userInfo.id,
           userInfo,
           timeStamp: '发送中',
           raw
-        }
+        },
+        ...commitMessageList
       ]);
     },
     [userInfo, commitMessageList]

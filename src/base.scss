@@ -39,14 +39,19 @@
     }
   }
 
-  .public-DraftEditor-content {
-    &>div {
+  .DraftEditor-root {
+    .DraftEditor-editorContainer {
+      border-left: unset;
+    }
+  }
 
-      &>* {
+  .public-DraftEditor-content {
+    & > div {
+      & > * {
         display: inline-block;
 
-        &>div {
-          min-width: 1px;
+        & > div {
+          min-width: 0.5px;
         }
       }
 

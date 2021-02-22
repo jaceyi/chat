@@ -27,7 +27,15 @@ const Message = ({
   const { id, name } = userInfo;
   const position = id === currentUserInfo.id ? 'right' : 'left';
   const editorState = EditorState.createWithContent(
-    convertFromRaw(raw),
+    convertFromRaw(
+      Object.assign(
+        {
+          blocks: {},
+          entityMap: {}
+        },
+        raw
+      )
+    ),
     decorator
   );
 

@@ -18,9 +18,6 @@ const MessageArea = ({
 }: MessageAreaProps) => {
   return (
     <div className={styles.container}>
-      {messageList.map(message => (
-        <Message key={message.id} {...message} currentUserInfo={userInfo} />
-      ))}
       {/*这是自己要发送的消息队列*/}
       {commitMessageList.map(message => (
         <Message
@@ -29,6 +26,9 @@ const MessageArea = ({
           userInfo={userInfo}
           currentUserInfo={userInfo}
         />
+      ))}
+      {messageList.map(message => (
+        <Message key={message.id} {...message} currentUserInfo={userInfo} />
       ))}
     </div>
   );

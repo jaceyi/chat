@@ -40,3 +40,11 @@ export const compose = <T = any>(...functions: Function[]) => (arg: any): T => {
 export const getRandomId = (): string => {
   return new Date().getTime() + Math.random().toString(36).substr(2);
 };
+
+/**
+ * @description 是否为空
+ */
+export const isEmpty = (object: object): boolean => {
+  if (!object) return true;
+  return Object.keys(object).length === 0;
+};

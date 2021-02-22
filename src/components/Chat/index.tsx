@@ -57,7 +57,9 @@ const Chat = ({ onCommit }: ChatProps) => {
   const handleSubmit = useCallback(
     editorState => {
       const contentState = editorState.getCurrentContent();
-      onCommit(convertToRaw(contentState));
+      const row = convertToRaw(contentState);
+      if (!contentState.hasText()) return;
+      onCommit(row);
 
       setEditorState(emptyEditorState);
     },

@@ -4,6 +4,12 @@
 
 ## 开发
 
+```shell
+yarn
+yarn start
+yarn build
+```
+
 本地预览，先参考 [Firebase CLI](https://firebase.google.com/docs/cli?authuser=0#install_the_firebase_cli) 并安装。
 
 ```shell

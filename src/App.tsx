@@ -2,7 +2,7 @@ import * as React from 'react';
 import { hot } from 'react-hot-loader/root';
 import Chat from './components/Chat';
 import Message, { MessageList } from './components/MessageArea';
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import * as styles from './App.scss';
 import { loadFileForEntityMap } from './App.funcs';
 import { getRandomId } from '@/utils';
@@ -66,18 +66,22 @@ const App = () => {
     });
   };
 
+  // 当前正在提交
   const isCommitRef = useRef(false);
   const [messageList, setMessageList] = useState<MessageList>([]);
   const [commitMessageList, setCommitMessageList] = useState<MessageList>([]);
 
   useEffect(() => {
     if (userInfo) {
-      database.ref('messages/').on('value', snapshot => {
-        const data: { [key: string]: MessageInfo } = snapshot.val();
-        data && setMessageList(Object.values(data).reverse());
-      });
+      database.ref('messages/').off('value', updateMessage);
+      database.ref('messages/').on('value', updateMessage);
     }
   }, [userInfo]);
+
+  const updateMessage = snapshot => {
+    const data: { [key: string]: MessageInfo } = snapshot.val() ?? {};
+    setMessageList(Object.values(data).reverse());
+  };
 
   useEffect(() => {
     commitMessages(commitMessageList);
@@ -93,11 +97,11 @@ const App = () => {
 
     await loadFileForEntityMap(entityMap);
 
-    setCommitMessageList(commitMessageList.slice(1));
     await database.ref('messages/' + message.id).set({
       ...message,
       timeStamp: day().format('hh:mm:ss')
     });
+    setCommitMessageList(commitMessageList.slice(1));
 
     isCommitRef.current = false;
   };
@@ -124,8 +128,16 @@ const App = () => {
     <div className={styles.container}>
       <Message
         userInfo={userInfo}
-        messageList={messageList}
-        commitMessageList={commitMessageList}
+        messageList={useMemo(() => {
+          const list = [...messageList];
+          // 组件更新会有延迟 导致渲染延迟
+          commitMessageList.forEach(message => {
+            if (!list.find(item => item.id === message.id)) {
+              list.unshift(message);
+            }
+          });
+          return list;
+        }, [messageList, commitMessageList])}
       />
       <Chat onCommit={handleCommit} />
     </div>

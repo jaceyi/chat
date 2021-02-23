@@ -7,26 +7,12 @@ export type MessageList = MessageInfo[];
 
 interface MessageAreaProps {
   messageList: MessageList;
-  commitMessageList: MessageList;
   userInfo: UserInfo;
 }
 
-const MessageArea = ({
-  userInfo,
-  messageList,
-  commitMessageList
-}: MessageAreaProps) => {
+const MessageArea = ({ userInfo, messageList }: MessageAreaProps) => {
   return (
     <div className={styles.container}>
-      {/*这是自己要发送的消息队列*/}
-      {commitMessageList.map(message => (
-        <Message
-          key={message.id}
-          {...message}
-          userInfo={userInfo}
-          currentUserInfo={userInfo}
-        />
-      ))}
       {messageList.map(message => (
         <Message key={message.id} {...message} currentUserInfo={userInfo} />
       ))}
@@ -34,4 +20,4 @@ const MessageArea = ({
   );
 };
 
-export default MessageArea;
+export default React.memo(MessageArea);

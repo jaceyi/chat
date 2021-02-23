@@ -1,10 +1,17 @@
 :global {
   :root {
-    --primary-color: cornflowerblue;
-    --primary-color-2: rgba(cornflowerblue, 0.2);
-    --primary-color-4: rgba(cornflowerblue, 0.4);
-    --primary-color-6: rgba(cornflowerblue, 0.6);
-    --primary-color-8: rgba(cornflowerblue, 0.8);
+    --primary-color: rgb(78, 168, 210);
+    --secondary-color: rgb(78, 168, 210, 0.4);
+    --contrast-color: rgb(255, 208, 70);
+  }
+
+  a {
+    color: var(--primary-color);
+    text-decoration: unset;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   * {

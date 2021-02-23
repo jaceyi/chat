@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Image, { ImageBlockType } from './Image';
+import File, { FileBlockType } from './File';
 import Focus from './Focus';
 
 interface AtomicProps {
@@ -16,6 +17,10 @@ const Atomic = ({ contentState, block }: AtomicProps) => {
   switch (type) {
     case ImageBlockType:
       render = <Image {...data} />;
+      break;
+    case FileBlockType:
+      render = <File {...data} />;
+      break;
   }
 
   if (render) {

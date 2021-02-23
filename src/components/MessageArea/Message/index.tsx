@@ -4,6 +4,8 @@ import { Raw } from 'chatUtils/types';
 import { UserInfo } from '@/App';
 import { blockRenderMap, decorator } from 'chatUtils';
 import { blockRendererFn } from './libs';
+import { animated, interpolate, useSpring } from 'react-spring';
+import { useGesture } from 'react-use-gesture';
 
 import * as styles from './style.scss';
 
@@ -39,6 +41,17 @@ const Message = ({
     decorator
   );
 
+  const [{ size }, set] = useSpring(() => ({ size: 1 }));
+
+  const bind = useGesture({
+    onPointerDown: () => {
+      set({ size: 0.95 });
+    },
+    onPointerUp: () => {
+      set({ size: 1 });
+    }
+  });
+
   return (
     <div className={styles.message}>
       <div className={styles[`msg-wrapper-${position}`]}>
@@ -48,14 +61,21 @@ const Message = ({
             <div className={styles.name}>{name}</div>
           </div>
           <div className={styles.main}>
-            <div className={styles.bubble}>
-              <Editor
-                readOnly
-                blockRendererFn={blockRendererFn}
-                blockRenderMap={blockRenderMap}
-                editorState={editorState}
-              />
-            </div>
+            <animated.div
+              {...bind()}
+              style={{
+                transform: interpolate([size], s => `scale(${s})`)
+              }}
+            >
+              <div className={styles.bubble}>
+                <Editor
+                  readOnly
+                  blockRendererFn={blockRendererFn}
+                  blockRenderMap={blockRenderMap}
+                  editorState={editorState}
+                />
+              </div>
+            </animated.div>
           </div>
         </div>
       </div>

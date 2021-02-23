@@ -6,7 +6,7 @@ import Icon from './handle/Icon';
 import Image from './handle/Image';
 import { compose } from '@/utils';
 import store from 'store';
-
+import { Button } from 'react-alert-confirm';
 import {
   decorator,
   keyBindingFn,
@@ -17,7 +17,7 @@ import {
   blockRendererFn,
   blockRenderMap
 } from 'chatUtils';
-import { UploadFile, Raw } from 'chatUtils/types';
+import { Raw } from 'chatUtils/types';
 
 import 'draft-js/dist/Draft.css';
 import * as styles from './style.scss';
@@ -54,17 +54,22 @@ const Chat = ({ onCommit }: ChatProps) => {
     setEditorState(newEditorState);
   }, []);
 
-  const handleSubmit = useCallback(
+  const commitEditorState = useCallback(
     editorState => {
       const contentState = editorState.getCurrentContent();
       const row = convertToRaw(contentState);
       if (!contentState.hasText()) return;
       onCommit(row);
 
-      setEditorState(emptyEditorState);
+      const selection = emptyEditorState.getSelection();
+      setEditorState(EditorState.forceSelection(emptyEditorState, selection));
     },
     [onCommit]
   );
+
+  const handleClickSubmit = () => {
+    commitEditorState(editorState);
+  };
 
   const handleKeyCommand = useCallback(
     (command: KeyTypes, editorState) => {
@@ -86,7 +91,7 @@ const Chat = ({ onCommit }: ChatProps) => {
           if (handled) return 'handled';
           break;
         case 'submit':
-          handleSubmit(editorState);
+          commitEditorState(editorState);
           return 'handled';
       }
 
@@ -99,7 +104,7 @@ const Chat = ({ onCommit }: ChatProps) => {
 
       return 'not-handled';
     },
-    [handleSubmit]
+    [commitEditorState]
   );
 
   const handleBeforeInput = useCallback(() => {
@@ -114,10 +119,12 @@ const Chat = ({ onCommit }: ChatProps) => {
     }
   }, []);
 
-  const handlePastedFiles = useCallback(() => {
+  const handlePastedFiles = useCallback(fileList => {
     if (store.focusBlockKey) {
       return 'handled';
     }
+    RichStates.insertFiles(editorState, setEditorState, fileList);
+    return 'handled';
   }, []);
 
   const handleSelectEmoji = useCallback(
@@ -130,8 +137,8 @@ const Chat = ({ onCommit }: ChatProps) => {
   );
 
   const handleUploadImage = useCallback(
-    (file: UploadFile) => {
-      setEditorState(RichStates.insertAtomic(editorState, 'image', file));
+    (fileList: File[]) => {
+      RichStates.insertFiles(editorState, setEditorState, fileList);
     },
     [editorState]
   );
@@ -143,12 +150,19 @@ const Chat = ({ onCommit }: ChatProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.handle}>
-        <Icon>
-          <Emoji onSelect={handleSelectEmoji} />
-        </Icon>
-        <Icon>
-          <Image onUpload={handleUploadImage} />
-        </Icon>
+        <div className={styles.menu}>
+          <Icon>
+            <Emoji onSelect={handleSelectEmoji} />
+          </Icon>
+          <Icon>
+            <Image onUpload={handleUploadImage} />
+          </Icon>
+        </div>
+        <div>
+          <Button onClick={handleClickSubmit} styleType="primary">
+            发 送
+          </Button>
+        </div>
       </div>
       <div tabIndex={0} onFocus={focusEditor} className={styles.chat}>
         <Editor

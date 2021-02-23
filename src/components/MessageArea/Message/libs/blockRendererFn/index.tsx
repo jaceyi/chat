@@ -2,6 +2,7 @@ import * as React from 'react';
 import Image, {
   ImageBlockType
 } from 'chatUtils/blockRendererFn/components/Image';
+import File, { FileBlockType } from 'chatUtils/blockRendererFn/components/File';
 
 interface AtomicProps {
   contentState: any;
@@ -16,6 +17,8 @@ const Atomic = ({ contentState, block }: AtomicProps) => {
   switch (type) {
     case ImageBlockType:
       return <Image {...data} />;
+    case FileBlockType:
+      return <File {...data} />;
   }
 };
 

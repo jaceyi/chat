@@ -15,8 +15,14 @@
 
 %msg-bubble {
   max-width: 100%;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 8px 10px;
+
+  :global {
+    .public-DraftEditor-content > div > * > div {
+      min-width: 0;
+    }
+  }
 }
 
 .msg-wrapper {
@@ -42,8 +48,12 @@
 
     .bubble {
       @extend %msg-bubble;
-      background-color: cornflowerblue;
+      background-color: var(--primary-color);
       color: #fff;
+
+      a {
+        color: var(--contrast-color);
+      }
     }
   }
 

@@ -7,11 +7,19 @@
 
 .handle {
   display: flex;
-  padding: 6px 10px 20px;
+  justify-content: space-between;
+  padding: 6px 0 20px;
+
+  .menu {
+    display: flex;
+  }
 }
 
 .chat {
   min-height: 200px;
+  max-height: 500px;
+  overflow-y: auto;
   font-size: 18px;
   caret-color: #333;
+  padding: 2px;
 }

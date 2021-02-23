@@ -1,5 +1,8 @@
-import { ImageBlockType } from 'chatUtils/blockRendererFn/components/Image';
 import { uploadFile } from '@/services/uploadFile';
+import { ImageBlockType } from 'chatUtils/blockRendererFn/components/Image';
+import { FileBlockType } from 'chatUtils/blockRendererFn/components/File';
+
+const fileEntityMap = [ImageBlockType, FileBlockType];
 
 // 加载本次发送消息内的图片
 export const loadFileForEntityMap = async entityMap => {
@@ -12,7 +15,7 @@ export const loadFileForEntityMap = async entityMap => {
   for (const key in entityMap) {
     if (!entityMap.hasOwnProperty(key)) continue;
     const entity = entityMap[key];
-    if (entity.type === ImageBlockType) {
+    if (fileEntityMap.includes(entity.type)) {
       fileReqs.push({
         key,
         req: uploadFile(entity.data)
@@ -51,6 +54,7 @@ export const loadFileForEntityMap = async entityMap => {
         img.src = entity.data.src;
         img.onload = loaded;
       }
+      // 其他文件类型不预览不需要预先加载
     }
 
     if (!allCount) resolve();

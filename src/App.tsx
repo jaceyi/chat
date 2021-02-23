@@ -99,7 +99,7 @@ const App = () => {
 
     await database.ref('messages/' + message.id).set({
       ...message,
-      timeStamp: day().format('hh:mm:ss')
+      timeStamp: day().format('HH:mm:ss')
     });
     setCommitMessageList(commitMessageList.slice(1));
 

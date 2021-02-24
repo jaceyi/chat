@@ -16,6 +16,7 @@ interface EmojiProps {
 
 const Emoji = ({ onSelect }: EmojiProps) => {
   const [emojiList, setEmojiList] = useState<EmojiInfo[]>([]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const emojiList = [];
@@ -33,6 +34,7 @@ const Emoji = ({ onSelect }: EmojiProps) => {
 
   const handleClickEmoji = ([item]) => {
     onSelect(item);
+    setVisible(false);
   };
 
   return (
@@ -40,6 +42,8 @@ const Emoji = ({ onSelect }: EmojiProps) => {
       overlayClassName={styles.container}
       placement="topRight"
       trigger={['click']}
+      visible={visible}
+      onVisibleChange={setVisible}
       overlay={
         <div className={styles.box}>
           {emojiList.map(item => (

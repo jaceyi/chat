@@ -13,7 +13,7 @@ import { useDidMount } from '@/hooks';
 
 export interface UserInfo {
   name: string;
-  id: string;
+  uid: string;
   email: string;
   avatar: string;
 }
@@ -22,21 +22,19 @@ const App = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>(null);
 
   useDidMount(async () => {
-    try {
-      const result = await firebase.auth().getRedirectResult();
-      if (!result.credential) {
-        return login();
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(`登陆用户：${user.displayName}`);
+        setUserInfo({
+          name: user.displayName,
+          email: user.email,
+          uid: user.uid,
+          avatar: user.photoURL
+        });
+      } else {
+        login();
       }
-      const user = result.user;
-      setUserInfo({
-        name: user.displayName,
-        email: user.email,
-        id: (window as any).md5(user.email),
-        avatar: user.photoURL
-      });
-    } catch (e) {
-      login();
-    }
+    });
   });
 
   const login = async () => {
@@ -95,7 +93,7 @@ const App = () => {
       }
       setCommitMessageList([
         {
-          id: new Date().getTime() + '_' + userInfo.id,
+          id: new Date().getTime() + '_' + userInfo.uid,
           userInfo,
           timeStamp: '发送中',
           raw

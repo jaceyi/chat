@@ -26,8 +26,8 @@ const Message = ({
   raw,
   timeStamp
 }: MessageProps) => {
-  const { id, name } = userInfo;
-  const position = id === currentUserInfo.id ? 'right' : 'left';
+  const { uid, name } = userInfo;
+  const position = uid === currentUserInfo.uid ? 'right' : 'left';
   const editorState = EditorState.createWithContent(
     convertFromRaw(
       Object.assign(

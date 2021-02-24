@@ -11,6 +11,8 @@ firebase.initializeApp({
   appId: '1:916276032579:web:cdb79658a33fe9fa9c10f6'
 });
 
+(window as any).signOut = firebase.auth().signOut.bind(firebase.auth());
+
 export const storage = firebase.storage();
 export const database = firebase.database();
 export const githubProvider = new firebase.auth.GithubAuthProvider();

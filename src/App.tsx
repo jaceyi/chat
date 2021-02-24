@@ -5,65 +5,47 @@ import Message, { MessageList } from './components/MessageArea';
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import * as styles from './App.scss';
 import { loadFileForEntityMap } from './App.funcs';
-import { getRandomId } from '@/utils';
 import * as day from 'dayjs';
-import alertConfirm, { Button } from 'react-alert-confirm';
-import Input from '@/components/Input';
-import { useDidUpdate } from '@/hooks';
-import { database } from '@/utils/firebase';
+import { alert } from 'react-alert-confirm';
+import firebase, { database, githubProvider } from '@/utils/firebase';
 import { MessageInfo } from '@/components/MessageArea/Message';
+import { useDidMount } from '@/hooks';
 
 export interface UserInfo {
   name: string;
   id: string;
+  email: string;
+  avatar: string;
 }
 
-const LOCAL_USER_INFO_NAME = 'USER_INFO';
-
 const App = () => {
-  const [userInfo, setUserInfo] = useState<UserInfo>(() => {
+  const [userInfo, setUserInfo] = useState<UserInfo>(null);
+
+  useDidMount(async () => {
     try {
-      return JSON.parse(window.localStorage.getItem(LOCAL_USER_INFO_NAME));
+      const result = await firebase.auth().getRedirectResult();
+      if (!result.credential) {
+        return login();
+      }
+      const user = result.user;
+      setUserInfo({
+        name: user.displayName,
+        email: user.email,
+        id: (window as any).md5(user.email),
+        avatar: user.photoURL
+      });
     } catch (e) {
-      return null;
+      login();
     }
   });
 
-  useEffect(() => {
-    if (!userInfo) {
-      initialUserInfo();
-    }
-  }, []);
-
-  useDidUpdate(() => {
-    window.localStorage.setItem(LOCAL_USER_INFO_NAME, JSON.stringify(userInfo));
-  }, [userInfo]);
-
-  const initialUserInfo = async () => {
-    let name: string;
-    await alertConfirm({
-      content: (
-        <Input
-          autoFocus
-          placeholder="请输入用户名"
-          onChange={_val => (name = _val)}
-        />
-      ),
-      footer(dispatch) {
-        return (
-          <Button onClick={() => dispatch('ok')} styleType="primary">
-            确 认
-          </Button>
-        );
-      }
-    });
-    if (!name) {
-      return initialUserInfo();
-    }
-    setUserInfo({
-      name,
-      id: getRandomId()
-    });
+  const login = async () => {
+    await alert(
+      <div className={styles.login}>
+        即将跳转至<a href="https://github.com">Github</a>进行登录，请确认！
+      </div>
+    );
+    await firebase.auth().signInWithRedirect(githubProvider);
   };
 
   // 当前正在提交
@@ -109,7 +91,7 @@ const App = () => {
   const handleCommit = useCallback(
     raw => {
       if (!userInfo) {
-        return initialUserInfo();
+        return login();
       }
       setCommitMessageList([
         {

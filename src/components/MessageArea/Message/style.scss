@@ -1,5 +1,18 @@
 .message {
   margin-bottom: 16px;
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 9em;
+    overflow: hidden;
+    box-shadow: 0 0 2px rgba(#000, 0.2);
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 
 .header {
@@ -28,8 +41,12 @@
 .msg-wrapper {
   &-right {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row-reverse;
     width: 100%;
+
+    .avatar {
+      margin-left: 10px;
+    }
 
     .name {
       color: darkgray;
@@ -61,6 +78,10 @@
     display: flex;
     justify-content: flex-start;
     width: 100%;
+
+    .avatar {
+      margin-right: 10px;
+    }
 
     .main {
       display: flex;

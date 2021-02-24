@@ -26,7 +26,7 @@ const Message = ({
   raw,
   timeStamp
 }: MessageProps) => {
-  const { uid, name } = userInfo;
+  const { uid, name, avatar } = userInfo;
   const position = uid === currentUserInfo.uid ? 'right' : 'left';
   const editorState = EditorState.createWithContent(
     convertFromRaw(
@@ -45,7 +45,7 @@ const Message = ({
 
   const bind = useGesture({
     onPointerDown: () => {
-      set({ size: 0.95 });
+      set({ size: 1.2 });
     },
     onPointerUp: () => {
       set({ size: 1 });
@@ -55,27 +55,30 @@ const Message = ({
   return (
     <div className={styles.message}>
       <div className={styles[`msg-wrapper-${position}`]}>
+        <div className={styles.avatar}>
+          <animated.div
+            {...bind()}
+            style={{
+              transform: interpolate([size], s => `scale(${s})`)
+            }}
+          >
+            <img src={avatar} alt="头像" />
+          </animated.div>
+        </div>
         <div>
           <div className={styles.header}>
             <div className={styles.time}>{timeStamp}</div>
             <div className={styles.name}>{name}</div>
           </div>
           <div className={styles.main}>
-            <animated.div
-              {...bind()}
-              style={{
-                transform: interpolate([size], s => `scale(${s})`)
-              }}
-            >
-              <div className={styles.bubble}>
-                <Editor
-                  readOnly
-                  blockRendererFn={blockRendererFn}
-                  blockRenderMap={blockRenderMap}
-                  editorState={editorState}
-                />
-              </div>
-            </animated.div>
+            <div className={styles.bubble}>
+              <Editor
+                readOnly
+                blockRendererFn={blockRendererFn}
+                blockRenderMap={blockRenderMap}
+                editorState={editorState}
+              />
+            </div>
           </div>
         </div>
       </div>

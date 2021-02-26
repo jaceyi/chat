@@ -26,7 +26,7 @@ const App = () => {
       if (user) {
         console.log(`登陆用户：${user.displayName}`);
         setUserInfo({
-          name: user.displayName,
+          name: user.displayName || user.email,
           email: user.email,
           uid: user.uid,
           avatar: user.photoURL
@@ -79,7 +79,7 @@ const App = () => {
 
     await database.ref('messages/' + message.id).set({
       ...message,
-      timeStamp: day().format('HH:mm:ss')
+      timeStamp: day().unix()
     });
     setCommitMessageList(commitMessageList.slice(1));
 
@@ -95,7 +95,7 @@ const App = () => {
         {
           id: new Date().getTime() + '_' + userInfo.uid,
           userInfo,
-          timeStamp: '发送中',
+          timeStamp: null,
           raw
         },
         ...commitMessageList

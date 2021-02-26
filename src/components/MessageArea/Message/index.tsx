@@ -6,12 +6,13 @@ import { blockRenderMap, decorator } from 'chatUtils';
 import { blockRendererFn } from './libs';
 import { animated, interpolate, useSpring } from 'react-spring';
 import { useGesture } from 'react-use-gesture';
+import * as day from 'dayjs';
 
 import * as styles from './style.scss';
 
 export interface MessageInfo {
   raw: Raw;
-  timeStamp: string;
+  timeStamp: number;
   id: string;
   userInfo: UserInfo;
 }
@@ -67,7 +68,9 @@ const Message = ({
         </div>
         <div>
           <div className={styles.header}>
-            <div className={styles.time}>{timeStamp}</div>
+            <div className={styles.time}>
+              {timeStamp ? day.unix(timeStamp).format('HH:mm:ss') : '...'}
+            </div>
             <div className={styles.name}>{name}</div>
           </div>
           <div className={styles.main}>

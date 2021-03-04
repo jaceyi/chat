@@ -16,7 +16,6 @@ const Image = ({ onUpload }: ImageProps) => {
       <input
         value=""
         multiple
-        // accept="image/*"
         onChange={handleUploadFile}
         className={styles.input}
         type="file"

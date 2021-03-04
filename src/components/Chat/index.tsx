@@ -9,15 +9,15 @@ import store from 'store';
 import { Button } from 'react-alert-confirm';
 import {
   decorator,
-  keyBindingFn,
+  bindKeyBindingFn,
   KeyTypes,
   KeyCommands,
   RichStates,
   AttachUtils,
-  blockRendererFn,
+  bindBlockRendererFn,
   blockRenderMap
 } from 'chatUtils';
-import { Raw } from 'chatUtils/types';
+import { ChangeEditorState, Raw } from 'chatUtils/types';
 
 import 'draft-js/dist/Draft.css';
 import * as styles from './style.scss';
@@ -37,7 +37,7 @@ const Chat = ({ onCommit }: ChatProps) => {
 
   const [editorState, setEditorState] = useState(emptyEditorState);
 
-  const changeEditorState = useCallback(editorState => {
+  const changeEditorState = useCallback<ChangeEditorState>(editorState => {
     let newEditorState = compose(
       AttachUtils.entitiesToEmojis,
       AttachUtils.entitiesToLinks
@@ -77,19 +77,9 @@ const Chat = ({ onCommit }: ChatProps) => {
         case 'enter':
           changeEditorState(RichStates.insertWrap(editorState));
           return 'handled';
-        case 'enter-inline':
-          changeEditorState(RichUtils.insertSoftNewline(editorState));
-          return 'handled';
         case 'prompt-link':
           KeyCommands.promptLink(editorState, changeEditorState);
           return 'handled';
-        case 'backspace':
-          const handled = RichStates.tryDeleteAtomicBlock(
-            editorState,
-            changeEditorState
-          );
-          if (handled) return 'handled';
-          break;
         case 'submit':
           commitEditorState(editorState);
           return 'handled';
@@ -107,22 +97,7 @@ const Chat = ({ onCommit }: ChatProps) => {
     [commitEditorState]
   );
 
-  const handleBeforeInput = useCallback(() => {
-    if (store.focusBlockKey) {
-      return 'handled';
-    }
-  }, []);
-
-  const handlePastedText = useCallback(() => {
-    if (store.focusBlockKey) {
-      return 'handled';
-    }
-  }, []);
-
   const handlePastedFiles = useCallback(fileList => {
-    if (store.focusBlockKey) {
-      return 'handled';
-    }
     RichStates.insertFiles(editorState, setEditorState, fileList);
     return 'handled';
   }, []);
@@ -144,7 +119,10 @@ const Chat = ({ onCommit }: ChatProps) => {
   );
 
   const focusEditor = () => {
-    setEditorState(EditorState.moveFocusToEnd(editorState));
+    const selection = editorState.getSelection();
+    if (!selection.getHasFocus()) {
+      setEditorState(EditorState.moveFocusToEnd(editorState));
+    }
   };
 
   return (
@@ -164,18 +142,16 @@ const Chat = ({ onCommit }: ChatProps) => {
           </Button>
         </div>
       </div>
-      <div tabIndex={0} onFocus={focusEditor} className={styles.chat}>
+      <div onClick={focusEditor} className={styles.chat}>
         <Editor
           ref={editor}
           placeholder="请输入内容"
           editorState={editorState}
           handleKeyCommand={handleKeyCommand}
           onChange={changeEditorState}
-          keyBindingFn={keyBindingFn}
-          blockRendererFn={blockRendererFn}
+          keyBindingFn={bindKeyBindingFn(editorState, setEditorState)}
+          blockRendererFn={bindBlockRendererFn(editorState, setEditorState)}
           blockRenderMap={blockRenderMap}
-          handleBeforeInput={handleBeforeInput}
-          handlePastedText={handlePastedText}
           handlePastedFiles={handlePastedFiles}
         />
       </div>

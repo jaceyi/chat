@@ -1,5 +1,5 @@
 export * from './decorator';
-export * from './keyBindingFn';
+export * from './bindKeyBindingFn';
 export * from './blockRendererFn';
 export * from './blockRenderMap';
 

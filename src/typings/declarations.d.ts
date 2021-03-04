@@ -12,4 +12,3 @@ declare module '*.scss' {
 }
 
 declare const twemoji: any;
-declare const md5: (pwd: string) => string;

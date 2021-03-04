@@ -10,3 +10,7 @@ export interface Raw {
   blocks: any[];
   entityMap: object;
 }
+
+export interface ChangeEditorState {
+  (editorState: any): void;
+}

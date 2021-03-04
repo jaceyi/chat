@@ -2,32 +2,30 @@ import * as React from 'react';
 import Image, { ImageBlockType } from './Image';
 import File, { FileBlockType } from './File';
 import Focus from './Focus';
+import type { FunctionComponent } from 'react';
 
-interface AtomicProps {
+export interface AtomicProps {
   contentState: any;
   block: any;
 }
 
-const Atomic = ({ contentState, block }: AtomicProps) => {
+const FocusImage = Focus(Image);
+const FocusFile = Focus(File);
+
+const Atomic: FunctionComponent<AtomicProps> = props => {
+  const { contentState, block } = props;
   const entity = contentState.getEntity(block.getEntityAt(0));
   const data = entity.getData();
   const type = entity.getType();
 
-  let render = null;
   switch (type) {
     case ImageBlockType:
-      render = <Image {...data} />;
-      break;
+      return <FocusImage {...props} {...data} />;
     case FileBlockType:
-      render = <File {...data} />;
-      break;
+      return <FocusFile {...props} {...data} />;
   }
 
-  if (render) {
-    return <Focus block={block}>{render}</Focus>;
-  }
-
-  return null;
+  return <div />;
 };
 
 export default Atomic;

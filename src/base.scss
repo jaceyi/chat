@@ -17,6 +17,7 @@
   * {
     margin: 0;
     padding: 0;
+    outline: none;
   }
 
   body {
@@ -49,22 +50,6 @@
   .DraftEditor-root {
     .DraftEditor-editorContainer {
       border-left: unset;
-    }
-  }
-
-  .public-DraftEditor-content {
-    & > div {
-      & > * {
-        display: inline-block;
-
-        & > div {
-          min-width: 0.5px;
-        }
-      }
-
-      wrap-line {
-        display: block;
-      }
     }
   }
 }

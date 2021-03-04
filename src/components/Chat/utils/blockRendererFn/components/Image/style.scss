@@ -1,17 +1,12 @@
-.box {
+.image {
   position: relative;
   transition: box-shadow 0.3s;
   border-radius: 4px;
   overflow: hidden;
   z-index: 1;
 
-  &:hover {
+  /*&:hover {
     box-shadow: 0 0 0 2px var(--secondary-color);
     z-index: 2;
-  }
-}
-
-.img {
-  max-width: 100%;
-  display: block;
+  }*/
 }

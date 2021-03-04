@@ -10,6 +10,7 @@ import { alert } from 'react-alert-confirm';
 import firebase, { database, githubProvider } from '@/utils/firebase';
 import { MessageInfo } from '@/components/MessageArea/Message';
 import { useDidMount } from '@/hooks';
+import { isEmpty } from '@/utils';
 
 export interface UserInfo {
   name: string;
@@ -20,6 +21,9 @@ export interface UserInfo {
 
 const App = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>(null);
+  const [userList, setUserList] = useState<UserInfo[]>([]);
+
+  console.log('用户列表：', userList);
 
   useDidMount(async () => {
     firebase.auth().onAuthStateChanged(user => {
@@ -31,6 +35,11 @@ const App = () => {
           avatar: user.photoURL
         };
         console.log(`登陆用户：${userInfo.name}`);
+        database.ref('user/').on('value', snapshot => {
+          const data: { [key: string]: UserInfo } = snapshot.val() ?? {};
+          setUserList(Object.values(data));
+        });
+        database.ref('user/' + userInfo.uid).set(userInfo);
         setUserInfo(userInfo);
       } else {
         login();
@@ -53,16 +62,13 @@ const App = () => {
   const [commitMessageList, setCommitMessageList] = useState<MessageList>([]);
 
   useEffect(() => {
-    if (userInfo) {
-      database.ref('messages/').off('value', updateMessage);
-      database.ref('messages/').on('value', updateMessage);
+    if (!isEmpty(userInfo)) {
+      database.ref('messages/').on('value', snapshot => {
+        const data: { [key: string]: MessageInfo } = snapshot.val() ?? {};
+        setMessageList(Object.values(data).reverse());
+      });
     }
   }, [userInfo]);
-
-  const updateMessage = snapshot => {
-    const data: { [key: string]: MessageInfo } = snapshot.val() ?? {};
-    setMessageList(Object.values(data).reverse());
-  };
 
   useEffect(() => {
     commitMessages(commitMessageList);

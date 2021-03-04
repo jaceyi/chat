@@ -1,1 +1,1 @@
-export { default as promptLink } from './promptLink';
+export * from './promptLink';

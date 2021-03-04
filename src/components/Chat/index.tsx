@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import Emoji, { EmojiInfo } from './handle/Emoji';
 import Icon from './handle/Icon';
 import Image from './handle/Image';
 import { compose } from '@/utils';
-import store from 'store';
 import { Button } from 'react-alert-confirm';
 import {
   decorator,
@@ -30,10 +29,6 @@ interface ChatProps {
 
 const Chat = ({ onCommit }: ChatProps) => {
   const editor = useRef(null);
-
-  useEffect(() => {
-    store.initial(editor.current);
-  }, [editor]);
 
   const [editorState, setEditorState] = useState(emptyEditorState);
 
@@ -80,6 +75,10 @@ const Chat = ({ onCommit }: ChatProps) => {
         case 'prompt-link':
           KeyCommands.promptLink(editorState, changeEditorState);
           return 'handled';
+        case 'backspace':
+          if (RichStates.tryDeleteAtomicBlock(editorState, changeEditorState))
+            return 'handled';
+          break;
         case 'submit':
           commitEditorState(editorState);
           return 'handled';

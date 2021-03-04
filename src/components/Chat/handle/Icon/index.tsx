@@ -12,10 +12,10 @@ const Icon = ({ children }: IconProps) => {
   const [{ size, r }, set] = useSpring(() => ({ size: 1, r: 0 }));
 
   const bind = useGesture({
-    onPointerDown: () => {
+    onMoveStart: () => {
       set({ size: 1.2, r: -10 });
     },
-    onPointerUp: () => {
+    onMoveEnd: () => {
       set({ size: 1, r: 0 });
     }
   });

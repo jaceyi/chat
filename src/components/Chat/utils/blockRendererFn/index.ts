@@ -24,6 +24,7 @@ export const bindBlockRendererFn = (
       editable: false,
       props: {
         focusCurrentBlock: e => {
+          // 聚焦当前块的内容
           const blockKey = block.getKey();
 
           const selection = window.getSelection()!;
@@ -46,7 +47,26 @@ export const bindBlockRendererFn = (
             )
           );
         },
-        focusNextLine: () => {}
+        focusNextLine: () => {
+          // 点击块空白地方时聚焦下一行
+          const blockKey = block.getKey();
+          const contentState = editorState.getCurrentContent();
+          const afterBlock = contentState.getBlockAfter(blockKey);
+          const afterBlockKey = afterBlock.getKey();
+
+          onChange(
+            EditorState.forceSelection(
+              editorState,
+              new SelectionState({
+                anchorKey: afterBlockKey,
+                anchorOffset: 0,
+                focusKey: afterBlockKey,
+                focusOffset: 0,
+                isBackward: false
+              })
+            )
+          );
+        }
       }
     };
   }

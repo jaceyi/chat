@@ -1,5 +1,4 @@
 import 'react-alert-confirm/dist/index.css';
-import 'rc-tooltip/assets/bootstrap_white.css';
 import '@/base.scss';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

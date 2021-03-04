@@ -1,9 +1,11 @@
 import * as React from 'react';
 import RCTooltip from 'rc-tooltip';
-import * as styles from './style.scss';
 import { useEffect, useState } from 'react';
 import emojis from './emojis';
 import { getEmojiSrc, connector } from '@/utils';
+
+import 'rc-tooltip/assets/bootstrap_white.css';
+import * as styles from './style.scss';
 
 export interface EmojiInfo {
   src: string;
@@ -41,7 +43,7 @@ const Emoji = ({ onSelect }: EmojiProps) => {
     <RCTooltip
       overlayClassName={styles.container}
       placement="topRight"
-      trigger={['click']}
+      trigger={['hover']}
       visible={visible}
       onVisibleChange={setVisible}
       overlay={

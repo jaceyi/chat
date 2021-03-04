@@ -1,6 +1,7 @@
 import * as React from 'react';
-import * as styles from './style.scss';
 import type { InputHTMLAttributes } from 'react';
+
+import * as styles from './style.scss';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (string) => string;

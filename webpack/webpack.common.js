@@ -20,8 +20,7 @@ module.exports = {
     alias: {
       'react-dom': '@hot-loader/react-dom',
       '@': path.resolve(__dirname, '../src/'),
-      chatUtils: path.resolve(__dirname, '../src/components/Chat/utils/'),
-      store: path.resolve(__dirname, '../src/components/Chat/store')
+      chatUtils: path.resolve(__dirname, '../src/components/Chat/utils/')
     }
   },
 

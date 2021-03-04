@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "firebase": "^8.2.6",
     "firebaseui": "^4.7.3",
-    "rc-tooltip": "^5.0.2",
+    "rc-tooltip": "^5.1.0",
     "react": "^16.12.0",
     "react-alert-confirm": "^2.0.3",
     "react-dom": "^16.12.0",

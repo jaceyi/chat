@@ -4,7 +4,7 @@ import { tryDeleteAtomicBlock } from 'chatUtils/RichStates';
 
 const { hasCommandModifier, isCtrlKeyCommand } = KeyBindingUtil;
 
-export type KeyTypes = 'enter' | 'prompt-link' | 'submit';
+export type KeyTypes = 'enter' | 'prompt-link' | 'submit' | 'backspace';
 
 /**
  * @description 扩展快捷键
@@ -29,6 +29,8 @@ export const bindKeyBindingFn = (
   }
 
   switch (e.key) {
+    case 'Backspace':
+      return 'backspace';
     case 'Enter': // enter
       if (e.shiftKey) {
         return 'enter'; // shift + enter

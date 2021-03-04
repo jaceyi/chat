@@ -1,3 +1,5 @@
+import type { MouseEvent } from 'react';
+
 /**
  * @description emoji 转 图片地址
  * @param unicode
@@ -48,3 +50,10 @@ export const isEmpty = (object: object): boolean => {
   if (!object) return true;
   return Object.keys(object).length === 0;
 };
+
+/**
+ * @description 阻止事件冒泡
+ * @param e
+ */
+export const stopPropagation = <T = HTMLDivElement>(e: MouseEvent<T>) =>
+  e.stopPropagation();

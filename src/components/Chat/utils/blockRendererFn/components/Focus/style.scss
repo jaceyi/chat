@@ -3,7 +3,11 @@
   z-index: 1;
   transition: box-shadow 0.3s;
   border-radius: 4px;
-  display: inline-block;
+  display: inline-flex;
+
+  &.block {
+    display: block;
+  }
 
   &:focus {
     outline: none;

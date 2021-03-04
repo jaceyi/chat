@@ -17,5 +17,5 @@ export const insertAtomic = (editorState, type, data?: any) => {
   const newEditorState = EditorState.set(editorState, {
     currentContent: contentStateWithEntity
   });
-  return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ');
+  return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '📃');
 };

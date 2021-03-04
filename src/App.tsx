@@ -24,13 +24,14 @@ const App = () => {
   useDidMount(async () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(`登陆用户：${user.displayName}`);
-        setUserInfo({
+        const userInfo = {
           name: user.displayName || user.email,
           email: user.email,
           uid: user.uid,
           avatar: user.photoURL
-        });
+        };
+        console.log(`登陆用户：${userInfo.name}`);
+        setUserInfo(userInfo);
       } else {
         login();
       }

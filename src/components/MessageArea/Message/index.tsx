@@ -2,13 +2,13 @@ import * as React from 'react';
 import { convertFromRaw, Editor, EditorState } from 'draft-js';
 import { Raw } from 'chatUtils/types';
 import { UserInfo } from '@/App';
-import { blockRenderMap, decorator } from 'chatUtils';
-import { blockRendererFn } from './libs';
+import { blockRenderMap, decorator, bindBlockRendererFn } from 'chatUtils';
 import { animated, interpolate, useSpring } from 'react-spring';
 import { useGesture } from 'react-use-gesture';
 import * as day from 'dayjs';
 
 import * as styles from './style.scss';
+import { useState } from 'react';
 
 export interface MessageInfo {
   raw: Raw;
@@ -29,17 +29,19 @@ const Message = ({
 }: MessageProps) => {
   const { uid, name, avatar } = userInfo;
   const position = uid === currentUserInfo.uid ? 'right' : 'left';
-  const editorState = EditorState.createWithContent(
-    convertFromRaw(
-      Object.assign(
-        {
-          blocks: {},
-          entityMap: {}
-        },
-        raw
-      )
-    ),
-    decorator
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createWithContent(
+      convertFromRaw(
+        Object.assign(
+          {
+            blocks: {},
+            entityMap: {}
+          },
+          raw
+        )
+      ),
+      decorator
+    )
   );
 
   const [{ size }, set] = useSpring(() => ({ size: 1 }));
@@ -69,7 +71,7 @@ const Message = ({
         <div>
           <div className={styles.header}>
             <div className={styles.time}>
-              {timeStamp ? day.unix(timeStamp).format('HH:mm:ss') : '...'}
+              {timeStamp ? day.unix(timeStamp).format('HH:mm:ss') : '发送中'}
             </div>
             <div className={styles.name}>{name}</div>
           </div>
@@ -77,7 +79,10 @@ const Message = ({
             <div className={styles.bubble}>
               <Editor
                 readOnly
-                blockRendererFn={blockRendererFn}
+                blockRendererFn={bindBlockRendererFn(
+                  editorState,
+                  setEditorState
+                )}
                 blockRenderMap={blockRenderMap}
                 editorState={editorState}
               />

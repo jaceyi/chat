@@ -54,6 +54,20 @@ const Chat = ({ onCommit }: ChatProps) => {
       const contentState = editorState.getCurrentContent();
       const row = convertToRaw(contentState);
       if (!contentState.hasText()) return;
+      const { blocks } = row;
+      const lastBlock = blocks[blocks.length - 1];
+      if (lastBlock.type === 'unstyled' && !lastBlock.text) {
+        blocks.pop(); // 删除为空行
+      }
+      const first = blocks[0];
+      if (
+        blocks.length > 1 &&
+        blocks[1].type === 'atomic' &&
+        first.type === 'unstyled' &&
+        !first.text
+      ) {
+        blocks.shift(); // 如果第二个块是原子块，则删除第一个空块
+      }
       onCommit(row);
 
       const selection = emptyEditorState.getSelection();

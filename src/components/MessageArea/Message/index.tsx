@@ -68,7 +68,7 @@ const Message = ({
             <img src={avatar} alt="头像" />
           </animated.div>
         </div>
-        <div>
+        <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.time}>
               {timeStamp ? day.unix(timeStamp).format('HH:mm:ss') : '发送中'}

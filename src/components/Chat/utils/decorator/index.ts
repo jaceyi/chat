@@ -1,7 +1,10 @@
 import { CompositeDecorator } from 'draft-js';
 import Link, { LinkEntityType, LinkMutability } from './components/Link';
 import Emoji, { EmojiEntityType, EmojiMutability } from './components/Emoji';
+import SuggestionUser from './components/SuggestionUser';
+import User, { UserEntityType, UserMutability } from './components/User';
 import { Mutability } from 'chatUtils/types';
+import { AttachUtils } from 'chatUtils';
 
 const findEntities = (type: string, mutability: Mutability) => (
   contentBlock,
@@ -26,5 +29,15 @@ export const decorator = new CompositeDecorator([
   {
     strategy: findEntities(EmojiEntityType, EmojiMutability),
     component: Emoji
+  },
+  {
+    strategy: (contentBlock, callback) => {
+      AttachUtils.findWithRegex(/@\S+/g, contentBlock, callback);
+    },
+    component: SuggestionUser
+  },
+  {
+    strategy: findEntities(UserEntityType, UserMutability),
+    component: User
   }
 ]);

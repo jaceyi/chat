@@ -4,6 +4,7 @@
   transition: box-shadow 0.3s;
   border-radius: 4px;
   display: inline-flex;
+  max-width: 100%;
 
   &.block {
     display: block;

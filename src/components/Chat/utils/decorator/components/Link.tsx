@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Mutability } from 'chatUtils/types';
 
 export const LinkEntityType = 'LINK';

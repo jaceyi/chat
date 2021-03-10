@@ -1,5 +1,5 @@
 .message {
-  margin-bottom: 12px;
+  padding: 12px 0;
 
   .avatar {
     width: 36px;
@@ -26,7 +26,6 @@
 
   .time {
     font-size: 12px;
-    color: #999;
     margin-right: 10px;
   }
 }
@@ -35,7 +34,6 @@
   max-width: 100%;
   border-radius: 6px;
   padding: 8px 10px;
-  color: #222;
   box-sizing: border-box;
 }
 
@@ -50,7 +48,6 @@
     }
 
     .name {
-      color: darkgray;
       font-size: 12px;
     }
 
@@ -88,13 +85,12 @@
     }
 
     .name {
-      color: darkgray;
       font-size: 12px;
     }
 
     .bubble {
       @extend %msg-bubble;
-      background-color: gainsboro;
+      background-color: rgba(#000, 0.2);
     }
   }
 }

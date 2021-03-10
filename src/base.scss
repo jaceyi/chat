@@ -1,7 +1,7 @@
 :global {
   :root {
-    --primary-color: rgb(71, 175, 219);
-    --secondary-color: rgb(153, 215, 244, 0.6);
+    --primary-color: #4d59ba;
+    --secondary-color: rgb(153, 215, 244, 0.4);
     --contrast-color: rgb(255, 208, 70);
   }
 
@@ -18,14 +18,6 @@
     margin: 0;
     padding: 0;
     outline: none;
-  }
-
-  pre {
-    padding: 4px;
-    background: rgba(#fff, 0.3);
-    border-radius: 4px;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    word-break: break-all;
   }
 
   code {
@@ -85,6 +77,16 @@
     display: none;
   }
 
+  .alert-confirm-button {
+    box-shadow: 0 -1px 3px 0 rgba(#000, 0.1);
+
+    &.primary-button {
+      &:hover {
+        box-shadow: 0 1px 10px 0 rgba(#000, 0.2);
+      }
+    }
+  }
+
   .rc-tooltip {
     background-color: unset;
 
@@ -102,6 +104,19 @@
   .DraftEditor-root {
     .DraftEditor-editorContainer {
       border-left: unset;
+    }
+
+    .public-DraftStyleDefault-pre {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+      word-break: break-all;
+      background: rgba(#000, 0.1);
+      line-height: 1.4;
+
+      &:not(:first-child) {
+        margin-top: 6px;
+      }
     }
   }
 }

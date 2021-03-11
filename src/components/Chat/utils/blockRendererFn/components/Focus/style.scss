@@ -10,6 +10,11 @@
     display: block;
   }
 
+  &:hover {
+    box-shadow: 0 0 0 2px var(--secondary-color);
+    z-index: 2;
+  }
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--primary-color);

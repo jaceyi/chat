@@ -57,7 +57,7 @@ const Chat = ({ onCommit }: ChatProps) => {
       const { blocks } = row;
       const lastBlock = blocks[blocks.length - 1];
       if (lastBlock.type === 'unstyled' && !lastBlock.text) {
-        blocks.pop(); // 删除为空行
+        blocks.pop(); // 如果最后一行为空则删除该行
       }
       const first = blocks[0];
       if (

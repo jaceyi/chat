@@ -4,9 +4,4 @@
   border-radius: 4px;
   overflow: hidden;
   z-index: 1;
-
-  &:hover {
-    box-shadow: 0 0 0 2px var(--secondary-color);
-    z-index: 2;
-  }
 }

@@ -25,7 +25,7 @@ const Atomic: FunctionComponent<AtomicProps> = props => {
       return <FocusFile {...props} {...data} />;
   }
 
-  return <div />;
+  return null;
 };
 
 export default Atomic;

@@ -22,6 +22,7 @@ export interface UserInfo {
 const App = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>(null);
   const [userList, setUserList] = useState<UserInfo[]>([]);
+  const [loading, setLoading] = useState(true);
 
   console.log('用户列表：', userList);
 
@@ -64,6 +65,9 @@ const App = () => {
   useEffect(() => {
     if (!isEmpty(userInfo)) {
       database.ref('messages/').on('value', snapshot => {
+        if (loading) {
+          setLoading(false);
+        }
         const data: { [key: string]: MessageInfo } = snapshot.val() ?? {};
         setMessageList(Object.values(data).reverse());
       });
@@ -146,6 +150,7 @@ const App = () => {
       </div>
       <div className={styles.main}>
         <Message
+          loading={loading}
           userInfo={userInfo}
           messageList={useMemo(() => {
             const list = [...messageList];

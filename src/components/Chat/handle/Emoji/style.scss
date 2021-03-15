@@ -12,7 +12,7 @@
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #f3f3f3;
+        background-color: rgba(#000, 0.07);
       }
     }
 
@@ -26,7 +26,17 @@
 
 :global {
   .rc-tooltip {
-    opacity: unset;
     background-color: unset;
+    transition: all 0.5s;
+
+    .rc-tooltip-arrow {
+      display: none;
+    }
+
+    .rc-tooltip-inner {
+      box-shadow: 0 0 6px rgba(#000, 0.2);
+      border-radius: 6px;
+      border: none;
+    }
   }
 }

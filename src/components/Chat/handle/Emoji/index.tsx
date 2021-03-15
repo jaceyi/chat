@@ -46,6 +46,7 @@ const Emoji = ({ onSelect }: EmojiProps) => {
       trigger={['hover']}
       visible={visible}
       onVisibleChange={setVisible}
+      destroyTooltipOnHide
       overlay={
         <div className={styles.box}>
           {emojiList.map(item => (

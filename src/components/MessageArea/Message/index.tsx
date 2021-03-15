@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { convertFromRaw, Editor, EditorState } from 'draft-js';
 import { Raw } from 'chatUtils/types';
-import { UserInfo } from '@/App';
+import { UserInfo } from '@/store/initialState';
 import { blockRenderMap, decorator, bindBlockRendererFn } from 'chatUtils';
 import { animated, interpolate, useSpring } from 'react-spring';
 import { useGesture } from 'react-use-gesture';

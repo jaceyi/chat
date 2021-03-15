@@ -32,7 +32,7 @@ export const decorator = new CompositeDecorator([
   },
   {
     strategy: (contentBlock, callback) => {
-      AttachUtils.findWithRegex(/@\S+/g, contentBlock, callback);
+      AttachUtils.findWithRegex(/@\S*/g, contentBlock, callback);
     },
     component: SuggestionUser
   },

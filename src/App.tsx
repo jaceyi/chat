@@ -2,7 +2,14 @@ import * as React from 'react';
 import { hot } from 'react-hot-loader/root';
 import Chat from './components/Chat';
 import Message, { MessageList } from './components/MessageArea';
-import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import {
+  useReducer,
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useMemo
+} from 'react';
 import * as styles from './App.scss';
 import { loadFileForEntityMap } from './App.funcs';
 import * as day from 'dayjs';
@@ -11,20 +18,15 @@ import firebase, { database, githubProvider } from '@/utils/firebase';
 import { MessageInfo } from '@/components/MessageArea/Message';
 import { useDidMount } from '@/hooks';
 import { isEmpty } from '@/utils';
-
-export interface UserInfo {
-  name: string;
-  uid: string;
-  email: string;
-  avatar: string;
-}
+import store, { reducer, initialState, UserInfo } from '@/store';
 
 const App = () => {
-  const [userInfo, setUserInfo] = useState<UserInfo>(null);
-  const [userList, setUserList] = useState<UserInfo[]>([]);
+  const reducerValue = useReducer<typeof reducer>(reducer, initialState);
+  const [{ userInfo }, dispatch] = reducerValue;
+
   const [loading, setLoading] = useState(true);
 
-  console.log('用户列表：', userList);
+  const storeValue = useMemo(() => reducerValue, reducerValue);
 
   useDidMount(async () => {
     firebase.auth().onAuthStateChanged(user => {
@@ -38,10 +40,16 @@ const App = () => {
         console.log(`登陆用户：${userInfo.name}`);
         database.ref('user/').on('value', snapshot => {
           const data: { [key: string]: UserInfo } = snapshot.val() ?? {};
-          setUserList(Object.values(data));
+          dispatch({
+            type: 'setUserList',
+            payload: Object.values(data)
+          });
         });
         database.ref('user/' + userInfo.uid).set(userInfo);
-        setUserInfo(userInfo);
+        dispatch({
+          type: 'setUserInfo',
+          payload: userInfo
+        });
       } else {
         login();
       }
@@ -116,56 +124,63 @@ const App = () => {
   );
 
   return (
-    <div className={styles.container}>
-      <div className={styles.background}>
-        <svg
-          className={styles.waves}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 24 150 28"
-          preserveAspectRatio="none"
-        >
-          <defs>
-            <path
-              id="gentle-wave"
-              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-            />
-          </defs>
-          <g className={styles.parallax}>
-            <use href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
-            <use
-              href="#gentle-wave"
-              x="48"
-              y="3"
-              fill="rgba(255,255,255,0.5)"
-            />
-            <use
-              href="#gentle-wave"
-              x="48"
-              y="5"
-              fill="rgba(255,255,255,0.3)"
-            />
-            <use href="#gentle-wave" x="48" y="7" fill="#fff" />
-          </g>
-        </svg>
+    <store.Provider value={storeValue}>
+      <div className={styles.container}>
+        <div className={styles.background}>
+          <svg
+            className={styles.waves}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 24 150 28"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <path
+                id="gentle-wave"
+                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+              />
+            </defs>
+            <g className={styles.parallax}>
+              <use
+                href="#gentle-wave"
+                x="48"
+                y="0"
+                fill="rgba(255,255,255,0.7"
+              />
+              <use
+                href="#gentle-wave"
+                x="48"
+                y="3"
+                fill="rgba(255,255,255,0.5)"
+              />
+              <use
+                href="#gentle-wave"
+                x="48"
+                y="5"
+                fill="rgba(255,255,255,0.3)"
+              />
+              <use href="#gentle-wave" x="48" y="7" fill="#fff" />
+            </g>
+          </svg>
+        </div>
+        <div className={styles.main}>
+          <Message
+            loading={loading}
+            userInfo={userInfo}
+            messageList={useMemo(() => {
+              const list = [...messageList];
+              // 组件更新会有延迟 导致渲染延迟
+              commitMessageList.forEach(message => {
+                if (!list.find(item => item.id === message.id)) {
+                  list.unshift(message);
+                }
+              });
+              return list;
+            }, [messageList, commitMessageList])}
+          />
+          <Chat onCommit={handleCommit} />
+        </div>
       </div>
-      <div className={styles.main}>
-        <Message
-          loading={loading}
-          userInfo={userInfo}
-          messageList={useMemo(() => {
-            const list = [...messageList];
-            // 组件更新会有延迟 导致渲染延迟
-            commitMessageList.forEach(message => {
-              if (!list.find(item => item.id === message.id)) {
-                list.unshift(message);
-              }
-            });
-            return list;
-          }, [messageList, commitMessageList])}
-        />
-        <Chat onCommit={handleCommit} />
-      </div>
-    </div>
+    </store.Provider>
   );
 };
 

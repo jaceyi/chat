@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Message, { MessageInfo } from './Message';
-import { UserInfo } from '@/App';
+import { UserInfo } from '@/store/initialState';
 import * as styles from './style.scss';
 import Loading from '@/components/Loading';
 

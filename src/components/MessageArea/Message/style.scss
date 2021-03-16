@@ -21,7 +21,7 @@
     height: 36px;
     border-radius: 9em;
     overflow: hidden;
-    box-shadow: 0 0 2px rgba(#000, 0.2);
+    box-shadow: 2px 3px 4px rgba(#000, 0.1);
     flex: 0 0 auto;
 
     img {
@@ -38,6 +38,7 @@
 .header {
   display: flex;
   margin-bottom: 4px;
+  color: #999;
 
   .time {
     font-size: 12px;

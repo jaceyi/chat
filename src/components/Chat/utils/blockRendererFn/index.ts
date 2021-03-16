@@ -52,6 +52,7 @@ export const bindBlockRendererFn = (
           const blockKey = block.getKey();
           const contentState = editorState.getCurrentContent();
           const afterBlock = contentState.getBlockAfter(blockKey);
+          if (!afterBlock) return;
           const afterBlockKey = afterBlock.getKey();
 
           onChange(

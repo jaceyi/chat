@@ -5,16 +5,21 @@ import store from '@/store';
 
 interface LinkProps {
   children: ReactNode;
+  offsetKey: string;
 }
 
-const SuggestionUser = ({ children, ...rest }: LinkProps) => {
+const SuggestionUser = ({ children, offsetKey, ...rest }: LinkProps) => {
   const [{ userInfo, userList }] = useContext(store);
   console.log(userList);
 
   const nodeRef = useRef(null);
 
   console.log(rest);
-  return <span ref={nodeRef}>{children}</span>;
+  return (
+    <span data-offset-key={offsetKey} ref={nodeRef}>
+      {children}
+    </span>
+  );
 };
 
 export default SuggestionUser;

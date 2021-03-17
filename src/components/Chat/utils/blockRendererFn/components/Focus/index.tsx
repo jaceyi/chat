@@ -15,7 +15,7 @@ const Focus = (
     const { blockProps, isBlock, ...rest } = props;
 
     return (
-      <div onClick={blockProps.focusNextLine}>
+      <div className={styles.clear} onClick={blockProps.focusNextLine}>
         <div
           onClick={stopPropagation}
           className={clsx(styles.focus, isBlock && styles.block)}

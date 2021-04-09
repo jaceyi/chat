@@ -2,9 +2,14 @@ import { InitialState } from '@/store/initialState';
 
 type Type = 'setUserInfo' | 'setUserList';
 
+export interface DispatchAction {
+  type: Type;
+  payload: any;
+}
+
 export const reducer = (
   state: InitialState,
-  { type, payload }: { type: Type; payload: any }
+  { type, payload }: DispatchAction
 ): InitialState => {
   switch (type) {
     case 'setUserInfo':

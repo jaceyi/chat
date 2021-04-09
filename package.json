@@ -20,7 +20,6 @@
     "core-js": "^3.6.5",
     "dayjs": "^1.10.4",
     "draft-js": "^0.11.7",
-    "express": "^4.17.1",
     "firebase": "^8.2.6",
     "firebaseui": "^4.7.3",
     "rc-tooltip": "^5.1.0",
@@ -29,8 +28,7 @@
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.21",
     "react-spring": "^8.0.27",
-    "react-use-gesture": "^9.0.0",
-    "socket.io": "^3.0.5"
+    "react-use-gesture": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",

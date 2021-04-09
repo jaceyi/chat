@@ -1,20 +1,40 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
-import { useRef, useContext } from 'react';
-import store from '@/store';
+import { useRef, useEffect } from 'react';
+import { ChatStore } from 'chatUtils/types';
 
 interface LinkProps {
   children: ReactNode;
   offsetKey: string;
+  start: number;
+  end: number;
+  blockKey: string;
+  store: ChatStore;
 }
 
-const SuggestionUser = ({ children, offsetKey, ...rest }: LinkProps) => {
-  const [{ userInfo, userList }] = useContext(store);
-  console.log(userList);
+const SuggestionUser = ({
+  children,
+  offsetKey,
+  start,
+  end,
+  blockKey,
+  store
+}: LinkProps) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
 
-  const nodeRef = useRef(null);
+  useEffect(() => {
+    if (!store) return;
+    store.suggestion = {
+      start,
+      end,
+      blockKey,
+      rect: nodeRef.current
+    };
+    return () => {
+      store.suggestion = null;
+    };
+  });
 
-  console.log(rest);
   return (
     <span data-offset-key={offsetKey} ref={nodeRef}>
       {children}

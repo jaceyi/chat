@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { CompositeDecorator } from 'draft-js';
 import Link, { LinkEntityType, LinkMutability } from './components/Link';
 import Emoji, { EmojiEntityType, EmojiMutability } from './components/Emoji';
@@ -21,23 +22,33 @@ const findEntities = (type: string, mutability: Mutability) => (
   }, callback);
 };
 
-export const decorator = new CompositeDecorator([
-  {
-    strategy: findEntities(LinkEntityType, LinkMutability),
-    component: Link
-  },
-  {
-    strategy: findEntities(EmojiEntityType, EmojiMutability),
-    component: Emoji
-  },
-  {
-    strategy: (contentBlock, callback) => {
-      AttachUtils.findWithRegex(/@\S*/g, contentBlock, callback);
+export const getDecorator = (editor?) => {
+  const connectStoreToProps = Component => props => (
+    <Component {...props} store={editor?.current} />
+  );
+
+  return new CompositeDecorator([
+    {
+      strategy: findEntities(LinkEntityType, LinkMutability),
+      component: Link
     },
-    component: SuggestionUser
-  },
-  {
-    strategy: findEntities(UserEntityType, UserMutability),
-    component: User
-  }
-]);
+    {
+      strategy: findEntities(EmojiEntityType, EmojiMutability),
+      component: Emoji
+    },
+    {
+      strategy: (contentBlock, callback) => {
+        AttachUtils.findWithRegex(
+          /@(\w|[\u4e00-\u9fa5])*/g,
+          contentBlock,
+          callback
+        );
+      },
+      component: connectStoreToProps(SuggestionUser)
+    },
+    {
+      strategy: findEntities(UserEntityType, UserMutability),
+      component: User
+    }
+  ]);
+};

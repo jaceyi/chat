@@ -1,0 +1,12 @@
+.user {
+  background-color: #eee;
+  padding: 0 3px;
+  border-radius: 3px;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:active {
+    background-color: #ddd;
+  }
+}

@@ -14,3 +14,15 @@ export interface Raw {
 export interface ChangeEditorState {
   (editorState: any): void;
 }
+
+export interface Suggestion {
+  start: number;
+  end: number;
+  blockKey: string;
+  rect: HTMLSpanElement;
+}
+
+export interface ChatStore {
+  editor: any;
+  suggestion: Suggestion;
+}

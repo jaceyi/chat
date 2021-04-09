@@ -1,13 +1,19 @@
 import * as React from 'react';
 import { useState, useCallback, useRef } from 'react';
-import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  convertToRaw,
+  SelectionState
+} from 'draft-js';
 import Emoji, { EmojiInfo } from './handle/Emoji';
 import Icon from './handle/Icon';
 import Image from './handle/Image';
 import { compose } from '@/utils';
 import { Button } from 'react-alert-confirm';
 import {
-  decorator,
+  getDecorator,
   bindKeyBindingFn,
   KeyTypes,
   KeyCommands,
@@ -16,21 +22,26 @@ import {
   bindBlockRendererFn,
   blockRenderMap
 } from 'chatUtils';
-import { ChangeEditorState, Raw } from 'chatUtils/types';
+import { ChangeEditorState, Raw, ChatStore } from 'chatUtils/types';
+import Popover from './Popover';
+import { UserInfo } from '@/store';
 
 import 'draft-js/dist/Draft.css';
 import * as styles from './style.scss';
-
-const emptyEditorState = EditorState.createEmpty(decorator);
 
 interface ChatProps {
   onCommit: (raw: Raw) => void;
 }
 
 const Chat = ({ onCommit }: ChatProps) => {
-  const editor = useRef(null);
+  const store = useRef<ChatStore>({
+    editor: null,
+    suggestion: null
+  });
 
-  const [editorState, setEditorState] = useState(emptyEditorState);
+  const [editorState, setEditorState] = useState(() => {
+    return EditorState.createEmpty(getDecorator(store));
+  });
 
   const changeEditorState = useCallback<ChangeEditorState>(editorState => {
     let newEditorState = compose(
@@ -70,6 +81,7 @@ const Chat = ({ onCommit }: ChatProps) => {
       }
       onCommit(row);
 
+      const emptyEditorState = EditorState.createEmpty(getDecorator(store));
       const selection = emptyEditorState.getSelection();
       setEditorState(EditorState.forceSelection(emptyEditorState, selection));
     },
@@ -126,7 +138,33 @@ const Chat = ({ onCommit }: ChatProps) => {
 
   const handleUploadImage = useCallback(
     (fileList: File[]) => {
+      // todo 在内容中拖动图片报错
       RichStates.insertFiles(editorState, setEditorState, fileList);
+    },
+    [editorState]
+  );
+
+  const handleSelectUser = useCallback(
+    (user: UserInfo) => {
+      const { suggestion } = store.current;
+      if (!suggestion) return;
+      const selection = editorState.getSelection();
+      const focusOffset = selection.getFocusOffset();
+
+      const { blockKey, start } = suggestion;
+
+      const newEditorState = EditorState.forceSelection(
+        editorState,
+        new SelectionState({
+          anchorKey: blockKey,
+          anchorOffset: start,
+          focusKey: blockKey,
+          focusOffset: focusOffset,
+          isBackward: false
+        })
+      );
+
+      changeEditorState(RichStates.insertUser(newEditorState, user));
     },
     [editorState]
   );
@@ -157,7 +195,9 @@ const Chat = ({ onCommit }: ChatProps) => {
       </div>
       <div onClick={focusEditor} className={styles.chat}>
         <Editor
-          ref={editor}
+          ref={editor => {
+            store.current.editor = editor;
+          }}
           placeholder="请输入内容"
           editorState={editorState}
           handleKeyCommand={handleKeyCommand}
@@ -166,6 +206,11 @@ const Chat = ({ onCommit }: ChatProps) => {
           blockRendererFn={bindBlockRendererFn(editorState, setEditorState)}
           blockRenderMap={blockRenderMap}
           handlePastedFiles={handlePastedFiles}
+        />
+        <Popover
+          editorState={editorState}
+          store={store.current}
+          onSelect={handleSelectUser}
         />
       </div>
     </div>

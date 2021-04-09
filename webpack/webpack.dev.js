@@ -43,10 +43,6 @@ module.exports = merge(common, {
     historyApiFallback: true,
     contentBase: './public',
     hot: true,
-    overlay: {
-      warnings: true,
-      errors: true
-    },
     port: 2020
   }
 });

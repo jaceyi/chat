@@ -22,4 +22,14 @@
   font-size: 18px;
   caret-color: rgba(#000, 0.7);
   padding: 2px;
+  position: relative;
+}
+
+.popover {
+  transform: scale(0);
+  transform-origin: 1em 0;
+  transition: all 0.25s cubic-bezier(0.3, 1.2, 0.2, 1);
+  width: 260px;
+  box-shadow: 0 0 6px rgba(#000, 0.1);
+  position: fixed;
 }

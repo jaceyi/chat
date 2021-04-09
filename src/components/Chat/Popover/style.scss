@@ -1,0 +1,34 @@
+.popover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  transform-origin: left top;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(#000, 0.2);
+  border-radius: 4px;
+  padding: 6px;
+  z-index: 1;
+  font-size: 13px;
+
+  .content {
+    max-height: 120px;
+    overflow: auto;
+  }
+
+  .user {
+    padding: 6px 8px;
+    border-radius: 3px;
+    background-color: #fff;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: rgba(#000, 0.08);
+    }
+  }
+}

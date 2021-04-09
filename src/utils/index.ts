@@ -57,3 +57,18 @@ export const isEmpty = (object: object): boolean => {
  */
 export const stopPropagation = <T = HTMLDivElement>(e: MouseEvent<T>) =>
   e.stopPropagation();
+
+/**
+ * @description 防抖
+ * @param func
+ * @param wait
+ */
+export const debounce = <T extends any[]>(func: Function, wait: number) => {
+  let timer = null;
+  return (...args: T) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, wait);
+  };
+};

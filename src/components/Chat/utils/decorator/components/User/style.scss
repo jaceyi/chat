@@ -1,5 +1,5 @@
 .user {
-  background-color: #eee;
+  background-color: rgb(#888, 0.1);
   padding: 0 3px;
   border-radius: 3px;
   color: var(--primary-color);
@@ -7,6 +7,6 @@
   transition: background-color 0.3s;
 
   &:active {
-    background-color: #ddd;
+    background-color: rgb(#666, 0.3);
   }
 }

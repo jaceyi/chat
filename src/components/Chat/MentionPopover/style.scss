@@ -27,6 +27,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
+    &.active {
+      color: var(--primary-color);
+      background-color: rgba(#000, 0.05);
+    }
+
     &:hover {
       background-color: rgba(#000, 0.08);
     }

@@ -1,21 +1,31 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { ChatStore } from 'chatUtils/types';
+import { ChatStore, KeyCommand } from 'chatUtils/types';
 import store, { UserInfo } from '@/store';
 import * as styles from './style.scss';
 import { animated, useSpring } from 'react-spring';
 import { debounce } from '@/utils';
+import clsx from 'clsx';
 
 interface PopoverProps {
   editorState: any;
   store: ChatStore;
   onSelect: (user: UserInfo) => void;
+  keyCommand: KeyCommand;
 }
 
-const Popover = ({ editorState, store: chatStore, onSelect }: PopoverProps) => {
+const keyCommandType = 'MentionPopoverKeyCommand';
+
+const MentionPopover = ({
+  editorState,
+  store: chatStore,
+  onSelect,
+  keyCommand
+}: PopoverProps) => {
   const [{ userList }] = useContext(store);
 
   const [options, setOptions] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [{ size, ...style }, setStyle] = useSpring(() => ({
     size: 0,
     opacity: 0,
@@ -29,6 +39,8 @@ const Popover = ({ editorState, store: chatStore, onSelect }: PopoverProps) => {
 
   const getStyle = debounce(() => {
     const clearStyle = () => {
+      setActiveIndex(0);
+      setOptions([]);
       setStyle({ size: 0, opacity: 0, display: 'none' });
     };
     const selection = editorState.getSelection();
@@ -61,6 +73,7 @@ const Popover = ({ editorState, store: chatStore, onSelect }: PopoverProps) => {
         clearStyle();
         return;
       }
+      setActiveIndex(0);
       setOptions(options);
       setStyle({
         size: 1,
@@ -78,6 +91,23 @@ const Popover = ({ editorState, store: chatStore, onSelect }: PopoverProps) => {
     getStyle();
   }, [editorState]);
 
+  useEffect(() => {
+    keyCommand.set(keyCommandType, command => {
+      switch (command) {
+        case 'submit':
+          if (options.length) {
+            onSelect(options[activeIndex]);
+            return 'handled';
+          }
+          return 'not-handled';
+      }
+      return 'not-handled';
+    });
+    return () => {
+      keyCommand.delete(keyCommandType);
+    };
+  }, [options, activeIndex]);
+
   return (
     <animated.div
       style={{
@@ -87,14 +117,17 @@ const Popover = ({ editorState, store: chatStore, onSelect }: PopoverProps) => {
       className={styles.popover}
     >
       <div className={styles.content}>
-        {options.map(user => (
+        {options.map((user, index) => (
           <div
             onClick={e => {
               onSelect(user);
               e.preventDefault();
               e.stopPropagation();
             }}
-            className={styles.user}
+            className={clsx(
+              styles.user,
+              activeIndex === index && styles.active
+            )}
             key={user.email}
           >
             {user.name}
@@ -105,4 +138,4 @@ const Popover = ({ editorState, store: chatStore, onSelect }: PopoverProps) => {
   );
 };
 
-export default React.memo(Popover);
+export default React.memo(MentionPopover);

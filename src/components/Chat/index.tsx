@@ -15,15 +15,20 @@ import { Button } from 'react-alert-confirm';
 import {
   getDecorator,
   bindKeyBindingFn,
-  KeyTypes,
   KeyCommands,
   RichStates,
   AttachUtils,
   bindBlockRendererFn,
   blockRenderMap
 } from 'chatUtils';
-import { ChangeEditorState, Raw, ChatStore } from 'chatUtils/types';
-import Popover from './Popover';
+import {
+  ChangeEditorState,
+  Raw,
+  ChatStore,
+  HandleKeyCommand,
+  KeyCommand
+} from 'chatUtils/types';
+import MentionPopover from './MentionPopover';
 import { UserInfo } from '@/store';
 
 import 'draft-js/dist/Draft.css';
@@ -92,8 +97,14 @@ const Chat = ({ onCommit }: ChatProps) => {
     commitEditorState(editorState);
   };
 
-  const handleKeyCommand = useCallback(
-    (command: KeyTypes, editorState) => {
+  const keyCommandRef = useRef<KeyCommand>(new Map());
+
+  const handleKeyCommand = useCallback<HandleKeyCommand>(
+    (command, editorState) => {
+      for (const [_, keyCommand] of keyCommandRef.current) {
+        const handled = keyCommand(command, editorState);
+        if (handled === 'handled') return handled;
+      }
       switch (command) {
         case 'enter':
           changeEditorState(RichStates.insertWrap(editorState));
@@ -207,7 +218,8 @@ const Chat = ({ onCommit }: ChatProps) => {
           blockRenderMap={blockRenderMap}
           handlePastedFiles={handlePastedFiles}
         />
-        <Popover
+        <MentionPopover
+          keyCommand={keyCommandRef.current}
           editorState={editorState}
           store={store.current}
           onSelect={handleSelectUser}

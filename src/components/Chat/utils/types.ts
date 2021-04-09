@@ -1,3 +1,5 @@
+import { KeyTypes } from 'chatUtils/bindKeyBindingFn';
+
 export type Mutability = 'MUTABLE' | 'IMMUTABLE' | 'SEGMENTED';
 
 export interface UploadFile {
@@ -26,3 +28,9 @@ export interface ChatStore {
   editor: any;
   suggestion: Suggestion;
 }
+
+export interface HandleKeyCommand {
+  (command: KeyTypes, editorState: any): 'handled' | 'not-handled';
+}
+
+export type KeyCommand = Map<string, HandleKeyCommand>;

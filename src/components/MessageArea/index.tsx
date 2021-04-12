@@ -19,7 +19,7 @@ const MessageArea = ({ userInfo, messageList, loading }: MessageAreaProps) => {
         <Loading />
       ) : (
         messageList.map(message => (
-          <Message key={message.id} {...message} currentUserInfo={userInfo} />
+          <Message key={message.id} {...message} currentUserInfo={userInfo!} />
         ))
       )}
     </div>

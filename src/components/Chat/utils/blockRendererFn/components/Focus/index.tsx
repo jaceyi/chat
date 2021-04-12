@@ -6,7 +6,7 @@ import { stopPropagation } from '@/utils';
 import clsx from 'clsx';
 
 const Focus = (
-  WrappedComponent: ComponentType
+  WrappedComponent: ComponentType<any>
 ): FunctionComponent<{
   blockProps: AtomicBlockProps;
   isBlock: boolean; // 占满一行展示

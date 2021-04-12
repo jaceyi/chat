@@ -5,7 +5,7 @@ import { FileBlockType } from 'chatUtils/blockRendererFn/components/File';
 const fileEntityMap = [ImageBlockType, FileBlockType];
 
 // 加载本次发送消息内的图片
-export const loadFileForEntityMap = async entityMap => {
+export const loadFileForEntityMap = async (entityMap: any) => {
   interface Req {
     key: string;
     req: Promise<string>;

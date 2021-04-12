@@ -2,7 +2,7 @@ import * as React from 'react';
 import RCTooltip from 'rc-tooltip';
 import { useEffect, useState } from 'react';
 import emojis from './emojis';
-import { getEmojiSrc, connector } from '@/utils';
+import { getEmojiSrc } from '@/utils';
 
 import 'rc-tooltip/assets/bootstrap_white.css';
 import * as styles from './style.scss';
@@ -21,7 +21,7 @@ const Emoji = ({ onSelect }: EmojiProps) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const emojiList = [];
+    const emojiList: EmojiInfo[] = [];
     emojis.forEach(emoji => {
       const src = getEmojiSrc(emoji);
       const img = document.createElement('img');
@@ -34,7 +34,7 @@ const Emoji = ({ onSelect }: EmojiProps) => {
     setEmojiList(emojiList);
   }, []);
 
-  const handleClickEmoji = ([item]) => {
+  const handleClickEmoji = (item: EmojiInfo) => () => {
     onSelect(item);
     setVisible(false);
   };
@@ -51,7 +51,7 @@ const Emoji = ({ onSelect }: EmojiProps) => {
         <div className={styles.box}>
           {emojiList.map(item => (
             <div
-              onClick={connector(handleClickEmoji)(item)}
+              onClick={handleClickEmoji(item)}
               key={item.src}
               className={styles.emoji}
             >

@@ -8,11 +8,11 @@ import { Mutability } from 'chatUtils/types';
 import { AttachUtils } from 'chatUtils';
 
 const findEntities = (type: string, mutability: Mutability) => (
-  contentBlock,
-  callback,
-  contentState
+  contentBlock: any,
+  callback: Function,
+  contentState: any
 ) => {
-  contentBlock.findEntityRanges(character => {
+  contentBlock.findEntityRanges((character: any) => {
     const entityKey = character.getEntity();
 
     if (entityKey !== null) {
@@ -22,8 +22,8 @@ const findEntities = (type: string, mutability: Mutability) => (
   }, callback);
 };
 
-export const getDecorator = (editor?) => {
-  const connectStoreToProps = Component => props => (
+export const getDecorator = (editor?: any) => {
+  const connectStoreToProps = (Component: any) => (props: object) => (
     <Component {...props} store={editor?.current} />
   );
 
@@ -37,7 +37,7 @@ export const getDecorator = (editor?) => {
       component: Emoji
     },
     {
-      strategy: (contentBlock, callback) => {
+      strategy: (contentBlock: any, callback: Function) => {
         AttachUtils.findWithRegex(
           /@(\w|[\u4e00-\u9fa5])*/g,
           contentBlock,

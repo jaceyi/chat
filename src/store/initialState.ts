@@ -6,7 +6,7 @@ export interface UserInfo {
 }
 
 export interface InitialState {
-  userInfo: UserInfo;
+  userInfo: UserInfo | null;
   userList: UserInfo[];
 }
 

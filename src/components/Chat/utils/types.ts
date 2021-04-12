@@ -21,12 +21,12 @@ export interface Suggestion {
   start: number;
   end: number;
   blockKey: string;
-  rect: HTMLSpanElement;
+  rect: HTMLSpanElement | null;
 }
 
 export interface ChatStore {
   editor: any;
-  suggestion: Suggestion;
+  suggestion: Suggestion | null;
 }
 
 export interface HandleKeyCommand {

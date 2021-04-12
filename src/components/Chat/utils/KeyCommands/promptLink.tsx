@@ -4,7 +4,7 @@ import { RichStates } from 'chatUtils';
 import Input from '@/components/Input';
 import { REGEX_INTERNET } from '@/utils/consts';
 
-export const promptLink = async (editorState, setEditorState) => {
+export const promptLink = async (editorState: any, setEditorState: any) => {
   const selection = editorState.getSelection();
 
   let value = '';

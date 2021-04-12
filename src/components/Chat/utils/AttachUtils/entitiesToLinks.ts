@@ -11,17 +11,17 @@ import {
   LinkMutability
 } from 'chatUtils/decorator/components/Link';
 
-export const entitiesToLinks = editorState => {
+export const entitiesToLinks = (editorState: any) => {
   const contentState = editorState.getCurrentContent();
   // 先删除所有的 link entity
   let newContentState = contentState.set(
     'blockMap',
-    contentState.getBlockMap().map(block => {
+    contentState.getBlockMap().map((block: any) => {
       if (block) {
         const characterList = block.getCharacterList();
         return block.set(
           'characterList',
-          characterList.map(item => {
+          characterList.map((item: any) => {
             const entityKey = item.getEntity();
             if (!entityKey) return item;
             const entity = contentState.getEntity(entityKey);
@@ -41,7 +41,7 @@ export const entitiesToLinks = editorState => {
   );
   const blocks = newContentState.getBlockMap();
 
-  blocks.forEach(block => {
+  blocks.forEach((block: any) => {
     if (block) {
       const plainText = block.getText();
       /**

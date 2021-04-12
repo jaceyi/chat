@@ -16,6 +16,21 @@ interface PopoverProps {
 
 const keyCommandType = 'MentionPopoverKeyCommand';
 
+const getRelativeParent = (element: HTMLElement | null): HTMLElement | null => {
+  if (!element) {
+    return null;
+  }
+
+  const position = window
+    .getComputedStyle(element)
+    .getPropertyValue('position');
+  if (position !== 'static') {
+    return element;
+  }
+
+  return getRelativeParent(element.parentElement);
+};
+
 const MentionPopover = ({
   editorState,
   store: chatStore,
@@ -24,24 +39,28 @@ const MentionPopover = ({
 }: PopoverProps) => {
   const [{ userList }] = useContext(store);
 
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<UserInfo[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [{ size, ...style }, setStyle] = useSpring(() => ({
+  const [{ size, top, left, ...style }, setStyle] = useState({
     size: 0,
     opacity: 0,
     display: 'none',
     left: 0,
-    top: 0,
+    top: 0
+  });
+  const animateStyle = useSpring({
+    transform: `scale(${size})`,
+    ...style,
     config: {
       tension: 300
     }
-  }));
+  });
 
   const getStyle = debounce(() => {
     const clearStyle = () => {
       setActiveIndex(0);
       setOptions([]);
-      setStyle({ size: 0, opacity: 0, display: 'none' });
+      setStyle({ size: 0, opacity: 0, display: 'none', left: 0, top: 0 });
     };
     const selection = editorState.getSelection();
     if (!selection.isCollapsed() || !selection.getHasFocus()) {
@@ -75,12 +94,20 @@ const MentionPopover = ({
       }
       setActiveIndex(0);
       setOptions(options);
+      const relativeParent = getRelativeParent(rect);
+      let left = rect.offsetLeft + 10;
+      let top = rect.offsetTop + rect.offsetHeight;
+      if (relativeParent) {
+        const relativeParentRect = relativeParent.getBoundingClientRect();
+        left += relativeParentRect.left;
+        top += relativeParentRect.top;
+      }
       setStyle({
         size: 1,
         opacity: 1,
         display: 'block',
-        left: rect.offsetLeft + 10,
-        top: rect.offsetTop + rect.offsetHeight
+        left,
+        top
       });
     } else {
       clearStyle();
@@ -110,10 +137,7 @@ const MentionPopover = ({
 
   return (
     <animated.div
-      style={{
-        transform: size.interpolate(s => `scale(${s})`),
-        ...style
-      }}
+      style={{ ...animateStyle, top, left }}
       className={styles.popover}
     >
       <div className={styles.content}>

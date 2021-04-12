@@ -14,10 +14,8 @@ export const bindKeyBindingFn = (
   onChange: ChangeEditorState
 ) => (e: KeyboardEvent): KeyTypes => {
   if (e.key.length === 1) {
-    const handled = tryDeleteAtomicBlock(editorState, onChange);
-    if (handled) {
-      return;
-    }
+    // 输入字符 除了输入字符 其他 ctrl shift 之类的都是多个字母的单词
+    tryDeleteAtomicBlock(editorState, onChange);
   }
   if (hasCommandModifier(e) || isCtrlKeyCommand(e)) {
     switch (e.key) {

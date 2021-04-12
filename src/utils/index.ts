@@ -11,26 +11,6 @@ export const getEmojiSrc = (unicode: string): string => {
   return `${base}${size}/${codePoint}${ext}`;
 };
 
-/**
- * @description 连接器 一般适用于连接外部传递参数和事件参数
- * @param func
- * @returns {function(...[*]): function(...[*]=)}
- */
-
-interface ConnectorCallback<P = any[], V = any[]> {
-  ([...P], [...V]): void;
-}
-
-export const connector = <P extends any[], V extends any[]>(
-  func: ConnectorCallback<P, V>
-) => {
-  return (...params: P) => (
-    ...eventValues: any[]
-  ): void | ConnectorCallback<P, V> => {
-    func && func([...params], [...eventValues]);
-  };
-};
-
 export const compose = <T = any>(...functions: Function[]) => (arg: any): T => {
   return functions.reduce((val, f) => f(val), arg);
 };
@@ -46,7 +26,7 @@ export const getRandomId = (): string => {
 /**
  * @description 是否为空
  */
-export const isEmpty = (object: object): boolean => {
+export const isEmpty = (object: any): boolean => {
   if (!object) return true;
   return Object.keys(object).length === 0;
 };
@@ -64,10 +44,10 @@ export const stopPropagation = <T = HTMLDivElement>(e: MouseEvent<T>) =>
  * @param wait
  */
 export const debounce = <T extends any[]>(func: Function, wait: number) => {
-  let timer = null;
+  let timer: number;
   return (...args: T) => {
     clearTimeout(timer);
-    timer = setTimeout(() => {
+    timer = window.setTimeout(() => {
       func(...args);
     }, wait);
   };

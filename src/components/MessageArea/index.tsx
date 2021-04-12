@@ -8,7 +8,7 @@ export type MessageList = MessageInfo[];
 
 interface MessageAreaProps {
   messageList: MessageList;
-  userInfo: UserInfo;
+  userInfo: UserInfo | null;
   loading: boolean;
 }
 

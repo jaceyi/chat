@@ -7,7 +7,7 @@ import { EditorState, Modifier } from 'draft-js';
  * @param type
  */
 export const insertInline = (
-  editorState,
+  editorState: any,
   text: string,
   type: string = 'insert-text'
 ) => {

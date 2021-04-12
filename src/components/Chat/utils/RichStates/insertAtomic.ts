@@ -6,7 +6,7 @@ import { EditorState, AtomicBlockUtils } from 'draft-js';
  * @param type
  * @param data
  */
-export const insertAtomic = (editorState, type, data?: any) => {
+export const insertAtomic = (editorState: any, type: string, data?: any) => {
   const contentState = editorState.getCurrentContent();
   const contentStateWithEntity = contentState.createEntity(
     type,

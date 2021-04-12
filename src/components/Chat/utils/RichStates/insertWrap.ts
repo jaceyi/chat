@@ -5,7 +5,7 @@ import * as Immutable from 'immutable';
  * @description 换行
  * @param editorState
  */
-export const insertWrap = editorState => {
+export const insertWrap = (editorState: any) => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
   const newBlockKey = genKey();

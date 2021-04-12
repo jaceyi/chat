@@ -3,13 +3,13 @@ import { ImageBlockType } from 'chatUtils/blockRendererFn/components/Image';
 import { FileBlockType } from 'chatUtils/blockRendererFn/components/File';
 
 export const insertFiles = async (
-  editorState,
-  setEditorState,
-  fileList: File[]
+  editorState: any,
+  setEditorState: any,
+  fileList: FileList
 ) => {
   let _editorState = editorState;
 
-  for (const file of fileList) {
+  for (const file of Array.from(fileList)) {
     _editorState = await new Promise(resolve => {
       const reader = new FileReader();
       reader.readAsDataURL(file);

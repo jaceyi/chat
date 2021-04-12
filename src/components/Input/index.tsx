@@ -3,9 +3,12 @@ import type { InputHTMLAttributes } from 'react';
 
 import * as styles from './style.scss';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  onChange: (string) => string;
-}
+type InputProps = Override<
+  InputHTMLAttributes<HTMLInputElement>,
+  {
+    onChange: (string: string) => void;
+  }
+>;
 
 const Input = ({ onChange, className = '', ...props }: InputProps) => {
   return (

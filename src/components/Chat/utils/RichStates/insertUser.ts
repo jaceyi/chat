@@ -7,7 +7,7 @@ import { UserEntityType } from 'chatUtils/decorator/components/User';
  * @param editorState
  * @param user
  */
-export const insertUser = (editorState, user: UserInfo) => {
+export const insertUser = (editorState: any, user: UserInfo) => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
 

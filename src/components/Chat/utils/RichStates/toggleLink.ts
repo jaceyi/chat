@@ -9,7 +9,7 @@ import {
  * @param editorState
  * @param url
  */
-export const toggleLink = (editorState, url: string) => {
+export const toggleLink = (editorState: any, url: string) => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
   const contentStateWithEntity = contentState.createEntity(

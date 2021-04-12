@@ -148,7 +148,7 @@ const Chat = ({ onCommit }: ChatProps) => {
   );
 
   const handleUploadImage = useCallback(
-    (fileList: File[]) => {
+    (fileList: FileList) => {
       // todo 在内容中拖动图片报错
       RichStates.insertFiles(editorState, setEditorState, fileList);
     },
@@ -206,7 +206,7 @@ const Chat = ({ onCommit }: ChatProps) => {
       </div>
       <div onClick={focusEditor} className={styles.chat}>
         <Editor
-          ref={editor => {
+          ref={(editor: any) => {
             store.current.editor = editor;
           }}
           placeholder="请输入内容"

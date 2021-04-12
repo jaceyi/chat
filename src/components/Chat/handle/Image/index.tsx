@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as styles from './style.scss';
+import type { ChangeEvent } from 'react';
 
 interface ImageProps {
-  onUpload: (src: File[]) => void;
+  onUpload: (src: FileList) => void;
 }
 
 const Image = ({ onUpload }: ImageProps) => {
-  const handleUploadFile = e => {
-    onUpload([...e.target.files]);
+  const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
+    onUpload(e.target.files!);
   };
 
   return (
@@ -15,7 +17,6 @@ const Image = ({ onUpload }: ImageProps) => {
       <img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f301.png" alt="" />
       <input
         value=""
-        multiple
         onChange={handleUploadFile}
         className={styles.input}
         type="file"

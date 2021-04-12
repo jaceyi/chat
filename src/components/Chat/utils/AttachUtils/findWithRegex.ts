@@ -1,11 +1,15 @@
-export const findWithRegex = (regex: RegExp, contentBlock, callback): void => {
+export const findWithRegex = (
+  regex: RegExp,
+  contentBlock: any,
+  callback: Function
+): void => {
   const contentBlockText = contentBlock.getText();
 
   contentBlock.findEntityRanges(
-    character => {
+    (character: any) => {
       return !character.getEntity();
     },
-    (nonEntityStart, nonEntityEnd) => {
+    (nonEntityStart: number, nonEntityEnd: number) => {
       const text = contentBlockText.slice(nonEntityStart, nonEntityEnd);
       let matchArr;
       let start;

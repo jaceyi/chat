@@ -6,12 +6,12 @@ import {
   EmojiMutability
 } from 'chatUtils/decorator/components/Emoji';
 
-export const entitiesToEmojis = editorState => {
+export const entitiesToEmojis = (editorState: any) => {
   const contentState = editorState.getCurrentContent();
   const blocks = contentState.getBlockMap();
   let newContentState = contentState;
 
-  blocks.forEach(block => {
+  blocks.forEach((block: any) => {
     if (block) {
       const plainText = block.getText();
       const addEntityToEmoji = (start: number, end: number): void => {

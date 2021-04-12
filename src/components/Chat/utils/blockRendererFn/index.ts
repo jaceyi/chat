@@ -12,12 +12,12 @@ export const bindBlockRendererFn = (
   editorState: any,
   onChange: ChangeEditorState
 ) => (
-  block
+  block: any
 ): {
   component: FunctionComponent<AtomicProps>;
   editable: boolean;
   props: AtomicBlockProps;
-} => {
+} | null => {
   if (block.getType() === 'atomic') {
     return {
       component: Atomic,

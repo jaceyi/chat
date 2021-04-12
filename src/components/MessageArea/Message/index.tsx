@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 export interface MessageInfo {
   raw: Raw;
-  timeStamp: number;
+  timeStamp: number | null;
   id: string;
   userInfo: UserInfo;
 }

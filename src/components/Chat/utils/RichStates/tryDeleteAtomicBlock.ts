@@ -5,7 +5,10 @@ import { EditorState, SelectionState } from 'draft-js';
  * @param editorState
  * @param setEditorState
  */
-export const tryDeleteAtomicBlock = (editorState, setEditorState): boolean => {
+export const tryDeleteAtomicBlock = (
+  editorState: any,
+  setEditorState: any
+): boolean | void => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
   if (!selection.isCollapsed()) return;
@@ -42,8 +45,6 @@ export const tryDeleteAtomicBlock = (editorState, setEditorState): boolean => {
         })
       )
     );
-
-    return true;
   }
   return false;
 };

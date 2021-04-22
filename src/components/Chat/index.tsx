@@ -97,6 +97,7 @@ const Chat = ({ onCommit }: ChatProps) => {
     commitEditorState(editorState);
   };
 
+  // 键盘事件队列
   const keyCommandRef = useRef<KeyCommand>(new Map());
 
   const handleKeyCommand = useCallback<HandleKeyCommand>(

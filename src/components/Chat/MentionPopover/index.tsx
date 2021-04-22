@@ -120,16 +120,29 @@ const MentionPopover = ({
 
   useEffect(() => {
     keyCommand.set(keyCommandType, command => {
+      const { length } = options;
+      if (!length) return 'not-handled';
       switch (command) {
         case 'submit':
-          if (options.length) {
-            onSelect(options[activeIndex]);
-            return 'handled';
+          onSelect(options[activeIndex]);
+          return 'handled';
+        case 'up':
+          if (activeIndex > 0) {
+            setActiveIndex(activeIndex - 1);
           }
-          return 'not-handled';
+          return 'handled';
+        case 'down':
+          if (activeIndex < length - 1) {
+            setActiveIndex(activeIndex + 1);
+          }
+          return 'handled';
       }
       return 'not-handled';
     });
+    const activeEle = document.querySelector(`.${styles.active}`);
+    if (activeEle) {
+      activeEle.scrollIntoView(false);
+    }
     return () => {
       keyCommand.delete(keyCommandType);
     };

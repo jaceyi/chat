@@ -73,13 +73,13 @@ const Chat = ({ onCommit }: ChatProps) => {
       const row = convertToRaw(contentState);
       if (!contentState.hasText()) return;
       const { blocks } = row;
-      const lastBlock = blocks[blocks.size - 1];
+      const lastBlock = blocks[blocks.length - 1];
       if (lastBlock.type === 'unstyled' && !lastBlock.text) {
         blocks.pop(); // 如果最后一行为空则删除该行
       }
       const first = blocks[0];
       if (
-        blocks.size > 1 &&
+        blocks.length > 1 &&
         blocks[1].type === 'atomic' &&
         first.type === 'unstyled' &&
         !first.text

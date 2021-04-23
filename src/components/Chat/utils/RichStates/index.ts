@@ -5,3 +5,4 @@ export * from './insertWrap';
 export * from './tryDeleteAtomicBlock';
 export * from './insertFiles';
 export * from './insertUser';
+export * from './moveSelection';

@@ -5,7 +5,8 @@ import {
   EditorState,
   RichUtils,
   convertToRaw,
-  SelectionState
+  SelectionState,
+  AtomicBlockUtils
 } from 'draft-js';
 import Emoji, { EmojiInfo } from './handle/Emoji';
 import Icon from './handle/Icon';
@@ -26,7 +27,8 @@ import {
   Raw,
   ChatStore,
   HandleKeyCommand,
-  KeyCommand
+  KeyCommand,
+  DraftHandleValue
 } from 'chatUtils/types';
 import MentionPopover from './MentionPopover';
 import { UserInfo } from '@/store';
@@ -62,6 +64,7 @@ const Chat = ({ onCommit }: ChatProps) => {
       const selection = editorState.getSelection();
       newEditorState = EditorState.forceSelection(newEditorState, selection);
     }
+    // console.log(RichUtils.getCurrentBlockType(newEditorState));
     setEditorState(newEditorState);
   }, []);
 
@@ -120,6 +123,12 @@ const Chat = ({ onCommit }: ChatProps) => {
         case 'submit':
           commitEditorState(editorState);
           return 'handled';
+        case 'up':
+          changeEditorState(RichStates.focusBeforeBlock(editorState));
+          return 'handled';
+        case 'down':
+          changeEditorState(RichStates.focusAfterBlock(editorState));
+          return 'handled';
       }
 
       const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -150,8 +159,51 @@ const Chat = ({ onCommit }: ChatProps) => {
 
   const handleUploadImage = useCallback(
     (fileList: FileList) => {
-      // todo 在内容中拖动图片报错
       RichStates.insertFiles(editorState, setEditorState, fileList);
+    },
+    [editorState]
+  );
+
+  const handleDrop = useCallback(
+    (
+      selection: any,
+      dataTransfer: object,
+      isInternal: string
+    ): DraftHandleValue => {
+      if (isInternal === 'internal') {
+        const contentState = editorState.getCurrentContent();
+        const currentSelection = editorState.getSelection();
+        const currentBlockKey = currentSelection.getFocusKey();
+        const currentBlock = contentState.getBlockForKey(currentBlockKey);
+        if (currentBlock.getType('atomic')) {
+          // 在拖动原子块
+          const selectedBlockKey = selection.getFocusKey();
+          const beforeBlockKey = contentState.getKeyBefore(currentBlockKey);
+          const beforeBlock = contentState.getBlockForKey(beforeBlockKey);
+          const afterBlockKey = contentState.getKeyAfter(currentBlockKey);
+
+          if (
+            selectedBlockKey === currentBlockKey ||
+            (selectedBlockKey === beforeBlockKey &&
+              selection.getFocusOffset() === beforeBlock.getLength()) ||
+            (selectedBlockKey === afterBlockKey &&
+              selection.getFocusOffset() === 0)
+          ) {
+            return 'handled';
+          }
+
+          changeEditorState(
+            AtomicBlockUtils.moveAtomicBlock(
+              editorState,
+              currentBlock,
+              selection,
+              'replace'
+            )
+          );
+          return 'handled';
+        }
+      }
+      return 'not-handled';
     },
     [editorState]
   );
@@ -218,6 +270,7 @@ const Chat = ({ onCommit }: ChatProps) => {
           blockRendererFn={bindBlockRendererFn(editorState, setEditorState)}
           blockRenderMap={blockRenderMap}
           handlePastedFiles={handlePastedFiles}
+          handleDrop={handleDrop}
         />
         <MentionPopover
           keyCommand={keyCommandRef.current}

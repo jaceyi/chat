@@ -29,8 +29,10 @@ export interface ChatStore {
   suggestion: Suggestion | null;
 }
 
+export type DraftHandleValue = 'handled' | 'not-handled';
+
 export interface HandleKeyCommand {
-  (command: KeyTypes, editorState: any): 'handled' | 'not-handled';
+  (command: KeyTypes, editorState: any): DraftHandleValue;
 }
 
 export type KeyCommand = Map<string, HandleKeyCommand>;

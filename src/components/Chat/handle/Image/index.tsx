@@ -8,7 +8,6 @@ interface ImageProps {
 
 const Image = ({ onUpload }: ImageProps) => {
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     onUpload(e.target.files!);
   };
 

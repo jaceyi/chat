@@ -21,7 +21,7 @@ export const tryDeleteAtomicBlock = (
     const beforeBlock = contentState.getBlockBefore(blockKey);
     const beforeBlockKey = beforeBlock?.getKey();
     const blocks = contentState.getBlockMap();
-    if (blocks.length === 1) return;
+    if (blocks.size === 1) return;
     const newContentState = contentState.set(
       'blockMap',
       blocks.delete(blockKey)
@@ -45,6 +45,7 @@ export const tryDeleteAtomicBlock = (
         })
       )
     );
+    return true;
   }
   return false;
 };

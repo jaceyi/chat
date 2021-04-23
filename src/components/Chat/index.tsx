@@ -64,7 +64,6 @@ const Chat = ({ onCommit }: ChatProps) => {
       const selection = editorState.getSelection();
       newEditorState = EditorState.forceSelection(newEditorState, selection);
     }
-    // console.log(RichUtils.getCurrentBlockType(newEditorState));
     setEditorState(newEditorState);
   }, []);
 
@@ -74,13 +73,13 @@ const Chat = ({ onCommit }: ChatProps) => {
       const row = convertToRaw(contentState);
       if (!contentState.hasText()) return;
       const { blocks } = row;
-      const lastBlock = blocks[blocks.length - 1];
+      const lastBlock = blocks[blocks.size - 1];
       if (lastBlock.type === 'unstyled' && !lastBlock.text) {
         blocks.pop(); // 如果最后一行为空则删除该行
       }
       const first = blocks[0];
       if (
-        blocks.length > 1 &&
+        blocks.size > 1 &&
         blocks[1].type === 'atomic' &&
         first.type === 'unstyled' &&
         !first.text
@@ -130,7 +129,6 @@ const Chat = ({ onCommit }: ChatProps) => {
           changeEditorState(RichStates.focusAfterBlock(editorState));
           return 'handled';
       }
-
       const newState = RichUtils.handleKeyCommand(editorState, command);
 
       if (newState) {

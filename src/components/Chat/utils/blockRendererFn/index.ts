@@ -56,7 +56,7 @@ export const bindBlockRendererFn = (
           const afterBlockKey = afterBlock.getKey();
 
           onChange(
-            EditorState.acceptSelection(
+            EditorState.forceSelection(
               editorState,
               new SelectionState({
                 anchorKey: afterBlockKey,

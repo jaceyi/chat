@@ -1,11 +1,11 @@
 .file {
   border-radius: 4px;
-  padding: 10px 20px;
+  padding: 10px 14px;
   cursor: pointer;
   background-color: rgba(#fff, 0.5);
   box-shadow: 0 0 2px rgba(#000, 0.15);
   transition: box-shadow 0.3s;
-  font-size: 16px;
+  font-size: 14px;
 
   &:hover {
     box-shadow: 0 0 10px rgba(#000, 0.1);
@@ -13,11 +13,9 @@
 }
 
 .title {
-  color: rgba(#fff, 0.8);
-  font-size: 13px;
+  color: rgba(#000, 0.5);
 }
 
 .viewer {
   margin-left: 10px;
-  font-size: 13px;
 }

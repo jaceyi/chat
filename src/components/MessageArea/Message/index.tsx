@@ -71,7 +71,9 @@ const Message = ({
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.time}>
-              {timeStamp ? day.unix(timeStamp).format('HH:mm:ss') : '发送中'}
+              {timeStamp
+                ? day.unix(timeStamp).format('YY年M月D日 HH:mm:ss')
+                : '发送中'}
             </div>
             <div className={styles.name}>{name}</div>
           </div>

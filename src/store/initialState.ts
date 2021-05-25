@@ -3,6 +3,8 @@ export interface UserInfo {
   uid: string;
   email: string;
   avatar: string;
+  state: string;
+  disabled?: boolean;
 }
 
 export interface InitialState {

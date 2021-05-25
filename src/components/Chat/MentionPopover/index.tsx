@@ -121,7 +121,7 @@ const MentionPopover = ({
   useEffect(() => {
     keyCommand.set(keyCommandType, command => {
       const { length } = options;
-      if (!length) return 'not-handled';
+      if (!chatStore.suggestion || !length) return 'not-handled';
       switch (command) {
         case 'submit':
           onSelect(options[activeIndex]);
@@ -168,6 +168,7 @@ const MentionPopover = ({
             key={user.email}
           >
             {user.name}
+            {user.state === 'online' && <span className={styles.online} />}
           </div>
         ))}
       </div>

@@ -5,16 +5,26 @@ import { EditorState, Modifier } from 'draft-js';
  * @param editorState
  * @param text
  * @param type
+ * @param insertSpace 是否需要在之后插入一个空格
  */
 export const insertInline = (
   editorState: any,
   text: string,
-  type: string = 'insert-text'
+  type: string = 'insert-text',
+  insertSpace?: boolean
 ) => {
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
 
-  const newContentState = Modifier.replaceText(contentState, selection, text);
+  let newContentState = Modifier.replaceText(contentState, selection, text);
+
+  if (insertSpace) {
+    newContentState = Modifier.insertText(
+      newContentState,
+      newContentState.getSelectionAfter(),
+      ' '
+    );
+  }
 
   return EditorState.push(editorState, newContentState, type);
 };

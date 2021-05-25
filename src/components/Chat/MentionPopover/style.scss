@@ -35,5 +35,14 @@
     &:hover {
       background-color: rgba(#000, 0.08);
     }
+
+    .online {
+      display: inline-block;
+      background-color: #22ea8a;
+      border-radius: 9em;
+      width: 8px;
+      height: 8px;
+      margin-left: 6px;
+    }
   }
 }

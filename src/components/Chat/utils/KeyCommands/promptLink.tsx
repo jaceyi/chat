@@ -24,7 +24,9 @@ export const promptLink = async (editorState: any, setEditorState: any) => {
   if (!new RegExp(REGEX_INTERNET).test(value)) return;
 
   if (isCollapsed) {
-    setEditorState(RichStates.insertInline(editorState, value, 'insert-link'));
+    setEditorState(
+      RichStates.insertInline(editorState, value, 'insert-link', true)
+    );
   } else {
     setEditorState(RichStates.toggleLink(editorState, value));
   }

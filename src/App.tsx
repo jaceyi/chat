@@ -31,28 +31,43 @@ const App = () => {
   useDidMount(async () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        const userInfo = {
-          name: user.displayName || user.email,
-          email: user.email,
-          uid: user.uid,
-          avatar: user.photoURL
-        };
-        console.log(`登陆用户：${userInfo.name}`);
-        database.ref('user/').on('value', snapshot => {
-          const data: { [key: string]: UserInfo } = snapshot.val() ?? {};
-          dispatch({
-            type: 'setUserList',
-            payload: Object.values(data)
-          });
+        const userRef = database.ref('user/' + user.uid);
+        userRef.get().then(snapshot => {
+          if (snapshot.exists()) {
+            const userInfo = snapshot.val();
+            dispatch({
+              type: 'setUserInfo',
+              payload: userInfo
+            });
+          } else {
+            const userInfo = {
+              name: user.displayName || user.email,
+              email: user.email,
+              uid: user.uid,
+              avatar: user.photoURL
+            };
+            userRef.set(userInfo);
+          }
         });
-        database.ref('user/' + userInfo.uid).set(userInfo);
-        dispatch({
-          type: 'setUserInfo',
-          payload: userInfo
+
+        userRef.on('value', snapshot => {
+          dispatch({
+            type: 'setUserInfo',
+            payload: snapshot.val()
+          });
         });
       } else {
         login();
       }
+    });
+
+    // 监听用户列表
+    database.ref('user/').on('value', snapshot => {
+      const data: { [key: string]: UserInfo } = snapshot.val() ?? {};
+      dispatch({
+        type: 'setUserList',
+        payload: Object.values(data)
+      });
     });
   });
 
@@ -62,6 +77,9 @@ const App = () => {
         即将跳转至<a href="https://github.com">Github</a>进行登录，请确认！
       </div>
     );
+    window.setTimeout(() => {
+      alert('长时间未响应，应是你的网络不支持访问！🥺');
+    }, 10000);
     await firebase.auth().signInWithRedirect(githubProvider);
   };
 
@@ -78,6 +96,23 @@ const App = () => {
         }
         const data: { [key: string]: MessageInfo } = snapshot.val() ?? {};
         setMessageList(Object.values(data).reverse());
+      });
+
+      database.ref('.info/connected').on('value', snapshot => {
+        if (snapshot.val() === false) return;
+        const userRef = database.ref('user/' + userInfo!.uid);
+        userRef
+          .onDisconnect()
+          .set({
+            ...userInfo,
+            state: 'offline'
+          })
+          .then(() => {
+            userRef.set({
+              ...userInfo,
+              state: 'online'
+            });
+          });
       });
     }
   }, [userInfo]);
@@ -113,7 +148,7 @@ const App = () => {
       setCommitMessageList([
         {
           id: new Date().getTime() + '_' + userInfo.uid,
-          userInfo,
+          uid: userInfo.uid,
           timeStamp: null,
           raw
         },
@@ -129,7 +164,6 @@ const App = () => {
         <div className={styles.main}>
           <Message
             loading={loading}
-            userInfo={userInfo}
             messageList={useMemo(() => {
               const list = [...messageList];
               // 组件更新会有延迟 导致渲染延迟

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ReactNode, useMemo } from 'react';
-import * as styles from './style.scss';
+import * as styles from './style.module.scss';
 import { getEmojiSrc } from '@/utils';
 import { Mutability } from 'chatUtils/types';
 

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { ChatStore, KeyCommand } from 'chatUtils/types';
 import store, { UserInfo } from '@/store';
-import * as styles from './style.scss';
-import { animated, useSpring } from 'react-spring';
+import * as styles from './style.module.scss';
+import { animated, useSpring } from '@react-spring/web';
 import { debounce } from '@/utils';
 import clsx from 'clsx';
 

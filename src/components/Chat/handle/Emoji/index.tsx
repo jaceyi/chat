@@ -5,7 +5,7 @@ import emojis from './emojis';
 import { getEmojiSrc } from '@/utils';
 
 import 'rc-tooltip/assets/bootstrap_white.css';
-import * as styles from './style.scss';
+import * as styles from './style.module.scss';
 
 export interface EmojiInfo {
   src: string;

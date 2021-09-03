@@ -1,108 +1,106 @@
-:global {
-  :root {
-    --primary-color: #00a4ff;
-    --secondary-color: rgb(153, 215, 244, 0.4);
-    --contrast-color: rgb(255, 208, 70);
+:root {
+  --primary-color: #00a4ff;
+  --secondary-color: rgb(153, 215, 244, 0.4);
+  --contrast-color: rgb(255, 208, 70);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: unset;
+
+  &:hover {
+    text-decoration: underline;
   }
+}
 
-  a {
-    color: var(--primary-color);
-    text-decoration: unset;
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
 
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  word-break: break-all;
+}
+
+body {
+  background-color: #fafafa;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 16px;
+}
+
+h6 {
+  font-size: 14px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin-bottom: 6px;
+
+  &:not(:first-child) {
+    margin-top: 4px;
+  }
+}
+
+input {
+  outline: none;
+}
+
+.alert-confirm-header-close {
+  display: none;
+}
+
+.alert-confirm-button {
+  box-shadow: 0 -1px 3px 0 rgba(#000, 0.1);
+
+  &.primary-button {
     &:hover {
-      text-decoration: underline;
+      box-shadow: 0 1px 10px 0 rgba(#000, 0.2);
     }
   }
+}
 
-  * {
-    margin: 0;
-    padding: 0;
-    outline: none;
+.DraftEditor-root {
+  .DraftEditor-editorContainer {
+    border-left: unset;
   }
 
-  code {
-    padding: 2px 4px;
-    color: #c7254e;
-    background-color: #f9f2f4;
+  .public-DraftStyleDefault-pre {
+    padding: 4px 8px;
     border-radius: 4px;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     word-break: break-all;
-  }
-
-  body {
-    background-color: #fafafa;
-    font-size: 16px;
-  }
-
-  h1 {
-    font-size: 24px;
-  }
-
-  h2 {
-    font-size: 22px;
-  }
-
-  h3 {
-    font-size: 20px;
-  }
-
-  h4 {
-    font-size: 18px;
-  }
-
-  h5 {
-    font-size: 16px;
-  }
-
-  h6 {
-    font-size: 14px;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    margin-bottom: 6px;
+    background: rgba(#000, 0.1);
+    line-height: 1.4;
 
     &:not(:first-child) {
-      margin-top: 4px;
-    }
-  }
-
-  input {
-    outline: none;
-  }
-
-  .alert-confirm-header-close {
-    display: none;
-  }
-
-  .alert-confirm-button {
-    box-shadow: 0 -1px 3px 0 rgba(#000, 0.1);
-
-    &.primary-button {
-      &:hover {
-        box-shadow: 0 1px 10px 0 rgba(#000, 0.2);
-      }
-    }
-  }
-
-  .DraftEditor-root {
-    .DraftEditor-editorContainer {
-      border-left: unset;
-    }
-
-    .public-DraftStyleDefault-pre {
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-      word-break: break-all;
-      background: rgba(#000, 0.1);
-      line-height: 1.4;
-
-      &:not(:first-child) {
-        margin-top: 6px;
-      }
+      margin-top: 6px;
     }
   }
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import type { InputHTMLAttributes } from 'react';
-
-import * as styles from './style.scss';
+import * as styles from './style.module.scss';
 
 type InputProps = Override<
   InputHTMLAttributes<HTMLInputElement>,

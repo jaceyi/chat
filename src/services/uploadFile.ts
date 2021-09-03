@@ -1,13 +1,12 @@
-import { storage } from '@/utils/firebase';
 import { getRandomId } from '@/utils';
 import { UploadFile } from 'chatUtils/types';
-
-const fileRef = storage.ref();
+import { storage } from '@/utils/firebase';
+import { ref, uploadString } from 'firebase/storage';
 
 export const uploadFile = async (file: UploadFile) => {
   const [_, suffix] = file.type.split('/');
-  const res = await fileRef
-    .child(`editor-file/${getRandomId()}.${suffix}`)
-    .putString(file.src, 'data_url');
-  return await res.ref.getDownloadURL();
+  const fileRef = ref(storage, `editor-file/${getRandomId()}.${suffix}`);
+
+  const res = await uploadString(fileRef, file.src, 'data_url');
+  return res.ref.fullPath;
 };

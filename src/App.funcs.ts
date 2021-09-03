@@ -33,7 +33,7 @@ export const loadFileForEntityMap = async (entityMap: any) => {
     }
   }
 
-  await new Promise(resolve => {
+  await new Promise<void>(resolve => {
     let allCount = 0;
     let resolveCount = 0;
 

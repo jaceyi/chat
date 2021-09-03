@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './style.scss';
+import * as styles from './style.module.scss';
 import type { FunctionComponent } from 'react';
 import { useState } from 'react';
 

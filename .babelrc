@@ -1,4 +1,12 @@
 {
-  "presets": ["@babel/preset-react", "@babel/preset-env"],
-  "plugins": ["react-hot-loader/babel"]
+  "presets": [
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ],
+    ["@babel/preset-env", { "targets": "defaults" }]
+  ],
+  "plugins": ["react-refresh/babel"]
 }

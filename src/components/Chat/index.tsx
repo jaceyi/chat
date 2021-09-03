@@ -34,7 +34,7 @@ import MentionPopover from './MentionPopover';
 import { UserInfo } from '@/store';
 
 import 'draft-js/dist/Draft.css';
-import * as styles from './style.scss';
+import * as styles from './style.module.scss';
 
 interface ChatProps {
   onCommit: (raw: Raw) => void;

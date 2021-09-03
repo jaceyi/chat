@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 import { Mutability } from 'chatUtils/types';
-import * as styles from './style.scss';
+import * as styles from './style.module.scss';
 
 export const UserEntityType = 'USER';
 export const UserMutability: Mutability = 'IMMUTABLE';

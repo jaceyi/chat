@@ -4,10 +4,7 @@
     "es6": true
   },
   "extends": [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "prettier"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -18,9 +15,8 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 2018,
-    "sourceType": "module",
-    "parser": "babel-eslint"
+    "ecmaVersion": 2020,
+    "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
   "settings": {
@@ -29,6 +25,8 @@
     }
   },
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off",
     "indent": [
       "error",
       2,
@@ -60,7 +58,6 @@
     "jsx-quotes": ["error", "prefer-double"],
     "no-var": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-    "react/prop-types": 0,
-    "react/display-name": 0
+    "react/prop-types": 0
   }
 }

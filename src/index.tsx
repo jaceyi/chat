@@ -1,5 +1,6 @@
 import 'react-alert-confirm/dist/index.css';
 import '@/base.scss';
+import './utils/firebase';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { hot } from 'react-hot-loader/root';
 import Chat from './components/Chat';
 import Message, { MessageList } from './components/MessageArea';
 import {
@@ -10,15 +9,22 @@ import {
   useRef,
   useMemo
 } from 'react';
-import * as styles from './App.scss';
+import * as styles from './App.module.scss';
 import { loadFileForEntityMap } from './App.funcs';
 import * as day from 'dayjs';
 import { alert } from 'react-alert-confirm';
-import firebase, { database, githubProvider } from '@/utils/firebase';
+import { auth, db } from '@/utils/firebase';
 import { MessageInfo } from '@/components/MessageArea/Message';
 import { useDidMount } from '@/hooks';
 import { isEmpty } from '@/utils';
 import store, { reducer, initialState, UserInfo } from '@/store';
+import {
+  getRedirectResult,
+  signInWithRedirect,
+  GithubAuthProvider,
+  User
+} from 'firebase/auth';
+import { ref, set, onValue, onDisconnect } from 'firebase/database';
 
 const App = () => {
   const reducerValue = useReducer<typeof reducer>(reducer, initialState);
@@ -29,46 +35,57 @@ const App = () => {
   const storeValue = useMemo(() => reducerValue, reducerValue);
 
   useDidMount(async () => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        const userRef = database.ref('user/' + user.uid);
-        userRef.get().then(snapshot => {
-          if (snapshot.exists()) {
-            const userInfo = snapshot.val();
-            dispatch({
-              type: 'setUserInfo',
-              payload: userInfo
-            });
-          } else {
-            const userInfo = {
-              name: user.displayName || user.email,
-              email: user.email,
-              uid: user.uid,
-              avatar: user.photoURL
-            };
-            userRef.set(userInfo);
-          }
-        });
+    const user = auth.currentUser;
 
-        userRef.on('value', snapshot => {
+    const setUser = (user: User) => {
+      const userRef = ref(db, 'user/' + user.uid);
+
+      // 监听当前用户
+      onValue(userRef, snapshot => {
+        console.log(snapshot.exists(), snapshot);
+        if (snapshot.exists()) {
           dispatch({
             type: 'setUserInfo',
             payload: snapshot.val()
           });
+        }
+      });
+
+      // 监听用户列表
+      onValue(ref(db, 'user/'), snapshot => {
+        let userList: UserInfo[] = [];
+        if (snapshot.exists()) {
+          userList = Object.values(snapshot.val());
+        }
+        dispatch({
+          type: 'setUserList',
+          payload: userList
         });
-      } else {
+      });
+
+      // 设置当前用户
+      const userInfo = {
+        name: user.displayName || user.email,
+        email: user.email,
+        uid: user.uid,
+        avatar: user.photoURL
+      };
+      set(userRef, userInfo);
+    };
+
+    if (user) {
+      // 当前有登陆用户
+      setUser(user);
+    } else {
+      try {
+        const result = await getRedirectResult(auth);
+        if (!result) throw Error('not result');
+        setUser(result.user);
+      } catch (e) {
+        console.log(e);
         login();
       }
-    });
-
-    // 监听用户列表
-    database.ref('user/').on('value', snapshot => {
-      const data: { [key: string]: UserInfo } = snapshot.val() ?? {};
-      dispatch({
-        type: 'setUserList',
-        payload: Object.values(data)
-      });
-    });
+    }
   });
 
   const login = async () => {
@@ -77,10 +94,15 @@ const App = () => {
         即将跳转至<a href="https://github.com">Github</a>进行登录，请确认！
       </div>
     );
+
+    // 超时提示
     window.setTimeout(() => {
       alert('长时间未响应，应是你的网络不支持访问！🥺');
     }, 10000);
-    await firebase.auth().signInWithRedirect(githubProvider);
+
+    // 跳转 Github 验证
+    const githubProvider = new GithubAuthProvider();
+    signInWithRedirect(auth, githubProvider);
   };
 
   // 当前正在提交
@@ -90,25 +112,26 @@ const App = () => {
 
   useEffect(() => {
     if (!isEmpty(userInfo)) {
-      database.ref('messages/').on('value', snapshot => {
+      onValue(ref(db, 'messages/'), snapshot => {
         if (loading) {
           setLoading(false);
         }
-        const data: { [key: string]: MessageInfo } = snapshot.val() ?? {};
-        setMessageList(Object.values(data).reverse());
+        if (snapshot.exists()) {
+          const data: { [key: string]: MessageInfo } = snapshot.val() ?? {};
+          setMessageList(Object.values(data).reverse());
+        }
       });
 
-      database.ref('.info/connected').on('value', snapshot => {
+      onValue(ref(db, '.info/connected'), snapshot => {
         if (snapshot.val() === false) return;
-        const userRef = database.ref('user/' + userInfo!.uid);
-        userRef
-          .onDisconnect()
+        const userRef = ref(db, 'user/' + userInfo!.uid);
+        onDisconnect(userRef)
           .set({
             ...userInfo,
             state: 'offline'
           })
           .then(() => {
-            userRef.set({
+            set(userRef, {
               ...userInfo,
               state: 'online'
             });
@@ -131,7 +154,7 @@ const App = () => {
 
     await loadFileForEntityMap(entityMap);
 
-    await database.ref('messages/' + message.id).set({
+    await set(ref(db, 'messages/' + message.id), {
       ...message,
       timeStamp: day().unix()
     });
@@ -182,4 +205,4 @@ const App = () => {
   );
 };
 
-export default hot(App);
+export default App;

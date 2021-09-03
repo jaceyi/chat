@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
-import { useSpring, animated, interpolate } from 'react-spring';
+import { useSpring, animated, to } from '@react-spring/web';
 import { useGesture } from 'react-use-gesture';
-import * as styles from './style.scss';
+import * as styles from './style.module.scss';
 
 interface IconProps {
   children: ReactNode;
@@ -24,10 +24,7 @@ const Icon = ({ children }: IconProps) => {
     <animated.div
       {...bind()}
       style={{
-        transform: interpolate(
-          [size, r],
-          (s, r) => `scale(${s}) rotate(${r}deg)`
-        )
+        transform: to([size, r], (s, r) => `scale(${s}) rotate(${r}deg)`)
       }}
       className={styles.icon}
     >

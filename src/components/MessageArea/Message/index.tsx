@@ -3,11 +3,10 @@ import { convertFromRaw, Editor, EditorState } from 'draft-js';
 import { Raw } from 'chatUtils/types';
 import store from '@/store';
 import { blockRenderMap, getDecorator, bindBlockRendererFn } from 'chatUtils';
-import { animated, interpolate, useSpring } from 'react-spring';
+import { animated, to, useSpring } from '@react-spring/web';
 import { useGesture } from 'react-use-gesture';
 import * as day from 'dayjs';
-
-import * as styles from './style.scss';
+import * as styles from './style.module.scss';
 import { useState, useContext } from 'react';
 
 export interface MessageInfo {
@@ -66,7 +65,7 @@ const Message = ({ uid, raw, timeStamp }: MessageProps) => {
           <animated.div
             {...bind()}
             style={{
-              transform: interpolate([size], s => `scale(${s})`)
+              transform: to([size], s => `scale(${s})`)
             }}
           >
             {state === 'online' && <div className={styles.online} />}

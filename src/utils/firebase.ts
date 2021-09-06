@@ -16,6 +16,6 @@ export const auth = getAuth(firebase);
 export const db = getDatabase(firebase);
 export const storage = getStorage(firebase);
 
-(window as any).signOut = signOut(auth);
+(window as any).signOut = () => signOut(auth);
 
 export default firebase;

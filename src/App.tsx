@@ -12,7 +12,7 @@ import {
 import * as styles from './App.module.scss';
 import { loadFileForEntityMap } from './App.funcs';
 import * as day from 'dayjs';
-import { alert } from 'react-alert-confirm';
+import confirm, { Button, alert } from 'react-alert-confirm';
 import { auth, db } from '@/utils/firebase';
 import { MessageInfo } from '@/components/MessageArea/Message';
 import { useDidMount } from '@/hooks';
@@ -22,6 +22,8 @@ import {
   getRedirectResult,
   signInWithRedirect,
   GithubAuthProvider,
+  GoogleAuthProvider,
+  onAuthStateChanged,
   User
 } from 'firebase/auth';
 import { ref, set, onValue, onDisconnect } from 'firebase/database';
@@ -35,14 +37,11 @@ const App = () => {
   const storeValue = useMemo(() => reducerValue, reducerValue);
 
   useDidMount(async () => {
-    const user = auth.currentUser;
-
     const setUser = (user: User) => {
       const userRef = ref(db, 'user/' + user.uid);
 
       // 监听当前用户
       onValue(userRef, snapshot => {
-        console.log(snapshot.exists(), snapshot);
         if (snapshot.exists()) {
           dispatch({
             type: 'setUserInfo',
@@ -73,36 +72,64 @@ const App = () => {
       set(userRef, userInfo);
     };
 
-    if (user) {
-      // 当前有登陆用户
-      setUser(user);
-    } else {
-      try {
-        const result = await getRedirectResult(auth);
-        if (!result) throw Error('not result');
-        setUser(result.user);
-      } catch (e) {
-        console.log(e);
-        login();
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        // 当前有登陆用户
+        setUser(user);
+      } else {
+        try {
+          const result = await getRedirectResult(auth);
+          if (!result) throw Error('not result');
+          setUser(result.user);
+        } catch (error: any) {
+          if (typeof error === 'object') {
+            const errorCode = error.code;
+            if (errorCode === 'auth/account-exists-with-different-credential') {
+              const email = error.email || error.customData?.email;
+              const message = email
+                ? `邮箱「${email}」已经存在别的认证方式！无法使用。`
+                : '该认证方式邮箱与其他已认证方式邮箱冲突！';
+              await alert(message);
+            }
+          }
+
+          login();
+        }
       }
-    }
+    });
   });
 
   const login = async () => {
-    await alert(
-      <div className={styles.login}>
-        即将跳转至<a href="https://github.com">Github</a>进行登录，请确认！
-      </div>
-    );
+    const [isOk, action] = await confirm({
+      title: '请登录',
+      content: <div className={styles.login}>请选择登陆方式。</div>,
+      footer(dispatch) {
+        return (
+          <>
+            <Button onClick={() => dispatch('google')}>Google</Button>
+            <Button onClick={() => dispatch('github')}>Github</Button>
+          </>
+        );
+      }
+    });
 
     // 超时提示
     window.setTimeout(() => {
       alert('长时间未响应，应是你的网络不支持访问！🥺');
     }, 10000);
 
-    // 跳转 Github 验证
-    const githubProvider = new GithubAuthProvider();
-    signInWithRedirect(auth, githubProvider);
+    let provider;
+    switch (action) {
+      case 'google':
+        // 跳转 Google 验证
+        provider = new GoogleAuthProvider();
+        break;
+      case 'github':
+        // 跳转 Github 验证
+        provider = new GithubAuthProvider();
+        break;
+    }
+    provider && signInWithRedirect(auth, provider);
   };
 
   // 当前正在提交

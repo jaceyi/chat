@@ -76,16 +76,6 @@ input {
   display: none;
 }
 
-.alert-confirm-button {
-  box-shadow: 0 -1px 3px 0 rgba(#000, 0.1);
-
-  &.primary-button {
-    &:hover {
-      box-shadow: 0 1px 10px 0 rgba(#000, 0.2);
-    }
-  }
-}
-
 .DraftEditor-root {
   .DraftEditor-editorContainer {
     border-left: unset;
@@ -95,7 +85,7 @@ input {
     padding: 4px 8px;
     border-radius: 4px;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    word-break: break-all;
+word-break: break-all;
     background: rgba(#000, 0.1);
     line-height: 1.4;
 

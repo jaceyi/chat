@@ -30,7 +30,7 @@ import { ref, set, onValue, onDisconnect } from 'firebase/database';
 
 const App = () => {
   const reducerValue = useReducer<typeof reducer>(reducer, initialState);
-  const [{ userInfo }, dispatch] = reducerValue;
+  const [{ userInfo, userList }, dispatch] = reducerValue;
 
   const [loading, setLoading] = useState(true);
 
@@ -211,6 +211,9 @@ const App = () => {
   return (
     <store.Provider value={storeValue}>
       <div className={styles.container}>
+        <div className={styles.status}>
+          在线人数：{userList.filter(user => user.state === 'online').length} 人
+        </div>
         <div className={styles.main}>
           <Message
             loading={loading}

@@ -3,7 +3,7 @@ export interface UserInfo {
   uid: string;
   email: string;
   avatar: string;
-  state: string;
+  state: 'online' | 'offline';
   disabled?: boolean;
 }
 

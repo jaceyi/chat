@@ -11,8 +11,10 @@ export const getEmojiSrc = (unicode: string): string => {
   return `${base}${size}/${codePoint}${ext}`;
 };
 
-export const compose = <T = any>(...functions: Function[]) => (arg: any): T => {
-  return functions.reduce((val, f) => f(val), arg);
+export const compose = <T = any>(...functions: Function[]) => {
+  return (arg: any): T => {
+    return functions.reduce((val, f) => f(val), arg);
+  };
 };
 
 /**

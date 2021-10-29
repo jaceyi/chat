@@ -4,7 +4,7 @@ import { Raw } from 'chatUtils/types';
 import store from '@/store';
 import { blockRenderMap, getDecorator, bindBlockRendererFn } from 'chatUtils';
 import { animated, to, useSpring } from '@react-spring/web';
-import { useGesture } from 'react-use-gesture';
+import { useGesture } from '@use-gesture/react';
 import * as day from 'dayjs';
 import * as styles from './style.module.scss';
 import { useState, useContext } from 'react';

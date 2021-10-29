@@ -7,25 +7,24 @@ import User, { UserEntityType, UserMutability } from './components/User';
 import { Mutability } from 'chatUtils/types';
 import { AttachUtils } from 'chatUtils';
 
-const findEntities = (type: string, mutability: Mutability) => (
-  contentBlock: any,
-  callback: Function,
-  contentState: any
-) => {
-  contentBlock.findEntityRanges((character: any) => {
-    const entityKey = character.getEntity();
+const findEntities = (type: string, mutability: Mutability) => {
+  return (contentBlock: any, callback: Function, contentState: any) => {
+    contentBlock.findEntityRanges((character: any) => {
+      const entityKey = character.getEntity();
 
-    if (entityKey !== null) {
-      const entity = contentState.getEntity(entityKey);
-      return entity.getType() === type && entity.getMutability() === mutability;
-    }
-  }, callback);
+      if (entityKey !== null) {
+        const entity = contentState.getEntity(entityKey);
+        return (
+          entity.getType() === type && entity.getMutability() === mutability
+        );
+      }
+    }, callback);
+  };
 };
 
 export const getDecorator = (editor?: any) => {
-  const connectStoreToProps = (Component: any) => (props: object) => (
-    <Component {...props} store={editor?.current} />
-  );
+  const connectStoreToProps = (Component: any) => (props: object) =>
+    <Component {...props} store={editor?.current} />;
 
   return new CompositeDecorator([
     {

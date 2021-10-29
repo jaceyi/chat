@@ -1621,9 +1621,9 @@
   resolved "https://registry.nlark.com/@react-spring/types/download/@react-spring/types-9.2.4.tgz#2365ce9d761f548a9adcb2cd68714bf26765a5de"
   integrity sha1-I2XOnXYfVIqa3LLNaHFL8mdlpd4=
 
-"@react-spring/web@^9.2.4":
+"@react-spring/web@9.2.4":
   version "9.2.4"
-  resolved "https://registry.nlark.com/@react-spring/web/download/@react-spring/web-9.2.4.tgz#c6d5464a954bfd0d7bc90117050f796a95ebfa08"
+  resolved "https://registry.npmmirror.com/@react-spring/web/download/@react-spring/web-9.2.4.tgz#c6d5464a954bfd0d7bc90117050f796a95ebfa08"
   integrity sha1-xtVGSpVL/Q17yQEXBQ95apXr+gg=
   dependencies:
     "@react-spring/animated" "~9.2.0"
@@ -1730,16 +1730,16 @@
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
-"@types/react-dom@^17.0.9":
+"@types/react-dom@17.0.9":
   version "17.0.9"
-  resolved "https://registry.nlark.com/@types/react-dom/download/@types/react-dom-17.0.9.tgz?cache=0&sync_timestamp=1629708841958&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact-dom%2Fdownload%2F%40types%2Freact-dom-17.0.9.tgz#441a981da9d7be117042e1a6fd3dac4b30f55add"
+  resolved "https://registry.npmmirror.com/@types/react-dom/download/@types/react-dom-17.0.9.tgz?cache=0&sync_timestamp=1634722361376&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Freact-dom%2Fdownload%2F%40types%2Freact-dom-17.0.9.tgz#441a981da9d7be117042e1a6fd3dac4b30f55add"
   integrity sha1-RBqYHanXvhFwQuGm/T2sSzD1Wt0=
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.19":
+"@types/react@*", "@types/react@17.0.19":
   version "17.0.19"
-  resolved "https://registry.nlark.com/@types/react/download/@types/react-17.0.19.tgz#8f2a85e8180a43b57966b237d26a29481dacc991"
+  resolved "https://registry.npmmirror.com/@types/react/download/@types/react-17.0.19.tgz#8f2a85e8180a43b57966b237d26a29481dacc991"
   integrity sha1-jyqF6BgKQ7V5ZrI30mopSB2syZE=
   dependencies:
     "@types/prop-types" "*"
@@ -1824,6 +1824,18 @@
   dependencies:
     "@typescript-eslint/types" "4.30.0"
     eslint-visitor-keys "^2.0.0"
+
+"@use-gesture/core@10.1.1":
+  version "10.1.1"
+  resolved "https://registry.npmmirror.com/@use-gesture/core/download/@use-gesture/core-10.1.1.tgz#e1a6ef6f2566fc5f2eaeb8b5549ebe93d5cafb82"
+  integrity sha1-4abvbyVm/F8urri1VJ6+k9XK+4I=
+
+"@use-gesture/react@^10.1.1":
+  version "10.1.1"
+  resolved "https://registry.npmmirror.com/@use-gesture/react/download/@use-gesture/react-10.1.1.tgz#b0daa4baa81185f4732756568793e6a3e0efc913"
+  integrity sha1-sNqkuqgRhfRzJ1ZWh5Pmo+DvyRM=
+  dependencies:
+    "@use-gesture/core" "10.1.1"
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
@@ -2473,10 +2485,10 @@ clone-deep@^4.0.1:
     kind-of "^6.0.2"
     shallow-clone "^3.0.0"
 
-clsx@^1.1.1:
+clsx@1.1.1:
   version "1.1.1"
-  resolved "https://registry.npmjs.org/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
-  integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
+  resolved "https://registry.npm.taobao.org/clsx/download/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
+  integrity sha1-mLMTT5q73yOyZjSRrOE8XAOnMYg=
 
 color-convert@^1.9.0:
   version "1.9.3"
@@ -2801,7 +2813,7 @@ csstype@^3.0.2:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.0.7.tgz#2a5fb75e1015e84dd15692f71e89a1450290950b"
   integrity sha512-KxnUB0ZMlnUWCsx2Z8MUsr6qV6ja1w9ArPErJaJaF8a5SOWoHLIszeCTKGRGRgtLgYrs1E8CHkNSP1VZTTPc9g==
 
-dayjs@^1.10.6:
+dayjs@1.10.6:
   version "1.10.6"
   resolved "https://registry.nlark.com/dayjs/download/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
   integrity sha1-KIsqqC8thBimydTfWJjAc3rQKmM=
@@ -3008,10 +3020,10 @@ dot-case@^3.0.4:
     no-case "^3.0.4"
     tslib "^2.0.3"
 
-draft-js@^0.11.7:
+draft-js@0.11.7:
   version "0.11.7"
-  resolved "https://registry.npmjs.org/draft-js/-/draft-js-0.11.7.tgz#be293aaa255c46d8a6647f3860aa4c178484a206"
-  integrity sha512-ne7yFfN4sEL82QPQEn80xnADR8/Q6ALVworbC5UOSzOvjffmYfFsr3xSZtxbIirti14R7Y33EZC5rivpLgIbsg==
+  resolved "https://registry.npm.taobao.org/draft-js/download/draft-js-0.11.7.tgz#be293aaa255c46d8a6647f3860aa4c178484a206"
+  integrity sha1-vik6qiVcRtimZH84YKpMF4SEogY=
   dependencies:
     fbjs "^2.0.0"
     immutable "~3.7.4"
@@ -3509,9 +3521,9 @@ find-up@^4.0.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase@^9.0.1:
+firebase@9.0.1:
   version "9.0.1"
-  resolved "https://registry.nlark.com/firebase/download/firebase-9.0.1.tgz#6bc5f9d7bdcd864ef98f2219fa0cd240f2e48b3c"
+  resolved "https://registry.npmmirror.com/firebase/download/firebase-9.0.1.tgz#6bc5f9d7bdcd864ef98f2219fa0cd240f2e48b3c"
   integrity sha1-a8X5173Nhk75jyIZ+gzSQPLkizw=
   dependencies:
     "@firebase/analytics" "0.7.0"
@@ -3541,7 +3553,7 @@ firebase@^9.0.1:
     "@firebase/storage-compat" "0.1.1"
     "@firebase/util" "1.3.0"
 
-firebaseui@^5.0.0:
+firebaseui@5.0.0:
   version "5.0.0"
   resolved "https://registry.nlark.com/firebaseui/download/firebaseui-5.0.0.tgz#a7adcc09cc49d83ddcf29e8fa734f215923e84da"
   integrity sha1-p63MCcxJ2D3c8p6PpzTyFZI+hNo=
@@ -5581,7 +5593,7 @@ rc-motion@^2.0.0:
     classnames "^2.2.1"
     rc-util "^5.2.1"
 
-rc-tooltip@^5.1.1:
+rc-tooltip@5.1.1:
   version "5.1.1"
   resolved "https://registry.nlark.com/rc-tooltip/download/rc-tooltip-5.1.1.tgz#94178ed162d0252bc4993b725f5dc2ac0fccf154"
   integrity sha1-lBeO0WLQJSvEmTtyX13CrA/M8VQ=
@@ -5609,14 +5621,14 @@ rc-util@^5.2.1, rc-util@^5.3.0, rc-util@^5.5.0:
     react-is "^16.12.0"
     shallowequal "^1.1.0"
 
-react-alert-confirm@^3.2.5:
-  version "3.2.5"
-  resolved "https://registry.nlark.com/react-alert-confirm/download/react-alert-confirm-3.2.5.tgz#302d016b2347f181c298f093f83974eb7fe672bb"
-  integrity sha1-MC0BayNH8YHCmPCT+Dl063/mcrs=
+react-alert-confirm@^3.3.4:
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/react-alert-confirm/-/react-alert-confirm-3.3.4.tgz#d831f7ff686b6f8a545c7c71ef5b668506a8d926"
+  integrity sha512-yFqKYF2In9D6T1nu+6GOJZXACH/6tAmpHk5ocKkbyqofOgzE03+7JURFNHneD0+c94GuQ7gXD+CMNaTR/5aKsg==
 
-react-dom@^17.0.2:
+react-dom@17.0.2:
   version "17.0.2"
-  resolved "https://registry.nlark.com/react-dom/download/react-dom-17.0.2.tgz?cache=0&sync_timestamp=1630426625887&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact-dom%2Fdownload%2Freact-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
+  resolved "https://registry.npmmirror.com/react-dom/download/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
   integrity sha1-7P+2hF462Nv83EmPDQqTlzZQLCM=
   dependencies:
     loose-envify "^1.1.0"
@@ -5633,14 +5645,9 @@ react-refresh@^0.10.0:
   resolved "https://registry.nlark.com/react-refresh/download/react-refresh-0.10.0.tgz?cache=0&sync_timestamp=1630426627598&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact-refresh%2Fdownload%2Freact-refresh-0.10.0.tgz#2f536c9660c0b9b1d500684d9e52a65e7404f7e3"
   integrity sha1-L1NslmDAubHVAGhNnlKmXnQE9+M=
 
-react-use-gesture@^9.0.0:
-  version "9.1.3"
-  resolved "https://registry.npmjs.org/react-use-gesture/-/react-use-gesture-9.1.3.tgz#92bd143e4f58e69bd424514a5bfccba2a1d62ec0"
-  integrity sha512-CdqA2SmS/fj3kkS2W8ZU8wjTbVBAIwDWaRprX7OKaj7HlGwBasGEFggmk5qNklknqk9zK/h8D355bEJFTpqEMg==
-
-react@^17.0.2:
+react@17.0.2:
   version "17.0.2"
-  resolved "https://registry.nlark.com/react/download/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
+  resolved "https://registry.npmmirror.com/react/download/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha1-0LXMUW0p6z7uOD91tihkz7aAADc=
   dependencies:
     loose-envify "^1.1.0"

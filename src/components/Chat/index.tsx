@@ -165,7 +165,7 @@ const Chat = ({ onCommit }: ChatProps) => {
   const handleDrop = useCallback(
     (
       selection: any,
-      dataTransfer: object,
+      dataTransfer: any,
       isInternal: string
     ): DraftHandleValue => {
       if (isInternal === 'internal') {

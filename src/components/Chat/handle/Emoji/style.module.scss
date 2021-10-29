@@ -3,6 +3,7 @@
     width: 288px;
     display: flex;
     flex-wrap: wrap;
+    background-color: #fff;
 
     .emoji {
       padding: 2px;
@@ -27,6 +28,7 @@
 :global {
   .rc-tooltip {
     background-color: unset;
+    opacity: 1;
     transition: all 0.5s;
 
     .rc-tooltip-arrow {

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { CompositeDecorator } from 'draft-js';
-import Link, { LinkEntityType, LinkMutability } from './components/Link';
-import Emoji, { EmojiEntityType, EmojiMutability } from './components/Emoji';
-import SuggestionUser from './components/SuggestionUser';
-import User, { UserEntityType, UserMutability } from './components/User';
 import { Mutability } from 'chatUtils/types';
 import { AttachUtils } from 'chatUtils';
+import Link, { LinkEntityType, LinkMutability } from './components/Link';
+import Emoji, { EmojiEntityType, EmojiMutability } from './components/Emoji';
+import SuggestionUser, { SuggestionUserReg } from './components/SuggestionUser';
+import User, { UserEntityType, UserMutability } from './components/User';
+import Code, { CodeReg } from './components/Code';
 
 const findEntities = (type: string, mutability: Mutability) => {
   return (contentBlock: any, callback: Function, contentState: any) => {
@@ -37,17 +38,19 @@ export const getDecorator = (editor?: any) => {
     },
     {
       strategy: (contentBlock: any, callback: Function) => {
-        AttachUtils.findWithRegex(
-          /@(\w|[\u4e00-\u9fa5])*/g,
-          contentBlock,
-          callback
-        );
+        AttachUtils.findWithRegex(SuggestionUserReg, contentBlock, callback);
       },
       component: connectStoreToProps(SuggestionUser)
     },
     {
       strategy: findEntities(UserEntityType, UserMutability),
       component: User
+    },
+    {
+      strategy: (contentBlock: any, callback: Function) => {
+        AttachUtils.findWithRegex(CodeReg, contentBlock, callback);
+      },
+      component: Code
     }
   ]);
 };

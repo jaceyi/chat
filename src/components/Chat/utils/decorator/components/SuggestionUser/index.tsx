@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 import { useRef, useEffect } from 'react';
 import { ChatStore } from 'chatUtils/types';
 
+export const SuggestionUserReg = /@(\w|[\u4e00-\u9fa5])*/g;
+
 interface LinkProps {
   children: ReactNode;
   offsetKey: string;

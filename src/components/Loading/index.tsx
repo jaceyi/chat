@@ -1,9 +1,10 @@
 import * as React from 'react';
+import type { ReactNode } from 'react';
 import * as styles from './style.module.scss';
 
 interface LoadingProps {
   loading: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Loading = ({ loading, children }: LoadingProps) => (

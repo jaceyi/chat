@@ -3,10 +3,12 @@ import Image, { ImageBlockType } from './Image';
 import File, { FileBlockType } from './File';
 import Focus from './Focus';
 import type { FunctionComponent } from 'react';
+import { AtomicBlockProps } from '../index';
 
 export interface AtomicProps {
   contentState: any;
   block: any;
+  blockProps: AtomicBlockProps;
 }
 
 const FocusImage = Focus(Image);

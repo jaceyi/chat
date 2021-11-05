@@ -8,6 +8,7 @@ import { useGesture } from '@use-gesture/react';
 import * as day from 'dayjs';
 import * as styles from './style.module.scss';
 import { useState, useContext } from 'react';
+import Loading from '@/components/Loading';
 
 export interface MessageInfo {
   uid: string;
@@ -83,15 +84,17 @@ const Message = ({ uid, raw, timeStamp }: MessageProps) => {
           </div>
           <div className={styles.main}>
             <div className={styles.bubble}>
-              <Editor
-                readOnly
-                blockRendererFn={bindBlockRendererFn(
-                  editorState,
-                  setEditorState
-                )}
-                blockRenderMap={blockRenderMap}
-                editorState={editorState}
-              />
+              <Loading loading={!timeStamp}>
+                <Editor
+                  readOnly
+                  blockRendererFn={bindBlockRendererFn(
+                    editorState,
+                    setEditorState
+                  )}
+                  blockRenderMap={blockRenderMap}
+                  editorState={editorState}
+                />
+              </Loading>
             </div>
           </div>
         </div>

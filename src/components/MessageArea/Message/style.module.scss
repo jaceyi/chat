@@ -92,6 +92,8 @@
     .bubble {
       @extend %msg-bubble;
       background-color: var(--secondary-color);
+      position: relative;
+      overflow: hidden;
 
       a {
         color: var(--primary-color);

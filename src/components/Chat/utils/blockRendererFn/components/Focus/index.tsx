@@ -1,16 +1,17 @@
 import * as React from 'react';
 import * as styles from './style.module.scss';
 import type { ComponentType, FunctionComponent } from 'react';
-import type { AtomicBlockProps } from '../..';
 import { stopPropagation } from '@/utils';
 import clsx from 'clsx';
+import type { AtomicProps } from '../Atomic';
+
+interface FocusProps extends AtomicProps {
+  isBlock: boolean; // 占满一行展示
+}
 
 const Focus = (
   WrappedComponent: ComponentType<any>
-): FunctionComponent<{
-  blockProps: AtomicBlockProps;
-  isBlock: boolean; // 占满一行展示
-}> => {
+): FunctionComponent<FocusProps> => {
   return props => {
     const { blockProps, isBlock, ...rest } = props;
 

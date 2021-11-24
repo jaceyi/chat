@@ -16,15 +16,19 @@ const FocusFile = Focus(File);
 
 const Atomic: FunctionComponent<AtomicProps> = props => {
   const { contentState, block } = props;
-  const entity = contentState.getEntity(block.getEntityAt(0));
-  const data = entity.getData();
-  const type = entity.getType();
 
-  switch (type) {
-    case ImageBlockType:
-      return <FocusImage {...props} {...data} />;
-    case FileBlockType:
-      return <FocusFile {...props} {...data} />;
+  const key = block.getEntityAt(0);
+  if (key) {
+    const entity = contentState.getEntity(key);
+    const data = entity.getData();
+    const type = entity.getType();
+
+    switch (type) {
+      case ImageBlockType:
+        return <FocusImage {...props} {...data} />;
+      case FileBlockType:
+        return <FocusFile {...props} {...data} />;
+    }
   }
 
   return null;

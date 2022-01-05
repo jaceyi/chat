@@ -165,7 +165,7 @@ const MentionPopover = ({
               styles.user,
               activeIndex === index && styles.active
             )}
-            key={user.email}
+            key={user.uid}
           >
             {user.name}
             {user.state === 'online' && <span className={styles.online} />}

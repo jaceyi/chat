@@ -1,4 +1,5 @@
 # Chat
+
 [在线地址](https://chat.jaceyi.com/)
 
 基于 Draft-js 实现的富文本输入框，如果有需要自己开发富文本框的同学，可以看看源码，个人感觉还是值得借鉴的。一些关键地方有注释，有不懂的地方可以提 Issue 问我。
@@ -16,6 +17,9 @@ yarn build
 本地预览，先参考 [Firebase CLI](https://firebase.google.com/docs/cli?authuser=0#install_the_firebase_cli) 并安装。
 
 ```shell
+# 初始化
+firebase init emulators
+
 firebase emulators:start
 ```
 

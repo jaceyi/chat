@@ -21,6 +21,7 @@ firebase-debug.log
 database-debug.log
 firestore-debug.log
 ui-debug.log
+pubsub-debug.log
 
 # Editor
 /.idea

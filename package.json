@@ -4,6 +4,7 @@
   "scripts": {
     "start": "webpack serve --open --config ./webpack/webpack.dev.js",
     "build": "webpack --progress --config ./webpack/webpack.prod.js",
+    "watch": "webpack --progress --watch --config ./webpack/webpack.watch.js",
     "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,scss,less,css}'",
     "lint": "tsc --noEmit && eslint 'src/**/*.{js,jsx,ts,tsx}' --quiet --fix",
     "prepare": "husky install"
@@ -16,8 +17,7 @@
     "clsx": "1.1.1",
     "dayjs": "1.10.6",
     "draft-js": "0.11.7",
-    "firebase": "9.0.1",
-    "firebaseui": "5.0.0",
+    "firebase": "9.6.1",
     "rc-tooltip": "5.1.1",
     "react": "17.0.2",
     "react-alert-confirm": "3.3.4",

@@ -70,7 +70,7 @@ const Message = ({ uid, raw, timeStamp }: MessageProps) => {
             }}
           >
             {state === 'online' && <div className={styles.online} />}
-            <img src={avatar} alt="头像" />
+            <img src={avatar} alt=" " />
           </animated.div>
         </div>
         <div className={styles.content}>

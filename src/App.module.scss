@@ -21,3 +21,21 @@
   height: 100vh;
   color: #222;
 }
+
+.login {
+  color: #666;
+  font-size: 14px;
+}
+
+.link {
+  color: #148bed;
+  margin-left: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: -10px;
+  display: block;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

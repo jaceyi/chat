@@ -12,7 +12,7 @@ import {
 import * as styles from './App.module.scss';
 import { loadFileForEntityMap } from './App.funcs';
 import * as day from 'dayjs';
-import confirm, { Button, alert } from 'react-alert-confirm';
+import confirm, { alert } from 'react-alert-confirm';
 import { auth, db } from '@/utils/firebase';
 import { MessageInfo } from '@/components/MessageArea/Message';
 import { useDidMount } from '@/hooks';
@@ -38,6 +38,12 @@ const App = () => {
 
   useDidMount(async () => {
     const setUser = (user: User) => {
+      const { uid } = user;
+      const token = (window as any).CURRENT_MESSAGE_TOKEN;
+      if (token && uid) {
+        // 将当前 message token 存起来 & 暂阶段 同一个用户只存留最后登录的 Token
+        set(ref(db, 'messageTokens/' + uid), token);
+      }
       const userRef = ref(db, 'user/' + user.uid);
 
       // 监听当前用户
@@ -82,17 +88,6 @@ const App = () => {
           if (!result) throw Error('not result');
           setUser(result.user);
         } catch (error: any) {
-          if (typeof error === 'object') {
-            const errorCode = error.code;
-            if (errorCode === 'auth/account-exists-with-different-credential') {
-              const email = error.email || error.customData?.email;
-              const message = email
-                ? `邮箱「${email}」已经存在别的认证方式！无法使用。`
-                : '该认证方式邮箱与其他已认证方式邮箱冲突！';
-              await alert(message);
-            }
-          }
-
           login();
         }
       }
@@ -106,8 +101,12 @@ const App = () => {
       footer(dispatch) {
         return (
           <>
-            <Button onClick={() => dispatch('google')}>Google</Button>
-            <Button onClick={() => dispatch('github')}>Github</Button>
+            <span className={styles.link} onClick={() => dispatch('google')}>
+              Google
+            </span>
+            <span className={styles.link} onClick={() => dispatch('github')}>
+              Github
+            </span>
           </>
         );
       }
@@ -162,6 +161,9 @@ const App = () => {
               ...userInfo,
               state: 'online'
             });
+          })
+          .catch(e => {
+            alert('无权限！');
           });
       });
     }

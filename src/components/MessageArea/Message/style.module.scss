@@ -44,6 +44,10 @@
 
   .content {
     max-width: 50%;
+
+    img {
+      max-height: 300px;
+    }
   }
 }
 
@@ -121,6 +125,14 @@
     .bubble {
       @extend %msg-bubble;
       background-color: rgba(#000, 0.2);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .message {
+    .content {
+      max-width: calc(100% - 92px)
     }
   }
 }

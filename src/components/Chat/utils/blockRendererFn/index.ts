@@ -1,17 +1,34 @@
 import { EditorState, SelectionState } from 'draft-js';
 import Atomic, { AtomicProps } from './components/Atomic';
-import { ChangeEditorState } from 'chatUtils/types';
+import { SetEditorState } from 'chatUtils/types';
 import type { FunctionComponent, FocusEvent } from 'react';
 
-export interface AtomicBlockProps {
-  focusCurrentBlock: (e: FocusEvent<HTMLDivElement>) => void;
-  focusNextLine: () => void;
+export declare namespace ViewerImage {
+  interface data {
+    src: string;
+    name: string;
+  }
+
+  interface onViewerImage {
+    (viewerImageData: data): void;
+  }
 }
 
-export const bindBlockRendererFn = (
-  editorState: any,
-  onChange: ChangeEditorState
-) => {
+export interface AtomicBlockProps {
+  focusCurrentBlock(e: FocusEvent<HTMLDivElement>): void;
+  focusNextLine(): void;
+  viewerImage(data: ViewerImage.data): void;
+}
+
+export const bindBlockRendererFn = ({
+  editorState,
+  setEditorState,
+  onViewerImage
+}: {
+  editorState?: any;
+  setEditorState?: SetEditorState;
+  onViewerImage?: ViewerImage.onViewerImage;
+}) => {
   return (
     block: any
   ): {
@@ -24,7 +41,9 @@ export const bindBlockRendererFn = (
         component: Atomic,
         editable: false,
         props: {
-          focusCurrentBlock: e => {
+          focusCurrentBlock(e) {
+            if (!editorState || !setEditorState) return;
+
             // 聚焦当前块的内容
             const blockKey = block.getKey();
 
@@ -35,7 +54,7 @@ export const bindBlockRendererFn = (
             selection.removeAllRanges();
             selection.addRange(range);
 
-            onChange(
+            setEditorState(
               EditorState.forceSelection(
                 editorState,
                 new SelectionState({
@@ -48,7 +67,9 @@ export const bindBlockRendererFn = (
               )
             );
           },
-          focusNextLine: () => {
+          focusNextLine() {
+            if (!editorState || !setEditorState) return;
+
             // 点击块空白地方时聚焦下一行
             const blockKey = block.getKey();
             const contentState = editorState.getCurrentContent();
@@ -56,7 +77,7 @@ export const bindBlockRendererFn = (
             if (!afterBlock) return;
             const afterBlockKey = afterBlock.getKey();
 
-            onChange(
+            setEditorState(
               EditorState.forceSelection(
                 editorState,
                 new SelectionState({
@@ -68,6 +89,9 @@ export const bindBlockRendererFn = (
                 })
               )
             );
+          },
+          viewerImage(data) {
+            onViewerImage?.(data);
           }
         }
       };

@@ -2,13 +2,14 @@ import * as React from 'react';
 import { convertFromRaw, Editor, EditorState } from 'draft-js';
 import { Raw } from 'chatUtils/types';
 import store from '@/store';
-import { blockRenderMap, getDecorator, bindBlockRendererFn } from 'chatUtils';
+import { blockRenderMap, getDecorator, bindBlockRendererFn, ViewerImage } from 'chatUtils';
 import { animated, to, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
 import * as day from 'dayjs';
 import * as styles from './style.module.scss';
 import { useState, useContext } from 'react';
 import Loading from '@/components/Loading';
+import alertConfirm from 'react-alert-confirm';
 
 export interface MessageInfo {
   uid: string;
@@ -25,15 +26,28 @@ const stateMaps: StateMap = {
   offline: '离线'
 };
 
-type MessageProps = MessageInfo;
+interface MessageProps extends MessageInfo {}
 
 const Message = ({ uid, raw, timeStamp }: MessageProps) => {
-  const [{ userInfo: currentUserInfo, userList }, dispatch] = useContext(store);
+  const [{ userInfo: currentUserInfo, userList }] = useContext(store);
   const userInfo = userList.find(item => item.uid === uid);
   const { name, avatar, state } = userInfo!;
 
+  const onViewerImage: ViewerImage.onViewerImage = data => {
+    alertConfirm({
+      footer: null,
+      maskClosable: true,
+      containerClassName: styles.viewer,
+      content: (
+        <div>
+          <img src={data.src} title={data.name} alt={data.name} />
+        </div>
+      )
+    });
+  };
+
   const position = uid === currentUserInfo!.uid ? 'right' : 'left';
-  const [editorState, setEditorState] = useState(() =>
+  const [editorState] = useState(() =>
     EditorState.createWithContent(
       convertFromRaw(
         Object.assign(
@@ -76,9 +90,7 @@ const Message = ({ uid, raw, timeStamp }: MessageProps) => {
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.time}>
-              {timeStamp
-                ? day.unix(timeStamp).format('YY年M月D日 HH:mm:ss')
-                : '发送中'}
+              {timeStamp ? day.unix(timeStamp).format('YY年M月D日 HH:mm:ss') : '发送中'}
             </div>
             <div className={styles.name}>{name}</div>
           </div>
@@ -87,10 +99,7 @@ const Message = ({ uid, raw, timeStamp }: MessageProps) => {
               <Loading loading={!timeStamp}>
                 <Editor
                   readOnly
-                  blockRendererFn={bindBlockRendererFn(
-                    editorState,
-                    setEditorState
-                  )}
+                  blockRendererFn={bindBlockRendererFn({ onViewerImage })}
                   blockRenderMap={blockRenderMap}
                   editorState={editorState}
                 />

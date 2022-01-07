@@ -5974,10 +5974,10 @@ rc-util@^5.2.1, rc-util@^5.3.0, rc-util@^5.5.0:
     react-is "^16.12.0"
     shallowequal "^1.1.0"
 
-react-alert-confirm@3.3.4:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/react-alert-confirm/-/react-alert-confirm-3.3.4.tgz#d831f7ff686b6f8a545c7c71ef5b668506a8d926"
-  integrity sha512-yFqKYF2In9D6T1nu+6GOJZXACH/6tAmpHk5ocKkbyqofOgzE03+7JURFNHneD0+c94GuQ7gXD+CMNaTR/5aKsg==
+react-alert-confirm@^3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/react-alert-confirm/-/react-alert-confirm-3.3.6.tgz#49fc3f476d23ea5ab3ce4efb0e18cd1d916e907c"
+  integrity sha512-kXLS4tOolxG4ftTB/DCQDlGLiaJfwaSlZeZxMUHLtPZQ9NUdhypR6H1Q4fPAEwRdzDKJr/1triizRyJo5Y/E/Q==
 
 react-dom@17.0.2:
   version "17.0.2"

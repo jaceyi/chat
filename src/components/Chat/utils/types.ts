@@ -13,7 +13,7 @@ export interface Raw {
   entityMap: object;
 }
 
-export interface ChangeEditorState {
+export interface SetEditorState {
   (editorState: any): void;
 }
 

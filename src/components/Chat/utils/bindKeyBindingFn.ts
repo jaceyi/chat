@@ -1,28 +1,25 @@
 import { getDefaultKeyBinding, KeyBindingUtil } from 'draft-js';
-import { ChangeEditorState } from 'chatUtils/types';
+import { SetEditorState } from 'chatUtils/types';
 import { tryDeleteAtomicBlock } from 'chatUtils/RichStates';
 
 const { hasCommandModifier, isCtrlKeyCommand } = KeyBindingUtil;
 
-export type KeyTypes =
-  | 'enter'
-  | 'prompt-link'
-  | 'submit'
-  | 'backspace'
-  | 'up'
-  | 'down';
+export type KeyTypes = 'enter' | 'prompt-link' | 'submit' | 'backspace' | 'up' | 'down';
 
 /**
  * @description 扩展快捷键
  */
-export const bindKeyBindingFn = (
-  editorState: any,
-  onChange: ChangeEditorState
-) => {
+export const bindKeyBindingFn = ({
+  editorState,
+  setEditorState
+}: {
+  editorState?: any;
+  setEditorState?: SetEditorState;
+}) => {
   return (e: KeyboardEvent): KeyTypes => {
     if (e.key.length === 1) {
       // 输入字符 除了输入字符 其他 ctrl shift 之类的都是多个字母的单词
-      tryDeleteAtomicBlock(editorState, onChange);
+      tryDeleteAtomicBlock(editorState, setEditorState);
     }
     if (hasCommandModifier(e) || isCtrlKeyCommand(e)) {
       switch (e.key) {

@@ -20,7 +20,7 @@
     "firebase": "9.6.1",
     "rc-tooltip": "5.1.1",
     "react": "17.0.2",
-    "react-alert-confirm": "3.3.4",
+    "react-alert-confirm": "^3.3.6",
     "react-dom": "17.0.2"
   },
   "devDependencies": {

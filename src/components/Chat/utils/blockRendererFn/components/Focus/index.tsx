@@ -14,16 +14,17 @@ const Focus = (
 ): FunctionComponent<FocusProps> => {
   return props => {
     const { blockProps, isBlock, ...rest } = props;
+    const { focusNextLine, focusCurrentBlock } = blockProps;
 
     return (
-      <div className={styles.clear} onClick={blockProps.focusNextLine}>
+      <div className={styles.clear} onClick={focusNextLine}>
         <div
           onClick={stopPropagation}
           className={clsx(styles.focus, isBlock && styles.block)}
           tabIndex={0}
-          onFocus={blockProps.focusCurrentBlock}
+          onFocus={focusCurrentBlock}
         >
-          <WrappedComponent {...rest} />
+          <WrappedComponent {...rest} blockProps={blockProps} />
         </div>
       </div>
     );

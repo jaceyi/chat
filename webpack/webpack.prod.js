@@ -10,7 +10,7 @@ module.exports = env => {
     {
       mode: 'production',
 
-      devtool: 'source-map',
+      devtool: false,
 
       plugins: [new CleanWebpackPlugin()]
     }

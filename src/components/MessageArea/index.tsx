@@ -13,7 +13,11 @@ interface MessageAreaProps {
 const MessageArea = ({ messageList, loading }: MessageAreaProps) => {
   return (
     <div className={styles.container}>
-      {loading ? <Loading /> : messageList.map(message => <Message key={message.id} {...message} />)}
+      {loading ? (
+        <Loading />
+      ) : (
+        messageList.map(message => <Message key={message.id} {...message} />)
+      )}
     </div>
   );
 };

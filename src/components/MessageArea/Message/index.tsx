@@ -2,7 +2,12 @@ import * as React from 'react';
 import { convertFromRaw, Editor, EditorState } from 'draft-js';
 import { Raw } from 'chatUtils/types';
 import store from '@/store';
-import { blockRenderMap, getDecorator, bindBlockRendererFn, ViewerImage } from 'chatUtils';
+import {
+  blockRenderMap,
+  getDecorator,
+  bindBlockRendererFn,
+  ViewerImage
+} from 'chatUtils';
 import { animated, to, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
 import * as day from 'dayjs';
@@ -90,7 +95,9 @@ const Message = ({ uid, raw, timeStamp }: MessageProps) => {
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.time}>
-              {timeStamp ? day.unix(timeStamp).format('YY年M月D日 HH:mm:ss') : '发送中'}
+              {timeStamp
+                ? day.unix(timeStamp).format('YY年M月D日 HH:mm:ss')
+                : '发送中'}
             </div>
             <div className={styles.name}>{name}</div>
           </div>

@@ -4,7 +4,13 @@ import { tryDeleteAtomicBlock } from 'chatUtils/RichStates';
 
 const { hasCommandModifier, isCtrlKeyCommand } = KeyBindingUtil;
 
-export type KeyTypes = 'enter' | 'prompt-link' | 'submit' | 'backspace' | 'up' | 'down';
+export type KeyTypes =
+  | 'enter'
+  | 'prompt-link'
+  | 'submit'
+  | 'backspace'
+  | 'up'
+  | 'down';
 
 /**
  * @description 扩展快捷键

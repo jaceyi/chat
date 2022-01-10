@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { useState, useCallback, useRef } from 'react';
-import { Editor, EditorState, RichUtils, convertToRaw, SelectionState, AtomicBlockUtils } from 'draft-js';
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  convertToRaw,
+  SelectionState,
+  AtomicBlockUtils
+} from 'draft-js';
 import Emoji, { EmojiInfo } from './handle/Emoji';
 import Icon from './handle/Icon';
 import Image from './handle/Image';
@@ -15,7 +22,14 @@ import {
   bindBlockRendererFn,
   blockRenderMap
 } from 'chatUtils';
-import { SetEditorState, Raw, ChatStore, HandleKeyCommand, KeyCommand, DraftHandleValue } from 'chatUtils/types';
+import {
+  SetEditorState,
+  Raw,
+  ChatStore,
+  HandleKeyCommand,
+  KeyCommand,
+  DraftHandleValue
+} from 'chatUtils/types';
 import MentionPopover from './MentionPopover';
 import { UserInfo } from '@/store';
 
@@ -37,9 +51,16 @@ const Chat = ({ onCommit }: ChatProps) => {
   });
 
   const changeEditorState = useCallback<SetEditorState>(editorState => {
-    let newEditorState = compose(AttachUtils.entitiesToEmojis, AttachUtils.entitiesToLinks)(editorState);
+    let newEditorState = compose(
+      AttachUtils.entitiesToEmojis,
+      AttachUtils.entitiesToLinks
+    )(editorState);
 
-    if (!newEditorState.getCurrentContent().equals(editorState.getCurrentContent())) {
+    if (
+      !newEditorState
+        .getCurrentContent()
+        .equals(editorState.getCurrentContent())
+    ) {
       const selection = editorState.getSelection();
       newEditorState = EditorState.forceSelection(newEditorState, selection);
     }
@@ -57,7 +78,12 @@ const Chat = ({ onCommit }: ChatProps) => {
         blocks.pop(); // 如果最后一行为空则删除该行
       }
       const first = blocks[0];
-      if (blocks.length > 1 && blocks[1].type === 'atomic' && first.type === 'unstyled' && !first.text) {
+      if (
+        blocks.length > 1 &&
+        blocks[1].type === 'atomic' &&
+        first.type === 'unstyled' &&
+        !first.text
+      ) {
         blocks.shift(); // 如果第二个块是原子块，则删除第一个空块
       }
       onCommit(row);
@@ -90,7 +116,8 @@ const Chat = ({ onCommit }: ChatProps) => {
           KeyCommands.promptLink(editorState, changeEditorState);
           return 'handled';
         case 'backspace':
-          if (RichStates.tryDeleteAtomicBlock(editorState, changeEditorState)) return 'handled';
+          if (RichStates.tryDeleteAtomicBlock(editorState, changeEditorState))
+            return 'handled';
           break;
         case 'submit':
           commitEditorState(editorState);
@@ -121,7 +148,9 @@ const Chat = ({ onCommit }: ChatProps) => {
 
   const handleSelectEmoji = useCallback(
     (emoji: EmojiInfo) => {
-      changeEditorState(RichStates.insertInline(editorState, emoji.emoji, 'insert-emoji'));
+      changeEditorState(
+        RichStates.insertInline(editorState, emoji.emoji, 'insert-emoji')
+      );
     },
     [editorState]
   );
@@ -134,7 +163,11 @@ const Chat = ({ onCommit }: ChatProps) => {
   );
 
   const handleDrop = useCallback(
-    (selection: any, dataTransfer: any, isInternal: string): DraftHandleValue => {
+    (
+      selection: any,
+      dataTransfer: any,
+      isInternal: string
+    ): DraftHandleValue => {
       if (isInternal === 'internal') {
         const contentState = editorState.getCurrentContent();
         const currentSelection = editorState.getSelection();
@@ -149,13 +182,22 @@ const Chat = ({ onCommit }: ChatProps) => {
 
           if (
             selectedBlockKey === currentBlockKey ||
-            (selectedBlockKey === beforeBlockKey && selection.getFocusOffset() === beforeBlock.getLength()) ||
-            (selectedBlockKey === afterBlockKey && selection.getFocusOffset() === 0)
+            (selectedBlockKey === beforeBlockKey &&
+              selection.getFocusOffset() === beforeBlock.getLength()) ||
+            (selectedBlockKey === afterBlockKey &&
+              selection.getFocusOffset() === 0)
           ) {
             return 'handled';
           }
 
-          changeEditorState(AtomicBlockUtils.moveAtomicBlock(editorState, currentBlock, selection, 'replace'));
+          changeEditorState(
+            AtomicBlockUtils.moveAtomicBlock(
+              editorState,
+              currentBlock,
+              selection,
+              'replace'
+            )
+          );
           return 'handled';
         }
       }

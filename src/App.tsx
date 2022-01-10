@@ -28,6 +28,8 @@ import {
 } from 'firebase/auth';
 import { ref, set, onValue, onDisconnect } from 'firebase/database';
 
+let networkAvailable = false;
+
 const App = () => {
   const reducerValue = useReducer<typeof reducer>(reducer, initialState);
   const [{ userInfo, userList }, dispatch] = reducerValue;
@@ -38,6 +40,7 @@ const App = () => {
 
   useDidMount(async () => {
     const setUser = (user: User) => {
+      networkAvailable = true;
       const { uid } = user;
       const token = (window as any).CURRENT_MESSAGE_TOKEN;
       if (token && uid) {
@@ -92,6 +95,13 @@ const App = () => {
         }
       }
     });
+
+    // 超时提示
+    window.setTimeout(() => {
+      if (!networkAvailable) {
+        alert('长时间未响应，应是你的网络不支持访问！🥺');
+      }
+    }, 20000);
   });
 
   const login = async () => {
@@ -112,11 +122,6 @@ const App = () => {
       }
     });
 
-    // 超时提示
-    window.setTimeout(() => {
-      alert('长时间未响应，应是你的网络不支持访问！🥺');
-    }, 10000);
-
     let provider;
     switch (action) {
       case 'google':
@@ -129,6 +134,9 @@ const App = () => {
         break;
     }
     provider && signInWithRedirect(auth, provider);
+    window.setTimeout(() => {
+      alert('长时间未响应，应是你的网络不支持访问！🥺');
+    }, 5000);
   };
 
   // 当前正在提交

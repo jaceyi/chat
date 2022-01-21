@@ -73,7 +73,7 @@ const App = () => {
 
       // 设置当前用户
       const userInfo = {
-        name: user.displayName || user.email,
+        name: user.displayName || user.email || user.uid,
         email: user.email,
         uid: user.uid,
         avatar: user.photoURL

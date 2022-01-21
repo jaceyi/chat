@@ -14,10 +14,14 @@ interface LinkProps {
 }
 
 const User = ({ children, offsetKey, entityKey, contentState }: LinkProps) => {
-  const { email } = contentState.getEntity(entityKey).getData();
+  const { email, uid } = contentState.getEntity(entityKey).getData();
 
   return (
-    <span className={styles.user} title={email} data-offset-key={offsetKey}>
+    <span
+      className={styles.user}
+      title={email || uid}
+      data-offset-key={offsetKey}
+    >
       {children}
     </span>
   );

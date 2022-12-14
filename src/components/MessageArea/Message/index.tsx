@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { FC } from 'react';
 import { convertFromRaw, Editor, EditorState } from 'draft-js';
 import { Raw } from 'chatUtils/types';
 import store from '@/store';
@@ -14,7 +15,7 @@ import * as day from 'dayjs';
 import * as styles from './style.module.scss';
 import { useState, useContext } from 'react';
 import Loading from '@/components/Loading';
-import alertConfirm from 'react-alert-confirm';
+import AlertConfirm from 'react-alert-confirm';
 
 export interface MessageInfo {
   uid: string;
@@ -31,20 +32,16 @@ const stateMaps: StateMap = {
   offline: '离线'
 };
 
-interface MessageProps extends MessageInfo {}
-
-const Message = ({ uid, raw, timeStamp }: MessageProps) => {
+const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
   const [{ userInfo: currentUserInfo, userList }] = useContext(store);
   const userInfo = userList.find(item => item.uid === uid);
   const { name, avatar, state } = userInfo!;
 
   const onViewerImage: ViewerImage.onViewerImage = data => {
-    alertConfirm({
-      footer: null,
+    AlertConfirm({
       maskClosable: true,
-      containerClassName: styles.viewer,
-      content: (
-        <div>
+      custom: (
+        <div className={styles.viewer}>
           <img src={data.src} title={data.name} alt={data.name} />
         </div>
       )
@@ -89,7 +86,7 @@ const Message = ({ uid, raw, timeStamp }: MessageProps) => {
             }}
           >
             {state === 'online' && <div className={styles.online} />}
-            <img src={avatar} alt=" " />
+            <img src={avatar} alt="头像" />
           </animated.div>
         </div>
         <div className={styles.content}>

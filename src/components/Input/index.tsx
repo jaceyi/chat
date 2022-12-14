@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { InputHTMLAttributes } from 'react';
+import type { FC, InputHTMLAttributes } from 'react';
 import * as styles from './style.module.scss';
 
 type InputProps = Override<
@@ -9,7 +9,7 @@ type InputProps = Override<
   }
 >;
 
-const Input = ({ onChange, className = '', ...props }: InputProps) => {
+const Input: FC<InputProps> = ({ onChange, className = '', ...props }) => {
   return (
     <input
       onChange={e => onChange(e.target.value)}

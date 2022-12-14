@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import * as styles from './style.module.scss';
 
 interface LoadingProps {
@@ -7,7 +7,7 @@ interface LoadingProps {
   children: ReactNode;
 }
 
-const Loading = ({ loading, children }: LoadingProps) => (
+const Loading: FC<LoadingProps> = ({ loading, children }) => (
   <div className={styles.contianer}>
     {loading && (
       <div className={styles.loading}>

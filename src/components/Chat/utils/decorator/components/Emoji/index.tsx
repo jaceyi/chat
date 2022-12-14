@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ReactNode, useMemo } from 'react';
+import { useMemo } from 'react';
+import type { ReactNode, FC } from 'react';
 import * as styles from './style.module.scss';
 import { getEmojiSrc } from '@/utils';
 import { Mutability } from 'chatUtils/types';
@@ -14,12 +15,12 @@ interface EmojiProps {
   children: ReactNode;
 }
 
-const Emoji = ({
+const Emoji: FC<EmojiProps> = ({
   contentState,
   entityKey,
   offsetKey,
   children
-}: EmojiProps) => {
+}) => {
   const src = useMemo(() => {
     const { emojiText } = contentState.getEntity(entityKey).getData();
     return getEmojiSrc(emojiText);

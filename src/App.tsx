@@ -12,7 +12,7 @@ import {
 import * as styles from './App.module.scss';
 import { loadFileForEntityMap } from './App.funcs';
 import * as day from 'dayjs';
-import confirm, { alert } from 'react-alert-confirm';
+import AlertConfirm from 'react-alert-confirm';
 import { auth, db } from '@/utils/firebase';
 import { MessageInfo } from '@/components/MessageArea/Message';
 import { useDidMount } from '@/hooks';
@@ -22,13 +22,10 @@ import {
   getRedirectResult,
   signInWithRedirect,
   GithubAuthProvider,
-  GoogleAuthProvider,
   onAuthStateChanged,
   User
 } from 'firebase/auth';
 import { ref, set, onValue, onDisconnect } from 'firebase/database';
-
-let networkAvailable = false;
 
 const App = () => {
   const reducerValue = useReducer<typeof reducer>(reducer, initialState);
@@ -40,14 +37,13 @@ const App = () => {
 
   useDidMount(async () => {
     const setUser = (user: User) => {
-      networkAvailable = true;
       const { uid } = user;
       const token = (window as any).CURRENT_MESSAGE_TOKEN;
       if (token && uid) {
-        // 将当前 message token 存起来 & 暂阶段 同一个用户只存留最后登录的 Token
+        // 将当前 message token 存起来，同一个用户只存留最后登录的 Token
         set(ref(db, 'messageTokens/' + uid), token);
       }
-      const userRef = ref(db, 'user/' + user.uid);
+      const userRef = ref(db, 'user/' + uid);
 
       // 监听当前用户
       onValue(userRef, snapshot => {
@@ -73,9 +69,9 @@ const App = () => {
 
       // 设置当前用户
       const userInfo = {
+        uid,
         name: user.displayName || user.email || user.uid,
         email: user.email,
-        uid: user.uid,
         avatar: user.photoURL
       };
       set(userRef, userInfo);
@@ -95,47 +91,19 @@ const App = () => {
         }
       }
     });
-
-    // 超时提示
-    window.setTimeout(() => {
-      if (!networkAvailable) {
-        alert('长时间未响应，应是你的网络不支持访问！🥺');
-      }
-    }, 20000);
   });
 
   const login = async () => {
-    const [isOk, action] = await confirm({
-      title: '请登录',
-      content: <div className={styles.login}>请选择登陆方式。</div>,
-      footer(dispatch) {
-        return (
-          <>
-            <span className={styles.link} onClick={() => dispatch('google')}>
-              Google
-            </span>
-            <span className={styles.link} onClick={() => dispatch('github')}>
-              Github
-            </span>
-          </>
-        );
-      }
+    await AlertConfirm.alert({
+      title: '在线聊天室',
+      desc: '底层使用 Google Firebase 服务，需要保持网络环境能与 Google 连接才可使用。',
+      okText: '使用 GitHub 认证登陆'
     });
 
-    let provider;
-    switch (action) {
-      case 'google':
-        // 跳转 Google 验证
-        provider = new GoogleAuthProvider();
-        break;
-      case 'github':
-        // 跳转 Github 验证
-        provider = new GithubAuthProvider();
-        break;
-    }
-    provider && signInWithRedirect(auth, provider);
+    const provider = new GithubAuthProvider();
+    signInWithRedirect(auth, provider);
     window.setTimeout(() => {
-      alert('长时间未响应，应是你的网络不支持访问！🥺');
+      AlertConfirm.alert('响应超时，应是你的网络不支持访问！');
     }, 5000);
   };
 
@@ -170,8 +138,8 @@ const App = () => {
               state: 'online'
             });
           })
-          .catch(e => {
-            alert('无权限！');
+          .catch(() => {
+            AlertConfirm.alert('无权限！');
           });
       });
     }
@@ -221,9 +189,11 @@ const App = () => {
   return (
     <store.Provider value={storeValue}>
       <div className={styles.container}>
-        <div className={styles.status}>
-          在线人数：{userList.filter(user => user.state === 'online').length} 人
-        </div>
+        {!!userInfo && (
+          <div className={styles.status}>
+            在线人数：{userList.filter(user => user.state === 'online').length}人
+          </div>
+        )}
         <div className={styles.main}>
           <Message
             loading={loading}

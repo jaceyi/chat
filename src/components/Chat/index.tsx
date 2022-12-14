@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useCallback, useRef } from 'react';
+import type { FC } from 'react';
 import {
   Editor,
   EditorState,
@@ -40,7 +41,7 @@ interface ChatProps {
   onCommit: (raw: Raw) => void;
 }
 
-const Chat = ({ onCommit }: ChatProps) => {
+const Chat: FC<ChatProps> = ({ onCommit }) => {
   const store = useRef<ChatStore>({
     editor: null,
     suggestion: null

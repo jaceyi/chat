@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as styles from './style.module.scss';
-import type { ComponentType, FunctionComponent } from 'react';
+import type { ComponentType, FC } from 'react';
 import { stopPropagation } from '@/utils';
 import clsx from 'clsx';
 import type { AtomicProps } from '../Atomic';
@@ -11,7 +11,7 @@ interface FocusProps extends AtomicProps {
 
 const Focus = (
   WrappedComponent: ComponentType<any>
-): FunctionComponent<FocusProps> => {
+): FC<FocusProps> => {
   return props => {
     const { blockProps, isBlock, ...rest } = props;
     const { focusNextLine, focusCurrentBlock } = blockProps;

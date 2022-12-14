@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as styles from './style.module.scss';
-import type { FunctionComponent } from 'react';
+import type { FC } from 'react';
 import type { AtomicBlockProps } from '../..';
 import { useState, useRef } from 'react';
 
@@ -13,12 +13,7 @@ interface ImageProps {
 
 export const ImageBlockType = 'image';
 
-const Image: FunctionComponent<ImageProps> = ({
-  src,
-  name,
-  offsetKey,
-  blockProps
-}) => {
+const Image: FC<ImageProps> = ({ src, name, offsetKey, blockProps }) => {
   const [isError, setIsError] = useState(false);
   const onError = () => {
     setIsError(true);

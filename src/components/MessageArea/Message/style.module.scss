@@ -130,38 +130,9 @@
 }
 
 .viewer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-
-  :global {
-    .alert-confirm-main {
-      position: relative;
-      width: unset;
-      background-color: unset;
-      padding: 0;
-      box-shadow: unset;
-      border-radius: unset;
-      max-width: unset;
-      max-height: 100%;
-      left: unset;
-      top: unset;
-      overflow: auto;
-
-      .alert-confirm-body {
-        padding: 0;
-      }
-    }
-  }
-
   img {
-    max-width: 100%;
+    max-width: 95vw;
+    max-height: 95vh;
     display: block;
   }
 }

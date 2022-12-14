@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, FC } from 'react';
 
 export const CodeReg = /`.+?`/g;
 
@@ -8,7 +8,7 @@ interface CodeProps {
   offsetKey: string;
 }
 
-const Code = ({ children, offsetKey }: CodeProps) => {
+const Code: FC<CodeProps> = ({ children, offsetKey }) => {
   return <code data-offset-key={offsetKey}>{children}</code>;
 };
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import alertConfirm from 'react-alert-confirm';
+import AlertConfirm from 'react-alert-confirm';
 import { RichStates } from 'chatUtils';
 import Input from '@/components/Input';
 import { REGEX_INTERNET } from '@/utils/consts';
@@ -9,8 +9,9 @@ export const promptLink = async (editorState: any, setEditorState: any) => {
 
   let value = '';
   try {
-    await alertConfirm(
+    await AlertConfirm(
       <Input
+        autoFocus
         placeholder="请输入链接 https://xx.com"
         onChange={_val => (value = _val)}
       />

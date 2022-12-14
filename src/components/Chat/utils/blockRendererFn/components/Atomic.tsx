@@ -2,7 +2,7 @@ import * as React from 'react';
 import Image, { ImageBlockType } from './Image';
 import File, { FileBlockType } from './File';
 import Focus from './Focus';
-import type { FunctionComponent } from 'react';
+import type { FC } from 'react';
 import { AtomicBlockProps } from '../index';
 
 export interface AtomicProps {
@@ -14,7 +14,7 @@ export interface AtomicProps {
 const FocusImage = Focus(Image);
 const FocusFile = Focus(File);
 
-const Atomic: FunctionComponent<AtomicProps> = props => {
+const Atomic: FC<AtomicProps> = props => {
   const { contentState, block } = props;
 
   const key = block.getEntityAt(0);

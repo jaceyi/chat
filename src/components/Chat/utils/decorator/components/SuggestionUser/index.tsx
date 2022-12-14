@@ -1,11 +1,11 @@
 import * as React from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, FC } from 'react';
 import { useRef, useEffect } from 'react';
 import { ChatStore } from 'chatUtils/types';
 
 export const SuggestionUserReg = /@(\w|[\u4e00-\u9fa5])*/g;
 
-interface LinkProps {
+interface SuggestionUserProps {
   children: ReactNode;
   offsetKey: string;
   start: number;
@@ -14,14 +14,14 @@ interface LinkProps {
   store: ChatStore;
 }
 
-const SuggestionUser = ({
+const SuggestionUser: FC<SuggestionUserProps> = ({
   children,
   offsetKey,
   start,
   end,
   blockKey,
   store
-}: LinkProps) => {
+}) => {
   const nodeRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {

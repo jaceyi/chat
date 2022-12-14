@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as styles from './style.module.scss';
-import type { FunctionComponent } from 'react';
+import type { FC } from 'react';
 
 interface FileProps {
   src: string;
@@ -9,7 +9,7 @@ interface FileProps {
 
 export const FileBlockType = 'file';
 
-const File: FunctionComponent<FileProps> = ({ src, name }) => {
+const File: FC<FileProps> = ({ src, name }) => {
   return (
     <div className={styles.file}>
       <span className={styles.title}>文件：</span>

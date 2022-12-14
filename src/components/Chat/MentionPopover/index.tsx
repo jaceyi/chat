@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { FC } from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { ChatStore, KeyCommand } from 'chatUtils/types';
 import store, { UserInfo } from '@/store';
@@ -31,12 +32,12 @@ const getRelativeParent = (element: HTMLElement | null): HTMLElement | null => {
   return getRelativeParent(element.parentElement);
 };
 
-const MentionPopover = ({
+const MentionPopover: FC<PopoverProps> = ({
   editorState,
   store: chatStore,
   onSelect,
   keyCommand
-}: PopoverProps) => {
+}) => {
   const [{ userList }] = useContext(store);
 
   const [options, setOptions] = useState<UserInfo[]>([]);

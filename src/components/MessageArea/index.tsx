@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { FC } from 'react';
 import Message, { MessageInfo } from './Message';
 import * as styles from './style.module.scss';
 import Loading from './Loading';
@@ -10,7 +11,7 @@ interface MessageAreaProps {
   loading: boolean;
 }
 
-const MessageArea = ({ messageList, loading }: MessageAreaProps) => {
+const MessageArea: FC<MessageAreaProps> = ({ messageList, loading }) => {
   return (
     <div className={styles.container}>
       {loading ? (

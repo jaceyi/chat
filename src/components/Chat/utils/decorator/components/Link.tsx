@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, FC } from 'react';
 import { Mutability } from 'chatUtils/types';
 
 export const LinkEntityType = 'LINK';
@@ -11,7 +11,7 @@ interface LinkProps {
   children: ReactNode;
 }
 
-const Link = ({ contentState, entityKey, children }: LinkProps) => {
+const Link: FC<LinkProps> = ({ contentState, entityKey, children }) => {
   const { url } = contentState.getEntity(entityKey).getData();
   return <a href={url}>{children}</a>;
 };

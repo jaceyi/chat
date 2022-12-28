@@ -260,6 +260,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
         <Editor
           ref={(editor: any) => {
             store.current.editor = editor;
+            (window as any).editor = editor;
           }}
           placeholder="请输入内容"
           editorState={editorState}

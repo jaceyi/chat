@@ -7,7 +7,8 @@ import {
   blockRenderMap,
   getDecorator,
   bindBlockRendererFn,
-  ViewerImage
+  ViewerImage,
+  RichStates
 } from 'chatUtils';
 import { animated, to, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
@@ -72,6 +73,14 @@ const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
     },
     onPointerUp: () => {
       set({ size: 1 });
+      const editor = (window as any).editor;
+      const { editorState, onChange } = editor.props;
+      userInfo &&
+        onChange(
+          EditorState.moveFocusToEnd(
+            RichStates.insertUser(editorState, userInfo)
+          )
+        );
     }
   });
 

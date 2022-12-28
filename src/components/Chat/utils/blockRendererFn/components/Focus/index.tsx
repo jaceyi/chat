@@ -9,9 +9,7 @@ interface FocusProps extends AtomicProps {
   isBlock: boolean; // 占满一行展示
 }
 
-const Focus = (
-  WrappedComponent: ComponentType<any>
-): FC<FocusProps> => {
+const Focus = (WrappedComponent: ComponentType<any>): FC<FocusProps> => {
   return props => {
     const { blockProps, isBlock, ...rest } = props;
     const { focusNextLine, focusCurrentBlock } = blockProps;

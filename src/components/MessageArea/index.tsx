@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import Message, { MessageInfo } from './Message';
 import * as styles from './style.module.scss';
 import Loading from './Loading';
+import { Virtuoso } from 'react-virtuoso';
 
 export type MessageList = MessageInfo[];
 
@@ -17,7 +18,14 @@ const MessageArea: FC<MessageAreaProps> = ({ messageList, loading }) => {
       {loading ? (
         <Loading />
       ) : (
-        messageList.map(message => <Message key={message.id} {...message} />)
+        <Virtuoso
+          initialTopMostItemIndex={messageList.length - 1}
+          data={messageList}
+          overscan={500}
+          itemContent={(index, message) => {
+            return <Message key={message.id} {...message} />;
+          }}
+        />
       )}
     </div>
   );

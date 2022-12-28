@@ -120,7 +120,7 @@ const App = () => {
         }
         if (snapshot.exists()) {
           const data: { [key: string]: MessageInfo } = snapshot.val() ?? {};
-          setMessageList(Object.values(data).reverse());
+          setMessageList(Object.values(data));
         }
       });
 
@@ -191,7 +191,8 @@ const App = () => {
       <div className={styles.container}>
         {!!userInfo && (
           <div className={styles.status}>
-            在线人数：{userList.filter(user => user.state === 'online').length}人
+            在线人数：{userList.filter(user => user.state === 'online').length}
+            人
           </div>
         )}
         <div className={styles.main}>

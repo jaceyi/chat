@@ -61,7 +61,10 @@ const Emoji = ({ onSelect }: EmojiProps) => {
         </div>
       }
     >
-      <img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f60b.png" alt="" />
+      <img
+        src="https://twemoji.maxcdn.com/v/latest/72x72/1f60b.png"
+        alt=""
+      />
     </RCTooltip>
   );
 };

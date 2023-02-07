@@ -25,7 +25,7 @@ const findEntities = (type: string, mutability: Mutability) => {
 
 export const getDecorator = (editor?: any) => {
   const connectStoreToProps = (Component: any) => (props: object) =>
-    <Component {...props} store={editor?.current} />;
+    <Component {...props} store={editor} />;
 
   return new CompositeDecorator([
     {

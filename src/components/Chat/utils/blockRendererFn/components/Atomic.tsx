@@ -3,19 +3,24 @@ import Image, { ImageBlockType } from './Image';
 import File, { FileBlockType } from './File';
 import Focus from './Focus';
 import type { FC } from 'react';
-import { AtomicBlockProps } from '../index';
+import { ChatStore } from '../../types';
+
+export interface AtomicBlockProps {
+  store?: ChatStore;
+}
 
 export interface AtomicProps {
+  blockProps: AtomicBlockProps;
   contentState: any;
   block: any;
-  blockProps: AtomicBlockProps;
+  data?: object;
 }
 
 const FocusImage = Focus(Image);
 const FocusFile = Focus(File);
 
 const Atomic: FC<AtomicProps> = props => {
-  const { contentState, block } = props;
+  const { contentState, block, blockProps } = props;
 
   const key = block.getEntityAt(0);
   if (key) {
@@ -25,9 +30,9 @@ const Atomic: FC<AtomicProps> = props => {
 
     switch (type) {
       case ImageBlockType:
-        return <FocusImage {...props} {...data} />;
+        return <FocusImage {...props} blockProps={blockProps} data={data} />;
       case FileBlockType:
-        return <FocusFile {...props} {...data} />;
+        return <FocusFile {...props} blockProps={blockProps} data={data} />;
     }
   }
 

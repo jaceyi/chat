@@ -1,18 +1,15 @@
 .message {
   padding: 12px 0;
   opacity: 0;
-  transform: translateY(10px);
   animation: show 0.6s forwards;
 
   @keyframes show {
     0% {
       opacity: 0;
-      transform: translateY(10px);
     }
 
     100% {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 
@@ -43,11 +40,7 @@
   }
 
   .content {
-    max-width: 50%;
-
-    img {
-      max-height: 300px;
-    }
+    width: 50%;
   }
 }
 
@@ -140,7 +133,7 @@
 @media screen and (max-width: 768px) {
   .message {
     .content {
-      max-width: calc(100% - 92px); // 92px = 2 * avatar + 2 * margin
+      width: calc(100% - 92px); // 92px = 2 * avatar + 2 * margin
     }
   }
 }

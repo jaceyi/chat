@@ -3,18 +3,13 @@ import type { FC } from 'react';
 import { convertFromRaw, Editor, EditorState } from 'draft-js';
 import { Raw } from 'chatUtils/types';
 import store from '@/store';
-import {
-  blockRenderMap,
-  getDecorator,
-  bindBlockRendererFn,
-  ViewerImage,
-  RichStates
-} from 'chatUtils';
+import { blockRenderMap, getDecorator, bindBlockRendererFn, RichStates } from 'chatUtils';
+import { ChatStore } from 'chatUtils/types';
 import { animated, to, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
 import * as day from 'dayjs';
 import * as styles from './style.module.scss';
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import Loading from '@/components/Loading';
 import AlertConfirm from 'react-alert-confirm';
 
@@ -38,7 +33,7 @@ const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
   const userInfo = userList.find(item => item.uid === uid);
   const { name, avatar, state } = userInfo!;
 
-  const onViewerImage: ViewerImage.onViewerImage = data => {
+  const onViewerImage: ChatStore['onViewerImage'] = data => {
     AlertConfirm({
       maskClosable: true,
       custom: (
@@ -75,14 +70,11 @@ const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
       set({ size: 1 });
       const editor = (window as any).editor;
       const { editorState, onChange } = editor.props;
-      userInfo &&
-        onChange(
-          EditorState.moveFocusToEnd(
-            RichStates.insertUser(editorState, userInfo)
-          )
-        );
+      userInfo && onChange(EditorState.moveFocusToEnd(RichStates.insertUser(editorState, userInfo)));
     }
   });
+
+  const contentRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className={styles.message}>
@@ -98,12 +90,10 @@ const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
             <img src={avatar} alt="头像" />
           </animated.div>
         </div>
-        <div className={styles.content}>
+        <div className={styles.content} ref={contentRef}>
           <div className={styles.header}>
             <div className={styles.time}>
-              {timeStamp
-                ? day.unix(timeStamp).format('YY年M月D日 HH:mm:ss')
-                : '发送中'}
+              {timeStamp ? day.unix(timeStamp).format('YY年M月D日 HH:mm:ss') : '发送中'}
             </div>
             <div className={styles.name}>{name}</div>
           </div>
@@ -112,7 +102,12 @@ const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
               <Loading loading={!timeStamp}>
                 <Editor
                   readOnly
-                  blockRendererFn={bindBlockRendererFn({ onViewerImage })}
+                  blockRendererFn={bindBlockRendererFn({
+                    store: {
+                      onViewerImage,
+                      getFullBlockWidth: () => (contentRef.current?.offsetWidth || 0) - 20 // 20 为 padding
+                    }
+                  })}
                   blockRenderMap={blockRenderMap}
                   editorState={editorState}
                 />

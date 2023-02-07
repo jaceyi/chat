@@ -6112,10 +6112,10 @@ rc-util@^5.2.1, rc-util@^5.3.0, rc-util@^5.5.0:
     react-is "^16.12.0"
     shallowequal "^1.1.0"
 
-react-alert-confirm@^4.1.6:
-  version "4.1.6"
-  resolved "https://registry.npmjs.org/react-alert-confirm/-/react-alert-confirm-4.1.6.tgz#b21a6f8f4973167fbdf18cde5e2bffd6bd707f93"
-  integrity sha512-wO5DBB8X6w2gclqTj64FNq05cg6Gz4/Kde63XIWH9wT1dkqjlBFlWjXwN/yFjwQqk8fE/5RVNimm7vC/pDta2A==
+react-alert-confirm@^4.1.7:
+  version "4.1.7"
+  resolved "https://registry.npmjs.org/react-alert-confirm/-/react-alert-confirm-4.1.7.tgz#b787ae63d28e88887bcb44f1179c216d644f63b1"
+  integrity sha512-xdNGTeBSXgSYLzL9qqIaoy6FLCNKhaKd13a2TdIsJic20ICC0JYu4XIXrgwAcSdbSbyZtCtae2Eh6TnZgo+nYQ==
   dependencies:
     "@babel/runtime" "^7.20.6"
 

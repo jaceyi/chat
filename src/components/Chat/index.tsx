@@ -1,19 +1,12 @@
 import * as React from 'react';
 import { useState, useCallback, useRef } from 'react';
 import type { FC } from 'react';
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  convertToRaw,
-  SelectionState,
-  AtomicBlockUtils
-} from 'draft-js';
+import { Editor, EditorState, RichUtils, convertToRaw, SelectionState, AtomicBlockUtils } from 'draft-js';
 import Emoji, { EmojiInfo } from './handle/Emoji';
 import Icon from './handle/Icon';
 import Image from './handle/Image';
 import { compose } from '@/utils';
-import { Button } from 'react-alert-confirm';
+import AlertConfirm, { Button } from 'react-alert-confirm';
 import {
   getDecorator,
   bindKeyBindingFn,
@@ -23,17 +16,9 @@ import {
   bindBlockRendererFn,
   blockRenderMap
 } from 'chatUtils';
-import {
-  SetEditorState,
-  Raw,
-  ChatStore,
-  HandleKeyCommand,
-  KeyCommand,
-  DraftHandleValue
-} from 'chatUtils/types';
+import { SetEditorState, Raw, ChatStore, HandleKeyCommand, KeyCommand, DraftHandleValue } from 'chatUtils/types';
 import MentionPopover from './MentionPopover';
 import { UserInfo } from '@/store';
-
 import 'draft-js/dist/Draft.css';
 import * as styles from './style.module.scss';
 
@@ -42,26 +27,20 @@ interface ChatProps {
 }
 
 const Chat: FC<ChatProps> = ({ onCommit }) => {
-  const store = useRef<ChatStore>({
+  const storeRef: ChatStore = useRef({
     editor: null,
-    suggestion: null
+    suggestion: null,
+    getFullBlockWidth: () => storeRef.current.editor.editor.offsetWidth || 0
   });
 
   const [editorState, setEditorState] = useState(() => {
-    return EditorState.createEmpty(getDecorator(store));
+    return EditorState.createEmpty(getDecorator(storeRef.current?.editor));
   });
 
   const changeEditorState = useCallback<SetEditorState>(editorState => {
-    let newEditorState = compose(
-      AttachUtils.entitiesToEmojis,
-      AttachUtils.entitiesToLinks
-    )(editorState);
+    let newEditorState = compose(AttachUtils.entitiesToEmojis, AttachUtils.entitiesToLinks)(editorState);
 
-    if (
-      !newEditorState
-        .getCurrentContent()
-        .equals(editorState.getCurrentContent())
-    ) {
+    if (!newEditorState.getCurrentContent().equals(editorState.getCurrentContent())) {
       const selection = editorState.getSelection();
       newEditorState = EditorState.forceSelection(newEditorState, selection);
     }
@@ -79,17 +58,12 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
         blocks.pop(); // 如果最后一行为空则删除该行
       }
       const first = blocks[0];
-      if (
-        blocks.length > 1 &&
-        blocks[1].type === 'atomic' &&
-        first.type === 'unstyled' &&
-        !first.text
-      ) {
+      if (blocks.length > 1 && blocks[1].type === 'atomic' && first.type === 'unstyled' && !first.text) {
         blocks.shift(); // 如果第二个块是原子块，则删除第一个空块
       }
       onCommit(row);
 
-      const emptyEditorState = EditorState.createEmpty(getDecorator(store));
+      const emptyEditorState = EditorState.createEmpty(getDecorator(storeRef.current?.editor));
       const selection = emptyEditorState.getSelection();
       setEditorState(EditorState.forceSelection(emptyEditorState, selection));
     },
@@ -117,8 +91,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
           KeyCommands.promptLink(editorState, changeEditorState);
           return 'handled';
         case 'backspace':
-          if (RichStates.tryDeleteAtomicBlock(editorState, changeEditorState))
-            return 'handled';
+          if (RichStates.tryDeleteAtomicBlock(editorState, changeEditorState)) return 'handled';
           break;
         case 'submit':
           commitEditorState(editorState);
@@ -143,32 +116,34 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
   );
 
   const handlePastedFiles = useCallback(fileList => {
-    RichStates.insertFiles(editorState, setEditorState, fileList);
+    try {
+      RichStates.insertFiles(editorState, setEditorState, fileList);
+    } catch (e) {
+      AlertConfirm.alert('文件上传失败！');
+    }
     return 'handled';
   }, []);
 
   const handleSelectEmoji = useCallback(
     (emoji: EmojiInfo) => {
-      changeEditorState(
-        RichStates.insertInline(editorState, emoji.emoji, 'insert-emoji')
-      );
+      changeEditorState(RichStates.insertInline(editorState, emoji.emoji, 'insert-emoji'));
     },
     [editorState]
   );
 
   const handleUploadImage = useCallback(
     (fileList: FileList) => {
-      RichStates.insertFiles(editorState, setEditorState, fileList);
+      try {
+        RichStates.insertFiles(editorState, setEditorState, fileList);
+      } catch (e) {
+        AlertConfirm.alert('文件上传失败！');
+      }
     },
     [editorState]
   );
 
   const handleDrop = useCallback(
-    (
-      selection: any,
-      dataTransfer: any,
-      isInternal: string
-    ): DraftHandleValue => {
+    (selection: any, dataTransfer: any, isInternal: string): DraftHandleValue => {
       if (isInternal === 'internal') {
         const contentState = editorState.getCurrentContent();
         const currentSelection = editorState.getSelection();
@@ -183,22 +158,13 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
 
           if (
             selectedBlockKey === currentBlockKey ||
-            (selectedBlockKey === beforeBlockKey &&
-              selection.getFocusOffset() === beforeBlock.getLength()) ||
-            (selectedBlockKey === afterBlockKey &&
-              selection.getFocusOffset() === 0)
+            (selectedBlockKey === beforeBlockKey && selection.getFocusOffset() === beforeBlock.getLength()) ||
+            (selectedBlockKey === afterBlockKey && selection.getFocusOffset() === 0)
           ) {
             return 'handled';
           }
 
-          changeEditorState(
-            AtomicBlockUtils.moveAtomicBlock(
-              editorState,
-              currentBlock,
-              selection,
-              'replace'
-            )
-          );
+          changeEditorState(AtomicBlockUtils.moveAtomicBlock(editorState, currentBlock, selection, 'replace'));
           return 'handled';
         }
       }
@@ -209,7 +175,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
 
   const handleSelectUser = useCallback(
     (user: UserInfo) => {
-      const { suggestion } = store.current;
+      const { suggestion } = storeRef.current;
       if (!suggestion) return;
       const selection = editorState.getSelection();
       const focusOffset = selection.getFocusOffset();
@@ -259,7 +225,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
       <div onClick={focusEditor} className={styles.chat}>
         <Editor
           ref={(editor: any) => {
-            store.current.editor = editor;
+            storeRef.current.editor = editor;
             (window as any).editor = editor;
           }}
           placeholder="请输入内容"
@@ -267,7 +233,9 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
           handleKeyCommand={handleKeyCommand}
           onChange={changeEditorState}
           keyBindingFn={bindKeyBindingFn({ editorState, setEditorState })}
-          blockRendererFn={bindBlockRendererFn({ editorState, setEditorState })}
+          blockRendererFn={bindBlockRendererFn({
+            store: storeRef.current
+          })}
           blockRenderMap={blockRenderMap}
           handlePastedFiles={handlePastedFiles}
           handleDrop={handleDrop}
@@ -275,7 +243,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
         <MentionPopover
           keyCommand={keyCommandRef.current}
           editorState={editorState}
-          store={store.current}
+          store={storeRef.current}
           onSelect={handleSelectUser}
         />
       </div>

@@ -1,4 +1,4 @@
-import { KeyTypes } from 'chatUtils/bindKeyBindingFn';
+import type { KeyTypes } from 'chatUtils/bindKeyBindingFn';
 
 export type Mutability = 'MUTABLE' | 'IMMUTABLE' | 'SEGMENTED';
 
@@ -25,8 +25,11 @@ export interface Suggestion {
 }
 
 export interface ChatStore {
-  editor: any;
-  suggestion: Suggestion | null;
+  editor?: any;
+  suggestion?: Suggestion | null;
+  onViewerImage?: (data: { src: string; name: string }) => void;
+  getFullBlockWidth?: () => number;
+  [prop: string]: any;
 }
 
 export type DraftHandleValue = 'handled' | 'not-handled';

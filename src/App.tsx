@@ -1,14 +1,7 @@
 import * as React from 'react';
 import Chat from './components/Chat';
 import Message, { MessageList } from './components/MessageArea';
-import {
-  useReducer,
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-  useMemo
-} from 'react';
+import { useReducer, useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import * as styles from './App.module.scss';
 import { loadFileForEntityMap } from './App.funcs';
 import * as day from 'dayjs';
@@ -18,13 +11,7 @@ import { MessageInfo } from '@/components/MessageArea/Message';
 import { useDidMount } from '@/hooks';
 import { isEmpty } from '@/utils';
 import store, { reducer, initialState, UserInfo } from '@/store';
-import {
-  getRedirectResult,
-  signInWithRedirect,
-  GithubAuthProvider,
-  onAuthStateChanged,
-  User
-} from 'firebase/auth';
+import { getRedirectResult, signInWithRedirect, GithubAuthProvider, onAuthStateChanged, User } from 'firebase/auth';
 import { ref, set, onValue, onDisconnect } from 'firebase/database';
 
 const App = () => {
@@ -190,10 +177,7 @@ const App = () => {
     <store.Provider value={storeValue}>
       <div className={styles.container}>
         {!!userInfo && (
-          <div className={styles.status}>
-            在线人数：{userList.filter(user => user.state === 'online').length}
-            人
-          </div>
+          <div className={styles.status}>在线人数：{userList.filter(user => user.state === 'online').length}人</div>
         )}
         <div className={styles.main}>
           <Message
@@ -203,7 +187,7 @@ const App = () => {
               // 组件更新会有延迟 导致渲染延迟
               commitMessageList.forEach(message => {
                 if (!list.find(item => item.id === message.id)) {
-                  list.unshift(message);
+                  list.push(message);
                 }
               });
               return list;

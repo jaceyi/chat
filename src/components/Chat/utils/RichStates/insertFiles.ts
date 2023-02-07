@@ -10,21 +10,35 @@ export const insertFiles = async (
   let _editorState = editorState;
 
   for (const file of Array.from(fileList)) {
-    _editorState = await new Promise(resolve => {
+    _editorState = await new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        resolve(
-          insertAtomic(
-            _editorState,
-            /^image\/.+$/.test(file.type) ? ImageBlockType : FileBlockType,
-            {
-              src: reader.result as string,
+        const result: string = reader.result as string;
+        if (/^image\/.+$/.test(file.type)) {
+          const image = new Image();
+          image.onload = () => {
+            resolve(
+              insertAtomic(_editorState, ImageBlockType, {
+                src: result,
+                type: file.type,
+                name: file.name,
+                width: image.width,
+                height: image.height
+              })
+            );
+          };
+          image.onerror = reject;
+          image.src = result;
+        } else {
+          resolve(
+            insertAtomic(_editorState, FileBlockType, {
+              src: result,
               type: file.type,
               name: file.name
-            }
-          )
-        );
+            })
+          );
+        }
       };
     });
   }

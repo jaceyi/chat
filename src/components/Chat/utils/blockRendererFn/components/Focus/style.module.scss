@@ -1,7 +1,5 @@
-.clear::after {
-  content: '';
-  display: block;
-  clear: both;
+.line {
+  display: flex;
 }
 
 .focus {
@@ -10,11 +8,6 @@
   transition: box-shadow 0.3s;
   border-radius: 2px;
   max-width: 100%;
-  float: left;
-
-  &.block {
-    float: none;
-  }
 
   &:hover {
     box-shadow: 0 0 0 2px var(--secondary-color);

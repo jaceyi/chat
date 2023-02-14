@@ -34,7 +34,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
   });
 
   const [editorState, setEditorState] = useState(() => {
-    return EditorState.createEmpty(getDecorator(storeRef.current?.editor));
+    return EditorState.createEmpty(getDecorator(storeRef.current));
   });
 
   const changeEditorState = useCallback<SetEditorState>(editorState => {

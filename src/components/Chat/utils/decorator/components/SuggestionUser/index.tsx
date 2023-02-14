@@ -14,14 +14,7 @@ interface SuggestionUserProps {
   store: ChatStore;
 }
 
-const SuggestionUser: FC<SuggestionUserProps> = ({
-  children,
-  offsetKey,
-  start,
-  end,
-  blockKey,
-  store
-}) => {
+const SuggestionUser: FC<SuggestionUserProps> = ({ children, offsetKey, start, end, blockKey, store }) => {
   const nodeRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {

@@ -15,17 +15,14 @@ const findEntities = (type: string, mutability: Mutability) => {
 
       if (entityKey !== null) {
         const entity = contentState.getEntity(entityKey);
-        return (
-          entity.getType() === type && entity.getMutability() === mutability
-        );
+        return entity.getType() === type && entity.getMutability() === mutability;
       }
     }, callback);
   };
 };
 
-export const getDecorator = (editor?: any) => {
-  const connectStoreToProps = (Component: any) => (props: object) =>
-    <Component {...props} store={editor} />;
+export const getDecorator = (store?: any) => {
+  const connectStoreToProps = (Component: any) => (props: object) => <Component {...props} store={store} />;
 
   return new CompositeDecorator([
     {

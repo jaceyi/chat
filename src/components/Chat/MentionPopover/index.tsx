@@ -22,9 +22,7 @@ const getRelativeParent = (element: HTMLElement | null): HTMLElement | null => {
     return null;
   }
 
-  const position = window
-    .getComputedStyle(element)
-    .getPropertyValue('position');
+  const position = window.getComputedStyle(element).getPropertyValue('position');
   if (position !== 'static') {
     return element;
   }
@@ -32,12 +30,7 @@ const getRelativeParent = (element: HTMLElement | null): HTMLElement | null => {
   return getRelativeParent(element.parentElement);
 };
 
-const MentionPopover: FC<PopoverProps> = ({
-  editorState,
-  store: chatStore,
-  onSelect,
-  keyCommand
-}) => {
+const MentionPopover: FC<PopoverProps> = ({ editorState, store: chatStore, onSelect, keyCommand }) => {
   const [{ userList }] = useContext(store);
 
   const [options, setOptions] = useState<UserInfo[]>([]);
@@ -77,18 +70,13 @@ const MentionPopover: FC<PopoverProps> = ({
       return;
     }
     const { blockKey, start, end, rect } = suggestion;
-    if (
-      focusKey === blockKey &&
-      focusOffset > start &&
-      focusOffset <= end &&
-      rect
-    ) {
+    if (focusKey === blockKey && focusOffset > start && focusOffset <= end && rect) {
       const contentState = editorState.getCurrentContent();
       const block = contentState.getBlockForKey(blockKey);
       const text = block.getText();
       // 光标聚焦在当前提及位置
       const value = text.slice(start + 1, focusOffset);
-      const options = userList.filter(user => user.name.includes(value));
+      const options = userList.filter(user => user.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
       if (!options.length) {
         clearStyle();
         return;
@@ -150,10 +138,7 @@ const MentionPopover: FC<PopoverProps> = ({
   }, [options, activeIndex]);
 
   return (
-    <animated.div
-      style={{ ...animateStyle, top, left }}
-      className={styles.popover}
-    >
+    <animated.div style={{ ...animateStyle, top, left }} className={styles.popover}>
       <div className={styles.content}>
         {options.map((user, index) => (
           <div
@@ -162,10 +147,7 @@ const MentionPopover: FC<PopoverProps> = ({
               e.preventDefault();
               e.stopPropagation();
             }}
-            className={clsx(
-              styles.user,
-              activeIndex === index && styles.active
-            )}
+            className={clsx(styles.user, activeIndex === index && styles.active)}
             key={user.uid}
           >
             {user.name}

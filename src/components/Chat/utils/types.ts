@@ -28,7 +28,8 @@ export interface ChatStore {
   editor?: any;
   suggestion?: Suggestion | null;
   onViewerImage?: (data: { src: string; name: string }) => void;
-  getFullBlockWidth?: () => number;
+  getWrapperWidth?: () => number;
+  onResize?: Function;
   [prop: string]: any;
 }
 

@@ -3,9 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": [
-    "prettier"
-  ],
+  "extends": ["prettier"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -57,6 +55,8 @@
     "arrow-parens": 0,
     "jsx-quotes": ["error", "prefer-double"],
     "no-var": "error",
+    "no-undef": "error",
+    "no-unused-vars": "warn",
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     "react/prop-types": 0
   }

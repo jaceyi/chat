@@ -13,6 +13,7 @@ import { isEmpty } from '@/utils';
 import store, { reducer, initialState, UserInfo } from '@/store';
 import { getRedirectResult, signInWithRedirect, GithubAuthProvider, onAuthStateChanged, User } from 'firebase/auth';
 import { ref, set, onValue, onDisconnect } from 'firebase/database';
+import type { Raw } from 'chatUtils/types';
 
 const App = () => {
   const reducerValue = useReducer<typeof reducer>(reducer, initialState);
@@ -156,7 +157,7 @@ const App = () => {
   };
 
   const handleCommit = useCallback(
-    raw => {
+    (raw: Raw) => {
       if (!userInfo) {
         return login();
       }

@@ -6,7 +6,7 @@ import type { FC } from 'react';
 import { ChatStore } from '../../types';
 
 export interface AtomicBlockProps {
-  store?: ChatStore;
+  store: ChatStore;
 }
 
 export interface AtomicProps {

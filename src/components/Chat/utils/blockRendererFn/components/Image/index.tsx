@@ -20,24 +20,35 @@ export const ImageBlockType = 'image';
 
 const Image: FC<ImageProps> = ({ data, offsetKey, blockProps }) => {
   const { src, name, width, height } = data;
-  const imgRef = useRef<HTMLImageElement>(null);
+
+  const wrapperRef = useRef<HTMLImageElement>(null);
   useEffect(() => {
     const computeSize = () => {
-      const el = imgRef.current;
-      if (!el) return;
-      const fullWidth = blockProps.store?.getFullBlockWidth?.() || 300;
-      let _width = fullWidth ? (width > fullWidth ? fullWidth : width) : width;
+      const wrapper = wrapperRef.current;
+      const maxWidth = blockProps.store.getWrapperWidth?.();
+      if (!wrapper || !maxWidth) return;
+      let _width = maxWidth ? (width > maxWidth ? maxWidth : width) : width;
       let _height = height * (_width / width);
       if (_height > 300) {
+        // max height
         _width *= 300 / _height;
         _height = 300;
       }
-      el.style.width = `${_width}px`;
-      el.style.height = `${_height}px`;
+      const before = {
+        width: wrapper.style.width,
+        height: wrapper.style.height
+      };
+
+      wrapper.style.width = `${_width}px`;
+      wrapper.style.height = `${_height}px`;
+
+      if (before.width !== wrapper.style.width || before.height !== wrapper.style.height) {
+        blockProps.store.onResize?.();
+      }
     };
     computeSize();
     window.addEventListener('resize', computeSize);
-    () => {
+    return () => {
       window.removeEventListener('resize', computeSize);
     };
   });
@@ -69,22 +80,23 @@ const Image: FC<ImageProps> = ({ data, offsetKey, blockProps }) => {
     timer.current = window.setTimeout(clear, 300);
   };
 
-  if (isError) {
-    return <div className={styles.error}>图片加载失败</div>;
-  }
-
   return (
-    <img
-      ref={imgRef}
-      onDoubleClick={() => viewerImage({ src, name })}
-      onTouchEnd={handleTouchEnd}
-      data-offset-key={offsetKey}
-      onError={onError}
-      title={name}
-      className={styles.image}
-      src={src}
-      alt={name}
-    />
+    <div ref={wrapperRef}>
+      {isError ? (
+        <div className={styles.error}>图片加载失败</div>
+      ) : (
+        <img
+          onDoubleClick={() => viewerImage({ src, name })}
+          onTouchEnd={handleTouchEnd}
+          data-offset-key={offsetKey}
+          onError={onError}
+          title={name}
+          className={styles.image}
+          src={src}
+          alt={name}
+        />
+      )}
+    </div>
   );
 };
 

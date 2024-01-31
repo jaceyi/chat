@@ -2,7 +2,7 @@ import Atomic, { AtomicProps } from './components/Atomic';
 import type { FunctionComponent } from 'react';
 import { ChatStore } from '../types';
 
-export const bindBlockRendererFn = ({ store = {} }: { store: ChatStore }) => {
+export const bindBlockRendererFn = ({ store }: { store: ChatStore }) => {
   return (
     block: any
   ): {

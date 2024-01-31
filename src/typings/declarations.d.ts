@@ -34,3 +34,15 @@ declare module 'draft-js' {
 }
 
 type Override<T1, T2> = Omit<T1, keyof T2> & T2;
+
+declare module 'react-virtualized' {
+  import { FC } from 'react';
+  import type { AutoSizerProps } from 'react-virtualized/dist/commonjs/AutoSizer';
+  import type { ListProps } from 'react-virtualized/dist/commonjs/List';
+  import type { CellMeasurerProps, CellMeasurerCache as TCellMeasurerCache } from 'react-virtualized/dist/commonjs/CellMeasurer';
+
+  export const AutoSizer: FC<AutoSizerProps>;
+  export const List: FC<ListProps>;
+  export const CellMeasurer: FC<CellMeasurerProps>;
+  export class CellMeasurerCache extends TCellMeasurerCache {}
+}

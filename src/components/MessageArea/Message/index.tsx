@@ -28,10 +28,10 @@ const stateMaps: StateMap = {
   offline: '离线'
 };
 
-const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
+const Message: FC<MessageInfo & { onResize: Function }> = ({ uid, raw, timeStamp, onResize }) => {
   const [{ userInfo: currentUserInfo, userList }] = useContext(store);
   const userInfo = userList.find(item => item.uid === uid);
-  const { name, avatar, state } = userInfo!;
+  const { name = '-', avatar = '', state = 'offline' } = userInfo!;
 
   const onViewerImage: ChatStore['onViewerImage'] = data => {
     AlertConfirm({
@@ -44,7 +44,7 @@ const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
     });
   };
 
-  const position = uid === currentUserInfo!.uid ? 'right' : 'left';
+  const position = uid === currentUserInfo?.uid ? 'right' : 'left';
   const [editorState] = useState(() =>
     EditorState.createWithContent(
       convertFromRaw(
@@ -87,7 +87,7 @@ const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
             }}
           >
             {state === 'online' && <div className={styles.online} />}
-            <img src={avatar} alt="头像" />
+            <img src={avatar || ''} alt="头像" />
           </animated.div>
         </div>
         <div className={styles.content} ref={contentRef}>
@@ -95,22 +95,28 @@ const Message: FC<MessageInfo> = ({ uid, raw, timeStamp }) => {
             <div className={styles.time}>
               {timeStamp ? day.unix(timeStamp).format('YY年M月D日 HH:mm:ss') : '发送中'}
             </div>
-            <div className={styles.name}>{name}</div>
+            <div className={styles.name}>{name || '-'}</div>
           </div>
           <div className={styles.main}>
             <div className={styles.bubble}>
               <Loading loading={!timeStamp}>
-                <Editor
-                  readOnly
-                  blockRendererFn={bindBlockRendererFn({
-                    store: {
-                      onViewerImage,
-                      getFullBlockWidth: () => (contentRef.current?.offsetWidth || 0) - 20 // 20 为 padding
-                    }
-                  })}
-                  blockRenderMap={blockRenderMap}
-                  editorState={editorState}
-                />
+                <div>
+                  <Editor
+                    readOnly
+                    blockRendererFn={bindBlockRendererFn({
+                      store: {
+                        onViewerImage,
+                        getWrapperWidth: () => {
+                          const wrapperWidth = contentRef.current?.offsetWidth || 0;
+                          return wrapperWidth ? wrapperWidth - 20 : 0;
+                        },
+                        onResize
+                      }
+                    })}
+                    blockRenderMap={blockRenderMap}
+                    editorState={editorState}
+                  />
+                </div>
               </Loading>
             </div>
           </div>

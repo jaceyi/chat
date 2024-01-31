@@ -30,7 +30,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
   const storeRef: ChatStore = useRef({
     editor: null,
     suggestion: null,
-    getFullBlockWidth: () => storeRef.current.editor.editor.offsetWidth || 0
+    getWrapperWidth: () => storeRef.current.editor.editor.offsetWidth
   });
 
   const [editorState, setEditorState] = useState(() => {
@@ -48,7 +48,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
   }, []);
 
   const commitEditorState = useCallback(
-    editorState => {
+    (editorState: typeof EditorState) => {
       const contentState = editorState.getCurrentContent();
       const row = convertToRaw(contentState);
       if (!contentState.hasText()) return;
@@ -115,7 +115,7 @@ const Chat: FC<ChatProps> = ({ onCommit }) => {
     [commitEditorState]
   );
 
-  const handlePastedFiles = useCallback(fileList => {
+  const handlePastedFiles = useCallback((fileList: FileList) => {
     try {
       RichStates.insertFiles(editorState, setEditorState, fileList);
     } catch (e) {

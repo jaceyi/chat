@@ -39,7 +39,10 @@ declare module 'react-virtualized' {
   import { FC } from 'react';
   import type { AutoSizerProps } from 'react-virtualized/dist/commonjs/AutoSizer';
   import type { ListProps } from 'react-virtualized/dist/commonjs/List';
-  import type { CellMeasurerProps, CellMeasurerCache as TCellMeasurerCache } from 'react-virtualized/dist/commonjs/CellMeasurer';
+  import type {
+    CellMeasurerProps,
+    CellMeasurerCache as TCellMeasurerCache
+  } from 'react-virtualized/dist/commonjs/CellMeasurer';
 
   export const AutoSizer: FC<AutoSizerProps>;
   export const List: FC<ListProps>;

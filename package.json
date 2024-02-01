@@ -10,20 +10,20 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@react-spring/web": "9.7.3",
+    "@react-spring/web": "^9.7.3",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
     "@types/react-virtualized": "^9.21.29",
-    "@use-gesture/react": "10.1.1",
-    "clsx": "1.1.1",
-    "dayjs": "1.10.6",
-    "draft-js": "0.11.7",
-    "firebase": "9.6.1",
-    "rc-tooltip": "5.1.1",
-    "react": "18.2.0",
-    "react-alert-confirm": "4.1.8",
-    "react-dom": "18.2.0",
-    "react-virtualized": "9.22.5"
+    "@use-gesture/react": "^10.1.1",
+    "clsx": "^1.0.4",
+    "dayjs": "^1.10.6",
+    "draft-js": "^0.11.7",
+    "firebase": "^9.6.1",
+    "rc-tooltip": "^5.1.1",
+    "react": "^18.2.0",
+    "react-alert-confirm": "^4.1.8",
+    "react-dom": "^18.2.0",
+    "react-virtualized": "^9.22.5"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

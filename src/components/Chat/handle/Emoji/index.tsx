@@ -62,7 +62,7 @@ const Emoji = ({ onSelect }: EmojiProps) => {
       }
     >
       <img
-        src="https://twemoji.maxcdn.com/v/latest/72x72/1f60b.png"
+        src="https://github.com/twitter/twemoji/raw/master/assets/72x72/1f60b.png"
         alt=""
       />
     </RCTooltip>

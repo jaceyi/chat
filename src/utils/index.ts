@@ -5,10 +5,12 @@ import type { MouseEvent } from 'react';
  * @param unicode
  */
 export const getEmojiSrc = (unicode: string): string => {
+  // eslint-disable-next-line no-undef
   if (!twemoji) return '';
-  const { convert, base, size, ext } = twemoji;
+  // eslint-disable-next-line no-undef
+  const { convert, size, ext } = twemoji;
   const codePoint = convert.toCodePoint(unicode);
-  return `${base}${size}/${codePoint}${ext}`;
+  return `https://github.com/twitter/twemoji/raw/master/assets/${size}/${codePoint}${ext}`;
 };
 
 export const compose = <T = any>(...functions: Function[]) => {

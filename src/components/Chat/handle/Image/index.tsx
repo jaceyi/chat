@@ -13,7 +13,7 @@ const Image = ({ onUpload }: ImageProps) => {
 
   return (
     <label>
-      <img src="https://twemoji.maxcdn.com/v/latest/72x72/1f301.png" alt="" />
+      <img src="https://github.com/twitter/twemoji/raw/master/assets/72x72/1f301.png" alt="" />
       <input
         placeholder="Image"
         value=""
